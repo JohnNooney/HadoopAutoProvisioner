@@ -1,10 +1,19 @@
-import { Button } from 'antd';
+import { Button, Row, Col, Divider } from 'antd';
 
 function ClusterBuilder() {
   return (
     <div className="ClusterBuilder">
-        <p>this is the bod</p>
-        <Button type="primary" onClick={buttonClick}>Button</Button>
+      <Row justify="start" align="bottom">
+        <Col>
+          <h1>Press the button below to spin-up a cluster</h1>
+        </Col>
+      </Row>
+
+      <Row justify="start" align="middle">
+        <Col>
+          <Button type="primary" onClick={buttonClick}>Button</Button>
+        </Col>
+      </Row>
     </div>
   );
 }

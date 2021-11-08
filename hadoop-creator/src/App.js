@@ -11,6 +11,7 @@ function App() {
           Hadoop Cluster Builder
         </p>
       </header>
+      
       <body>
         <ClusterBuilder/>
       </body>

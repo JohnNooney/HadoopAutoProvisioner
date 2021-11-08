@@ -1,4 +1,5 @@
-import { Button, Row, Col, Divider } from 'antd';
+import {Row, Col, Divider } from 'antd';
+import DockerRun from './docker-run';
 
 function ClusterBuilder() {
   return (
@@ -11,15 +12,11 @@ function ClusterBuilder() {
 
       <Row justify="start" align="middle">
         <Col>
-          <Button type="primary" onClick={buttonClick}>Button</Button>
+          <DockerRun/>
         </Col>
       </Row>
     </div>
   );
-}
-
-function buttonClick(){
-  alert("Button Clicked");
 }
 
 export default ClusterBuilder;

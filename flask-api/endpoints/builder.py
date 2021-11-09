@@ -19,7 +19,7 @@ class Builder(Resource):
 
         print(args['data'])
 
-        return {'recieved': args}, \
+        return {'received': args}, \
                200, \
                {'Access-Control-Allow-Origin': self.origin}
 

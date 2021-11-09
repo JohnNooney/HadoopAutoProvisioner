@@ -29,6 +29,10 @@
   margin: 5vh 10vh 0vh 10vh;
 }
 
+.DockerRun Button{
+  margin: 0vh 5vh 0vh 0vh;
+}
+
 .App-link {
   color: #61dafb;
 }

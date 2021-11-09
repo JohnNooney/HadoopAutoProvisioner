@@ -1,5 +1,5 @@
 from flask import Flask  # flask=1.1.2
-from flask_restful import Api, reqparse
+from flask_restful import Api
 
 from endpoints.builder import Builder
 

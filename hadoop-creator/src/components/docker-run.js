@@ -9,14 +9,8 @@ function DockerRun() {
 }
 
 function buttonClick(){
-    // alert("test");
+    
     console.log("button click");
-
-    // const data = {
-    //     "Image": "alpine", 
-    //     "Cmd": ["echo", "hello world"]
-    // }
-    // GET request using fetch inside useEffect React hook
     fetch('http://localhost:5000/build', {
         method:'GET',
          headers: {

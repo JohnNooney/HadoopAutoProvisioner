@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 import ClusterBuilder from './components/cluster-builder';
@@ -11,7 +10,7 @@ function App() {
           Hadoop Cluster Builder
         </p>
       </header>
-      
+
       <body>
         <ClusterBuilder/>
       </body>

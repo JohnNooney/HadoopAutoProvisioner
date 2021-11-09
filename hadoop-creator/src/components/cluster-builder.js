@@ -1,4 +1,4 @@
-import {Row, Col, Divider } from 'antd';
+import {Row, Col } from 'antd';
 import DockerRun from './docker-run';
 
 function ClusterBuilder() {

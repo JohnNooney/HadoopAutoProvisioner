@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "Docker Node.js Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "platform": "node",
+            "node": {
+                "package": "${workspaceFolder}/hadoop-creator/package.json",
+                "localRoot": "${workspaceFolder}/hadoop-creator"
+            }
+        }
+    ]
+}

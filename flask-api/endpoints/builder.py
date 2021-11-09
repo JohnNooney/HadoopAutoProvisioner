@@ -19,7 +19,10 @@ class Builder(Resource):
 
         print(args['data'])
 
-        return {'received': args}, \
+        print("starting container...")
+        containerId = self.startContainer("test cmd")
+
+        return {'received': args, 'containerId': containerId}, \
                200, \
                {'Access-Control-Allow-Origin': self.origin}
 
@@ -31,3 +34,9 @@ class Builder(Resource):
                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Content-Type': 'application/json'}
+
+    def startContainer(self, cmd):
+        client = docker.from_env()
+        container = client.containers.run("johnnoon74/getting-started", detach=True)
+        print(container.id)
+        return container.id

@@ -41,6 +41,6 @@ class Builder(Resource):
         # container = client.containers.run("johnnoon74/getting-started", detach=True)
         # print(container.id)
         # docker - compose - f ../hadoop-cluster/docker-compose.yml up - d
-        result = subprocess.check_output(['docker', 'compose', '-f', '../hadoop-cluster/docker-compose.yml', 'up', '-d'])
+        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
         print("subprocess response: " + result.decode())
         return result.decode()

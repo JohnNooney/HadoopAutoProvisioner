@@ -8,20 +8,20 @@ Right now there are two services being used to spin a cluster progmatically. The
 Start up the container for each service
 
 ### Build Containers
-Flask API
+**Flask API**
 1. navigate to ``` <project root>/flask-api ```
 2. run docker command ``` docker build -t flask-api . ```
 
 
-React Frontend (hadoop-creator)
+**React Frontend (hadoop-creator)**
 1. navigate to ``` <project root>/hadoop-creator ```
 2. run docker command ``` docker build -t hadoop-creator . ```
 
 ### Start Containers
-Flask API
-``` docker run -dp 5000:5000 flask-api ```
+**Flask API**
+``` docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker flask-api ```
 
-React Frontend
+**React Frontend**
 ``` docker run -dp 3000:3000 hadoop-creator ```
 
 ### Operation

@@ -19,9 +19,11 @@ Start up the container for each service
 
 ### Start Containers
 **Flask API**
+
 ``` docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker flask-api ```
 
 **React Frontend**
+
 ``` docker run -dp 3000:3000 hadoop-creator ```
 
 ### Operation

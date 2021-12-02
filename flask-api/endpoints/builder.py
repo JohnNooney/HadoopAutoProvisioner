@@ -6,10 +6,14 @@ import subprocess
 class Builder(Resource):
     def __init__(self):
         self.origin = 'http://localhost:3000'
+        self.status = 200
+        self.payload = "default"
 
     def get(self):
-        return {"data": "test"}, \
-               200, \
+        self.status = 200
+        self.payload = {"payload": "test"}
+        return self.payload, \
+               self.status, \
                {'Access-Control-Allow-Origin': self.origin}  # return data and 200 OK code
 
     def post(self):
@@ -18,28 +22,49 @@ class Builder(Resource):
 
         args = parser.parse_args()  # parse arguments to dictionary
 
-        print(args['data'])
+        print("POST incoming data: ", args['data'])
+        try:
+            if args['data'] == "container":
+                print("starting container...")
+                containerId = self.startContainer("test cmd")
+                self.status = 200
+                self.payload = {"containerId": containerId}
+            elif args['data'] == "cluster":
+                print("starting cluster...")
+                containerId = self.startCluster("test cmd")
+                self.status = 200
+                self.payload = {"clusterConf": "Successfully started"}
 
-        print("starting container...")
-        containerId = self.startContainer("test cmd")
+        except Exception as e:
+            print("Unable to start container, error: ", e)
+            self.status = 400
+            self.payload = "Error. Unable to start container."
 
-        return {'received': args, 'containerId': containerId}, \
-               200, \
-               {'Access-Control-Allow-Origin': self.origin}
+        finally:
+            return {'received': args, 'payload': self.payload}, \
+                   self.status, \
+                   {'Access-Control-Allow-Origin': self.origin}
+
+
 
     # method for pre-flight requests. Checks to make sure browser can communicate
     def options(self):
         return {'Allow': 'POST, GET, OPTIONS'}, \
-               200, \
+               self.status, \
                {'Access-Control-Allow-Origin': self.origin,
                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Content-Type': 'application/json'}
 
     def startContainer(self, cmd):
-        # client = docker.from_env()
-        # container = client.containers.run("johnnoon74/getting-started", detach=True)
-        # print(container.id)
+        client = docker.from_env()
+        container = client.containers.run("johnnoon74/getting-started", detach=True)
+        print(container.id)
+        return container.id
+
+
+    
+    def startCluster(self, cmd):
         # docker - compose - f ../hadoop-cluster/docker-compose.yml up - d
         result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
         print("subprocess response: " + result.decode())

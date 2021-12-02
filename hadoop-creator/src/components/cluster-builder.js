@@ -5,6 +5,25 @@ import { useState } from 'react';
 const { Option } = Select;
 
 function ClusterBuilder() {
+  const [activeSelector, setActiveSelector] = useState("");
+
+  function onChange(value) {
+    setActiveSelector(value);
+    console.log(`selected ${value}`);
+  }
+  
+  function onBlur() {
+    console.log('blur');
+  }
+  
+  function onFocus() {
+    console.log('focus');
+  }
+  
+  function onSearch(val) {
+    console.log('search:', val);
+  }
+
   return (
     <div className="ClusterBuilder">
       <Row justify="end" align="middle">
@@ -29,7 +48,23 @@ function ClusterBuilder() {
 
       <Row justify="start" align="middle">
         <Col>
-          <DockerRun/>
+        <Select
+            showSearch
+            style={{ width: 200 }}
+            placeholder="Select a start-up type"
+            optionFilterProp="children"
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onSearch={onSearch}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            <Option value="cluster">Hadoop Cluster</Option>
+            <Option value="container">Test Container</Option>
+          </Select>
+        </Col>
         <Col>
           <ButtonRequest
             requestType = "POST"

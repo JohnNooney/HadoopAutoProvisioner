@@ -57,9 +57,12 @@ class Builder(Resource):
                 'Content-Type': 'application/json'}
 
     def startContainer(self, cmd):
-        client = docker.from_env()
-        container = client.containers.run("johnnoon74/getting-started", detach=True)
-        print(container.id)
+        # client = docker.from_env()
+        # container = client.containers.run("johnnoon74/getting-started", detach=True)
+        # print(container.id)
+        result = subprocess.check_output(['docker', 'run', '-d', 'johnnoon74/getting-started'])
+        print("subprocess response: " + result.decode())
+        return result.decode()
         return container.id
 
 

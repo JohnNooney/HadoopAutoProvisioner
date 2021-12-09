@@ -66,7 +66,7 @@ class Builder(Resource):
         return container.id
 
 
-    
+    # if ran in container / stopping will also need to be in container
     def startCluster(self, cmd):
         # docker - compose - f ../hadoop-cluster/docker-compose.yml up - d
         result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])

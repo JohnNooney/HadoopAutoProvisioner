@@ -3,9 +3,7 @@ version: '3.4'
 services:
   namenode:
     image: uhopper/hadoop-namenode
-    hostname: namenode
-    container_name: namenode
-    domainname: hadoop
+    hostname: namenode.hadoop
     networks: 
       - hadoop
     volumes:
@@ -19,11 +17,11 @@ services:
 
   datanode1:
     image: uhopper/hadoop-datanode
-    hostname: datanode1
-    container_name: datanode1
-    domainname: hadoop
+    hostname: datanode1.hadoop
     networks: 
       - hadoop
+    depends_on:
+      - namenode
     volumes:
       - datanode-vol:/hadoop/dfs/data
     env_file:
@@ -31,11 +29,11 @@ services:
 
   resourcemanager:
     image: uhopper/hadoop-resourcemanager
-    hostname: resourcemanager
-    container_name: resourcemanager
-    domainname: hadoop
+    hostname: resourcemanager.hadoop
     networks: 
       - hadoop
+    depends_on:
+      - namenode
     env_file:
       - ./hadoop.env
     ports:
@@ -43,19 +41,20 @@ services:
 
   nodemanager1:
     image: uhopper/hadoop-nodemanager
-    hostname: nodemanager1
-    container_name: nodemanager1
-    domainname: hadoop
+    hostname: nodemanager1.hadoop
     networks: 
       - hadoop
+    depends_on:
+      - namenode
+      - resourcemanager
     env_file:
       - ./hadoop.env
+    ports:
+      - "8042:8042"
 
   spark:
     image: uhopper/hadoop-spark
-    hostname: spark
-    container_name: spark
-    domainname: hadoop
+    hostname: spark.hadoop
     networks: 
       - hadoop
     env_file:

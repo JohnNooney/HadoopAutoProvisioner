@@ -1,0 +1,2 @@
+# This is a helm values chart for the stable/hadoop Helm chart
+# https://github.com/apache-spark-on-k8s/kubernetes-HDFS/tree/master/charts is an alternative

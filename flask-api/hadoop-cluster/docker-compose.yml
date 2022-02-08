@@ -12,6 +12,10 @@ services:
       - namenode-vol:/hadoop/dfs/name
     environment:
       - CLUSTER_NAME=autohadoop
+    env_file:
+      - ./hadoop.env
+    ports:
+      - "50070:50070"
 
   datanode1:
     image: uhopper/hadoop-datanode
@@ -22,8 +26,8 @@ services:
       - hadoop
     volumes:
       - datanode-vol:/hadoop/dfs/data
-    environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    env_file:
+      - ./hadoop.env
 
   resourcemanager:
     image: uhopper/hadoop-resourcemanager
@@ -32,9 +36,10 @@ services:
     domainname: hadoop
     networks: 
       - hadoop
-    environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
-      - YARN_CONF_yarn_log___aggregation___enable=true
+    env_file:
+      - ./hadoop.env
+    ports:
+      - "8088:8088"
 
   nodemanager1:
     image: uhopper/hadoop-nodemanager
@@ -43,11 +48,8 @@ services:
     domainname: hadoop
     networks: 
       - hadoop
-    environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
-      - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
-      - YARN_CONF_yarn_log___aggregation___enable=true
-      - YARN_CONF_yarn_nodemanager_remote___app___log___dir=/app-logs
+    env_file:
+      - ./hadoop.env
 
   spark:
     image: uhopper/hadoop-spark
@@ -56,10 +58,13 @@ services:
     domainname: hadoop
     networks: 
       - hadoop
-    environment:
-      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
-      - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
+    env_file:
+      - ./hadoop.env
     command: tail -f /var/log/dmesg
+    ports:
+      - "4040:4040"
+      - "9000:9000"
+      - "8080:8080"
 
 volumes:
   namenode-vol: {}

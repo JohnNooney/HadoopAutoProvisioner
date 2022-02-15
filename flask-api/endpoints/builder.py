@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 import docker
 import subprocess
 
-
+# This endpoint takes care of building the Hadoop cluster from a docker-compose file
 class Builder(Resource):
     def __init__(self):
         self.origin = 'http://localhost:3000'

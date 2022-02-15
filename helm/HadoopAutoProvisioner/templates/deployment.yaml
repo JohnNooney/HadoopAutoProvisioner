@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "HadoopAutoProvisioner.fullname" . }}
+  name: {{ include "HadoopAutoProvisioner.flask.fullname" . }}
   labels:
     {{- include "HadoopAutoProvisioner.labels" . | nindent 4 }}
 spec:
@@ -10,7 +10,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "HadoopAutoProvisioner.selectorLabels" . | nindent 6 }}
+      {{- include "HadoopAutoProvisioner.flask.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.flask.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "HadoopAutoProvisioner.selectorLabels" . | nindent 8 }}
+        {{- include "HadoopAutoProvisioner.flask.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.flask.imagePullSecrets }}
       imagePullSecrets:
@@ -41,10 +41,14 @@ spec:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.flask.resources | nindent 12 }}
       {{- with .Values.flask.nodeSelector }}

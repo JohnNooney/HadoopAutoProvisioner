@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "HadoopAutoProvisioner.fullname" . }}-test-connection"
+  name: "{{ include "HadoopAutoProvisioner.flask.fullname" . }}-test-connection"
   labels:
     {{- include "HadoopAutoProvisioner.labels" . | nindent 4 }}
   annotations:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "HadoopAutoProvisioner.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "HadoopAutoProvisioner.flask.fullname" . }}:{{ .Values.flask.service.port }}']
   restartPolicy: Never

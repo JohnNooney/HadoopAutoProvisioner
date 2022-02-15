@@ -1,5 +1,5 @@
 {{- if .Values.flask.ingress.enabled -}}
-{{- $fullName := include "HadoopAutoProvisioner.fullname" . -}}
+{{- $fullName := include "HadoopAutoProvisioner.flask.fullname" . -}}
 {{- $svcPort := .Values.flask.service.port -}}
 {{- if and .Values.flask.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.flask.ingress.annotations "kubernetes.io/ingress.class") }}

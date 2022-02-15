@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "HadoopAutoProvisioner.fullname" . }}
+  labels:
+    {{- include "HadoopAutoProvisioner.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.flask.autoscaling.enabled }}
+  replicas: {{ .Values.flask.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "HadoopAutoProvisioner.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.flask.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "HadoopAutoProvisioner.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.flask.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "HadoopAutoProvisioner.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.flask.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Values.flask.container.name }}
+          securityContext:
+            {{- toYaml .Values.flask.securityContext | nindent 12 }}
+          image: "{{ .Values.flask.image.repository }}:{{ .Values.flask.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.flask.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.flask.resources | nindent 12 }}
+      {{- with .Values.flask.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.flask.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.flask.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

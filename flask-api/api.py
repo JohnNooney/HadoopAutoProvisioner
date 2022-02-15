@@ -11,7 +11,7 @@ api = Api(app)
 
 # add endpoints
 api.add_resource(Health, '/') # '/' is the default endpoint 
-api.add_resource(Builder, '/build')  # '/build' is our entry point
+api.add_resource(Builder, '/build')  # '/build' is used for creating the cluster
 api.add_resource(Scraper, '/scrape')  # '/scraper' is used for getting cluster information
 api.add_resource(Commander, '/command')  # '/scraper' is used for getting cluster information
 

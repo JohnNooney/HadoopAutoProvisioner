@@ -1,16 +1,16 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "HadoopAutoProvisioner.name" -}}
+{{- define "HadoopAutoProvisioner.flask.name" -}}
 {{- default .Chart.Name .Values.flask.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Create a default fully qualified app name for flask.
+Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "HadoopAutoProvisioner.fullname" -}}
+{{- define "HadoopAutoProvisioner.flask.fullname" -}}
 {{- if .Values.flask.fullnameOverride }}
 {{- .Values.flask.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -35,7 +35,7 @@ Common labels
 */}}
 {{- define "HadoopAutoProvisioner.labels" -}}
 helm.sh/chart: {{ include "HadoopAutoProvisioner.chart" . }}
-{{ include "HadoopAutoProvisioner.selectorLabels" . }}
+{{ include "HadoopAutoProvisioner.flask.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels for flask
 */}}
 {{- define "HadoopAutoProvisioner.flask.selectorLabels" -}}
-app.kubernetes.io/name: {{ include ".Values.flask.container.name" . }}
+app.kubernetes.io/name: {{ include "HadoopAutoProvisioner.flask.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -55,7 +55,7 @@ Create the name of the service account to use
 */}}
 {{- define "HadoopAutoProvisioner.serviceAccountName" -}}
 {{- if .Values.flask.serviceAccount.create }}
-{{- default (include "HadoopAutoProvisioner.fullname" .) .Values.flask.serviceAccount.name }}
+{{- default (include "HadoopAutoProvisioner.flask.fullname" .) .Values.flask.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.flask.serviceAccount.name }}
 {{- end }}

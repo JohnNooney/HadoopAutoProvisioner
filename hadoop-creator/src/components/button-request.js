@@ -50,7 +50,7 @@ function buttonClick(props){
             "desc":"The " + props.requestType + " request has been received. " + props.payloadCustomMsg
         };
 
-        if(props.displayPayload == "true"){
+        if(props.displayPayload === "true"){
             notif["desc"] += JSON.stringify(data["payload"]);
         }
         openNotification(notif);
@@ -60,7 +60,7 @@ function buttonClick(props){
         // error message to user
         const notif = {
             "type":"error", 
-            "title":props.requestType + "Status", 
+            "title":props.requestType + " Status", 
             "desc":"The " + props.requestType + " request has failed: " + error};
         openNotification(notif);
     });

@@ -38,45 +38,98 @@ function ClusterBuilder() {
           />
         </Col>
       </Row>
-      <Row justify="start" align="bottom">
-        <Col>
-          <h1>Press the button below to spin-up a cluster or test container</h1>
-        </Col>
-        
-      </Row>
-      
 
-      <Row justify="start" align="middle">
-        <Col>
-        <Select
-            showSearch
-            style={{ width: 200 }}
-            placeholder="Select a start-up type"
-            optionFilterProp="children"
-            onChange={onChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onSearch={onSearch}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            <Option value="cluster">Hadoop Cluster</Option>
-            <Option value="container">Test Container</Option>
-          </Select>
-        </Col>
-        <Col>
-          <ButtonRequest
-            requestType = "POST"
-            buttonText="Spin-Up"
-            buttonColor="primary"
-            notificationCustomMsg = "Please wait for your container to start..."
-            displayPayload = "true"
-            payloadCustomMsg = "Your Container ID: "
-            postData = {{"data":activeSelector}}
-          />
-        </Col>
-      </Row>
+      <div className='cluster-config'>
+        <Row justify="start" align="bottom">
+          <Col>
+            <h1>Fill out the information below to build your Hadoop cluster.</h1>
+          </Col>
+          
+        </Row>
+
+        <div className='name-node-config'>
+          <Row justify="start" align="bottom">
+            <Col>
+              <h2>Name Node Config</h2>
+            </Col>
+            
+          </Row>
+        </div>
+
+        <div className='worker-node-config'>
+          <Row justify="start" align="bottom">
+            <Col>
+              <h2>Worker Node Config</h2>
+            </Col>
+          </Row>
+          <Row justify="start" align="middle">
+            <Col>
+            <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="Number of Worker Nodes"
+                optionFilterProp="children"
+                onChange={onChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                <Option value="1">One</Option>
+                <Option value="2">Two</Option>
+                <Option value="3">Three</Option>
+              </Select>
+            </Col>
+          </Row>
+        </div>
+
+        <div className='extras-config'>       
+          <Row justify="start" align="bottom">
+            <Col>
+              <h2>Extras</h2>
+            </Col>
+            
+          </Row>
+        </div> 
+        
+
+        
+        <Row justify="start" align="middle">
+          <Col>
+          <Select
+              showSearch
+              style={{ width: 200 }}
+              placeholder="Select a start-up type"
+              optionFilterProp="children"
+              onChange={onChange}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onSearch={onSearch}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              <Option value="cluster">Hadoop Cluster</Option>
+              <Option value="container">Test Container</Option>
+            </Select>
+          </Col>
+          <Col>
+            <ButtonRequest
+              requestType = "POST"
+              buttonText="Spin-Up"
+              buttonColor="primary"
+              notificationCustomMsg = "Please wait for your container to start..."
+              displayPayload = "true"
+              payloadCustomMsg = "Your Container ID: "
+              postData = {{"data":activeSelector}}
+            />
+          </Col>
+        </Row>
+
+      
+      </div>
     </div>
   );
 }

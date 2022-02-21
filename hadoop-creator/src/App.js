@@ -11,9 +11,9 @@ function App() {
         </p>
       </header>
 
-      <body>
+      <div>
         <ClusterBuilder/>
-      </body>
+      </div>
     </div>
   );
 }

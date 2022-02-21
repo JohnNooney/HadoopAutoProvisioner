@@ -25,8 +25,9 @@
   color: white;
 }
 
-.ClusterBuilder{
-  margin: 5vh 10vh 0vh 10vh;
+.cluster-builder{
+  margin: 0vh 10vh 0vh 10vh;
+  text-align: left;
 }
 
 .ButtonRequest Button{

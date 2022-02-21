@@ -5,25 +5,25 @@ import { useState } from 'react';
 const { Option } = Select;
 
 function ClusterBuilder() {
-  const [activeSelector, setActiveSelector] = useState("");
+  // const [activeSelector, setActiveSelector] = useState("");
   const [form] = Form.useForm();
 
-  function onChange(value) {
-    setActiveSelector(value);
-    console.log(`selected ${value}`);
-  }
+  // function onChange(value) {
+  //   setActiveSelector(value);
+  //   console.log(`selected ${value}`);
+  // }
   
-  function onBlur() {
-    console.log('blur');
-  }
+  // function onBlur() {
+  //   console.log('blur');
+  // }
   
-  function onFocus() {
-    console.log('focus');
-  }
+  // function onFocus() {
+  //   console.log('focus');
+  // }
   
-  function onSearch(val) {
-    console.log('search:', val);
-  }
+  // function onSearch(val) {
+  //   console.log('search:', val);
+  // }
 
   function onTestClick(values){
     

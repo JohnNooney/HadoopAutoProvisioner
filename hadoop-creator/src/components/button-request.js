@@ -33,9 +33,13 @@ function buttonClick(props){
             'Content-Type': 'application/json'
         }
     }
-    
+
     //append post data if exists
-    if(props.postData){
+    if(props.postData && props.form){
+        //append form data
+        props.postData.data = props.form.getFieldsValue();
+        alert(JSON.stringify(props.postData, null, 2));
+
         fetchRequest.body = JSON.stringify(props.postData)
     }
 

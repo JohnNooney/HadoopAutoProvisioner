@@ -186,7 +186,8 @@ function ClusterBuilder() {
                       notificationCustomMsg = "Please wait for your cluster to start..."
                       displayPayload = "true"
                       payloadCustomMsg = "Your Container ID: "
-                      postData = {{"type":"cluster","data":form.getFieldsValue()}}
+                      form = {form}
+                      postData = {{"type":"cluster"}}
                     />
                     <Button htmlType="button" onClick={onFill}>Fill</Button>
                     <Button type="link" onClick={onReset}>Reset</Button>

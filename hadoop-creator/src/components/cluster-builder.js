@@ -94,8 +94,7 @@ function ClusterBuilder() {
               <Input placeholder="Name of Cluster"/>
             </Form.Item>
             <Form.Item name='name_node_secondary_name_node' label="Secondary Name Node" valuePropName="checked">
-              <Switch 
-              defaultChecked/>
+              <Switch />
             </Form.Item>
           
           </div>

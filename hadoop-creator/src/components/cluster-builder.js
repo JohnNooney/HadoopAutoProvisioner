@@ -65,6 +65,9 @@ function ClusterBuilder() {
         <Divider />
 
         <Form
+          labelCol={{
+            offset: 1,
+          }}
           wrapperCol={{
             span: 5,
           }}

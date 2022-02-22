@@ -66,7 +66,7 @@ function ClusterBuilder() {
 
         <Form
           wrapperCol={{
-            span: 10,
+            span: 5,
           }}
           layout="horizontal"
           form={form}

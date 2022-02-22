@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <p>
-          Hadoop Cluster Builder
+          Auto Hadoop Provisioner
         </p>
       </header>
 

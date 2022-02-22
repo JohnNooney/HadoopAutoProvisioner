@@ -40,9 +40,10 @@ function ClusterBuilder() {
 
   function onFill(){
     form.setFieldsValue(defaultData);
-    //console.log(values);
-    //alert(JSON.stringify(form.getFieldsValue(), null, 2));
-    //alert(values['data_node_input']);
+  }
+
+  function onReset(){
+    form.resetFields();
   }
 
   return (
@@ -188,6 +189,7 @@ function ClusterBuilder() {
                       postData = {{"type":"cluster","data":form.getFieldsValue()}}
                     />
                     <Button htmlType="button" onClick={onFill}>Fill</Button>
+                    <Button type="link" onClick={onReset}>Reset</Button>
                   </Space>
                 </Form.Item>
               </Col>

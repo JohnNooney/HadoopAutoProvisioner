@@ -1,4 +1,4 @@
-import {Row, Col, Select, Divider, Switch, Form, Button, Input  } from 'antd';
+import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space  } from 'antd';
 import ButtonRequest from './button-request';
 import { useState } from 'react';
 
@@ -10,15 +10,14 @@ function ClusterBuilder() {
   const [form] = Form.useForm();
   const defaultData={
     data_node_workers:'1',
-    extras_spark:false,
-    extras_spark_notebook:false,
-    extras_switch:false,
-    name_node_cluster_name:null,
-    name_node_secondary_name_node:false,
+    extras_spark:true,
+    extras_spark_notebook:true,
+    extras_switch:true,
+    name_node_cluster_name:'TestCluster',
+    name_node_secondary_name_node:true,
     yarn_node_managers:'1',
-    yarn_resource_manager:false,
+    yarn_resource_manager:true,
   };
-  form.setFieldsValue(defaultData);
 
 
 
@@ -35,6 +34,13 @@ function ClusterBuilder() {
   function onSubmitClick(values){
     
     console.log(values);
+    //alert(JSON.stringify(form.getFieldsValue(), null, 2));
+    //alert(values['data_node_input']);
+  }
+
+  function onFill(){
+    form.setFieldsValue(defaultData);
+    //console.log(values);
     //alert(JSON.stringify(form.getFieldsValue(), null, 2));
     //alert(values['data_node_input']);
   }
@@ -56,7 +62,7 @@ function ClusterBuilder() {
       </Row>
 
       <div className='cluster_config_form'> 
-        <Row justify="start" align="bottom">
+        <Row justify="center" align="bottom">
           <Col>
             <h1>Fill out the information below to build your Hadoop cluster.</h1>
           </Col>
@@ -166,19 +172,28 @@ function ClusterBuilder() {
             </Form.Item>
           </div>
 
-
-          <Form.Item>
-            {/* <Button type="primary" htmlType="submit">Submit</Button> */}
-            <ButtonRequest
-              requestType = "POST"
-              buttonText="Build Cluster"
-              buttonColor="primary"
-              notificationCustomMsg = "Please wait for your cluster to start..."
-              displayPayload = "true"
-              payloadCustomMsg = "Your Container ID: "
-              postData = {{"data":form.getFieldsValue()}}
-            />
-          </Form.Item>
+          <div className='cluster_builder_submit'>
+            <Row justify='center' align='middle'>
+              <Col>
+                <Form.Item>
+                  {/* <Button type="primary" htmlType="submit">Submit</Button> */}
+                  <Space>
+                    <ButtonRequest
+                      requestType = "POST"
+                      buttonText="Build Cluster"
+                      buttonColor="primary"
+                      notificationCustomMsg = "Please wait for your cluster to start..."
+                      displayPayload = "true"
+                      payloadCustomMsg = "Your Container ID: "
+                      postData = {{"type":"cluster","data":form.getFieldsValue()}}
+                    />
+                    <Button htmlType="button" onClick={onFill}>Fill</Button>
+                  </Space>
+                </Form.Item>
+              </Col>
+            </Row>
+          </div>
+          
         </Form>
       </div> 
     </div>

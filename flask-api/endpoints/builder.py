@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 import docker
+import ast
 import subprocess
 
 # This endpoint takes care of building the Hadoop cluster from a docker-compose file
@@ -19,19 +20,20 @@ class Builder(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('data', required=True)
+        parser.add_argument('type', required=True)
 
         args = parser.parse_args()  # parse arguments to dictionary
 
-        print("POST incoming data: ", args['data'])
         try:
-            if args['data'] == "container":
+            print("POST incoming type: ", args)
+            if args['type'] == "container":
                 print("starting container...")
                 containerId = self.startContainer("test cmd")
                 self.status = 200
                 self.payload = {"containerId": containerId}
-            elif args['data'] == "cluster":
+            elif args['type'] == "cluster":
                 print("starting cluster...")
-                containerId = self.startCluster("test cmd")
+                containerId = self.startCluster(args['data'])
                 self.status = 200
                 self.payload = {"clusterConf": "Successfully started"}
 
@@ -67,8 +69,17 @@ class Builder(Resource):
 
 
     # if ran in container / stopping will also need to be in container
-    def startCluster(self, cmd):
+    def startCluster(self, vars):
+        dict = ast.literal_eval(vars)
+        print("dict: ", dict)
+        print("Cluster Name: ", dict["name_node_cluster_name"])
         # docker - compose - f ../hadoop-cluster/docker-compose.yml up - d
-        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
+        #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
+        #print("subprocess response: " + result.decode())
+        #return result.decode()
+        return "test"
+
+    def stopCluster(self):
+        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'down'])
         print("subprocess response: " + result.decode())
         return result.decode()

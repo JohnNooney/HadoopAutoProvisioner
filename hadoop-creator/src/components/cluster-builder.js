@@ -168,7 +168,16 @@ function ClusterBuilder() {
 
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">Submit</Button>
+            {/* <Button type="primary" htmlType="submit">Submit</Button> */}
+            <ButtonRequest
+              requestType = "POST"
+              buttonText="Build Cluster"
+              buttonColor="primary"
+              notificationCustomMsg = "Please wait for your cluster to start..."
+              displayPayload = "true"
+              payloadCustomMsg = "Your Container ID: "
+              postData = {{"data":form.getFieldsValue()}}
+            />
           </Form.Item>
         </Form>
       </div> 

@@ -6,33 +6,40 @@ const { Option } = Select;
 
 function ClusterBuilder() {
   // const [activeSelector, setActiveSelector] = useState("");
+  
   const [form] = Form.useForm();
+  const defaultData={
+    data_node_workers:'1',
+    extras_spark:false,
+    extras_spark_notebook:false,
+    extras_switch:false,
+    name_node_cluster_name:null,
+    name_node_secondary_name_node:false,
+    yarn_node_managers:'1',
+    yarn_resource_manager:false,
+  };
+  form.setFieldsValue(defaultData);
 
-  // function onChange(value) {
-  //   setActiveSelector(value);
-  //   console.log(`selected ${value}`);
-  // }
-  
-  // function onBlur() {
-  //   console.log('blur');
-  // }
-  
-  // function onFocus() {
-  //   console.log('focus');
-  // }
-  
-  // function onSearch(val) {
-  //   console.log('search:', val);
-  // }
 
-  function onTestClick(values){
+
+  function dataNodeChange(value) {
+    //setActiveSelector(value);
+    console.log(`selected ${value}`);
+  }
+
+  function yarnNodeChange(value) {
+    //setActiveSelector(value);
+    console.log(`selected ${value}`);
+  }
+
+  function onSubmitClick(values){
     
     console.log(values);
-    //alert(values['data-node-input']);
+    //alert(values['data_node_input']);
   }
 
   return (
-    <div className="cluster-builder">
+    <div className="cluster_builder">
       {/* TODO: REMOVE THIS... or reuse */}
       <Row justify="end" align="middle">
         < Col >
@@ -48,7 +55,7 @@ function ClusterBuilder() {
       </Row>
 
 
-      {/* <div className='cluster-config'>
+      {/* <div className='cluster_config'>
         <Row justify="start" align="bottom">
           <Col>
             <h1>Fill out the information below to build your Hadoop cluster.</h1>
@@ -58,7 +65,7 @@ function ClusterBuilder() {
 
         <Divider />
 
-        <div className='name-node-config'>
+        <div className='name_node_config'>
           <Row justify="start" align="bottom">
             <Col>
               <h2>Name Node Config</h2>
@@ -69,7 +76,7 @@ function ClusterBuilder() {
 
         <Divider />
 
-        <div className='worker-node-config'>
+        <div className='worker_node_config'>
           <Row justify="start" align="bottom">
             <Col>
               <h2>Data Node Config</h2>
@@ -100,7 +107,7 @@ function ClusterBuilder() {
 
         <Divider />
 
-        <div className='yarn-node-config'>
+        <div className='yarn_node_config'>
           <Row justify="start" align="bottom">
             <Col>
               <h2>Yarn Config</h2>
@@ -166,7 +173,7 @@ function ClusterBuilder() {
 
         <Divider />
 
-        <div className='extras-config'>       
+        <div className='extras_config'>       
           <Row justify="start" align="bottom">
             <Col>
               <h2>Extras</h2>
@@ -182,7 +189,7 @@ function ClusterBuilder() {
           <Select
               showSearch
               style={{ width: 200 }}
-              placeholder="Select a start-up type"
+              placeholder="Select a start_up type"
               optionFilterProp="children"
               onChange={onChange}
               onFocus={onFocus}
@@ -199,7 +206,7 @@ function ClusterBuilder() {
           <Col>
             <ButtonRequest
               requestType = "POST"
-              buttonText="Spin-Up"
+              buttonText="Spin_Up"
               buttonColor="primary"
               notificationCustomMsg = "Please wait for your container to start..."
               displayPayload = "true"
@@ -212,7 +219,7 @@ function ClusterBuilder() {
       
       </div> */}
 
-      <div className='cluster-config-form'> 
+      <div className='cluster_config_form'> 
         <Row justify="start" align="bottom">
           <Col>
             <h1>Fill out the information below to build your Hadoop cluster.</h1>
@@ -223,83 +230,89 @@ function ClusterBuilder() {
         <Divider />
 
         <Form
-          labelCol={{
-            span: 4,
-          }}
           wrapperCol={{
-            span: 14,
+            span: 10,
           }}
           layout="horizontal"
           form={form}
-          onFinish={onTestClick}
+          onFinish={onSubmitClick}
         >
-          <div className='name-node-config'>
+          <div className='name_node_config'>
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Name Node Config</h2>
               </Col>
             </Row>
+
+            <Divider />
+
+            <Form.Item name='name_node_cluster_name' label="Cluster Name">
+              <Input placeholder="Name of Cluster"/>
+            </Form.Item>
+            <Form.Item name='name_node_secondary_name_node' label="Secondary Name Node" valuePropName="checked">
+              <Switch 
+              defaultChecked/>
+            </Form.Item>
+          
           </div>
 
-          <Divider />
-
-          <Form.Item name='name-node-input' label="Input">
-            <Input />
-          </Form.Item>
-          <Form.Item name='name-node-select' label="Select">
-            <Select>
-              <Select.Option value="demo">Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name='name-node-switch' label="Switch" valuePropName="checked">
-            <Switch />
-          </Form.Item>
-
-          <div className='data-node-config'>
+          <div className='data_node_config'>
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Data Node Config</h2>
               </Col>
             </Row>
+
+            <Divider />
+
+            <Form.Item name='data_node_workers' label="Worker Nodes">
+              <Select
+                showSearch
+                placeholder="Number of Worker Nodes"
+                optionFilterProp="children"
+                onChange={dataNodeChange}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                <Option value="1">One</Option>
+                <Option value="2">Two</Option>
+                <Option value="3">Three</Option>
+              </Select>
+            </Form.Item>
           </div>
 
-          <Divider />
-
-          <Form.Item name='data-node-input' label="Input">
-            <Input />
-          </Form.Item>
-          <Form.Item name='data-node-select' label="Select">
-            <Select>
-              <Select.Option value="demo">Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name='data-node-switch' label="Switch" valuePropName="checked">
-            <Switch />
-          </Form.Item>
-
-          <div className='yarn-node-config'>
+          <div className='yarn_config'>
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Yarn Config</h2>
               </Col>
             </Row>
+
+            <Divider />
+            
+            <Form.Item name='yarn_resource_manager' label="Resource Manager" valuePropName="checked">
+              <Switch />
+            </Form.Item>
+            <Form.Item name='yarn_node_managers' label="Node Managers">
+            <Select
+                showSearch
+                placeholder="Number of Node Managers"
+                optionFilterProp="children"
+                onChange={yarnNodeChange}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                <Option value="1">One</Option>
+                <Option value="2">Two</Option>
+                <Option value="3">Three</Option>
+              </Select>
+            </Form.Item>
           </div>
+         
 
-          <Divider />
-
-          <Form.Item name='yarn-node-input' label="Input">
-            <Input />
-          </Form.Item>
-          <Form.Item name='yarn-node-select' label="Select">
-            <Select>
-              <Select.Option value="demo">Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name='yarn-node-switch' label="Switch" valuePropName="checked">
-            <Switch />
-          </Form.Item>
-
-          <div className='extras-config'>
+          <div className='extras_config'>
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Extras Config</h2>
@@ -309,15 +322,10 @@ function ClusterBuilder() {
 
           <Divider />
 
-          <Form.Item name='extras-input' label="Input">
-            <Input />
+          <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
+            <Switch />
           </Form.Item>
-          <Form.Item name='extras-select' label="Select">
-            <Select>
-              <Select.Option value="demo">Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name='extras-switch' label="Switch" valuePropName="checked">
+          <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
             <Switch />
           </Form.Item>
 

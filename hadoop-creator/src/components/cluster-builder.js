@@ -35,6 +35,7 @@ function ClusterBuilder() {
   function onSubmitClick(values){
     
     console.log(values);
+    //alert(JSON.stringify(form.getFieldsValue(), null, 2));
     //alert(values['data_node_input']);
   }
 
@@ -62,8 +63,6 @@ function ClusterBuilder() {
           
         </Row>
 
-        <Divider />
-
         <Form
           labelCol={{
             offset: 1,
@@ -76,13 +75,13 @@ function ClusterBuilder() {
           onFinish={onSubmitClick}
         >
           <div className='name_node_config'>
+            <Divider />
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Name Node Config</h2>
               </Col>
             </Row>
-
-            <Divider />
+            <br/>
 
             <Form.Item name='name_node_cluster_name' label="Cluster Name">
               <Input placeholder="Name of Cluster"/>
@@ -95,13 +94,13 @@ function ClusterBuilder() {
           </div>
 
           <div className='data_node_config'>
+            <Divider />
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Data Node Config</h2>
               </Col>
             </Row>
-
-            <Divider />
+            <br/>
 
             <Form.Item name='data_node_workers' label="Worker Nodes">
               <Select
@@ -121,13 +120,13 @@ function ClusterBuilder() {
           </div>
 
           <div className='yarn_config'>
+            <Divider />
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Yarn Config</h2>
               </Col>
             </Row>
-
-            <Divider />
+            <br/>
             
             <Form.Item name='yarn_resource_manager' label="Resource Manager" valuePropName="checked">
               <Switch />
@@ -151,21 +150,21 @@ function ClusterBuilder() {
          
 
           <div className='extras_config'>
+            <Divider />
             <Row justify="start" align="bottom">
               <Col>
                 <h2>Extras Config</h2>
               </Col>
             </Row>
+            <br/>
+
+            <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
+              <Switch />
+            </Form.Item>
+            <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
+              <Switch />
+            </Form.Item>
           </div>
-
-          <Divider />
-
-          <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
-            <Switch />
-          </Form.Item>
-          <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
-            <Switch />
-          </Form.Item>
 
 
           <Form.Item>

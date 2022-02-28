@@ -44,8 +44,17 @@ function buttonClick(props){
     }
 
     fetch('http://localhost:5000/build', fetchRequest)
-    .then(response => response.json())
+    .then(response => {
+        if(response.status >= 400){
+            console.log(response)
+            throw new Error('The HTTP status of the response: ' + response.status + ' ' + response.statusText)
+        }
+        else{
+            return response.json()
+        }
+    })
     .then(data => {
+
         console.log('Success:', data);
         // success message to user
         const notif = {
@@ -65,7 +74,7 @@ function buttonClick(props){
         const notif = {
             "type":"error", 
             "title":props.requestType + " Status", 
-            "desc":"The " + props.requestType + " request has failed: " + error};
+            "desc":"The " + props.requestType + " request has failed - " + error};
         openNotification(notif);
     });
 }

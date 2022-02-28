@@ -10,7 +10,7 @@ class Builder(Resource):
         self.origin = 'http://localhost:3000'
         self.status = 200
         self.payload = "default"
-        self.baseYamlFile = './hadoop-cluster/base-base-docker-compose.yml'
+        self.baseYamlFile = './hadoop-cluster/base-docker-compose.yml'
         self.newYamlFile = './hadoop-cluster/docker-compose.yml'
         self.yaml = {}
 
@@ -86,14 +86,14 @@ class Builder(Resource):
         self.loadYaml()
         self.writeYaml(dict)
 
-        # docker - compose - f ../hadoop-cluster/base-base-docker-compose.yml up - d
+        # docker - compose - f ./hadoop-cluster/docker-compose.yml up - d
         #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'up', '-d'])
         #print("subprocess response: " + result.decode())
         #return result.decode()
         return "test"
 
     def stopCluster(self):
-        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'down'])
+        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'down', '-v'])
         print("subprocess response: " + result.decode())
         return result.decode()
 
@@ -118,16 +118,51 @@ class Builder(Resource):
     def writeYaml(self, dict):
         self.resetYaml()
         yamlData = self.yaml
+        print(yamlData)
         preUpdateServices = yamlData['services']
 
-        # based on how many worker nodes requested add data
         dataNodeYaml = {}
+        volumesYaml = {}
+        resourceManagerNodeYaml = {}
+        nodeManagerYaml = {}
+        sparkYaml = {}
+
+        # based on how many worker nodes requested add data
         for i in range(int(dict['data_node_workers'])):
             # DataNode modifier
-            dataNodeYaml = {**dataNodeYaml, 'datanode'+str(i+1): {'image': 'uhopper/hadoop-datanode', 'hostname': 'datanode'+str(i+1)+'.hadoop', 'networks': ['hadoop'], 'depends_on': ['namenode'], 'volumes': ['datanode-vol:/hadoop/dfs/data'], 'env_file': ['./hadoop.env']}}
+            dataNodeYaml = {**dataNodeYaml, 'datanode' + str(i + 1): {'image': 'uhopper/hadoop-datanode',
+                                                                      'hostname': 'datanode' + str(i + 1) + '.hadoop',
+                                                                      'networks': ['hadoop'],
+                                                                      'depends_on': ['namenode'],
+                                                                      'volumes': ['datanode-vol'+str(i + 1)+':/hadoop/dfs/data'],
+                                                                      'env_file': ['./hadoop.env']}}
+            volumesYaml = {**volumesYaml, 'datanode-vol'+str(i + 1): {}}
+
+        if dict['yarn_resource_manager']:
+            resourceManagerNodeYaml = {'resourcemanager': {'depends_on': ['namenode'], 'env_file': ['./hadoop.env'],
+                                                           'hostname': 'resourcemanager.hadoop',
+                                                           'image': 'uhopper/hadoop-resourcemanager',
+                                                           'networks': ['hadoop'], 'ports': ['8088:8088']}}
+
+        for i in range(int(dict['yarn_node_managers'])):
+            # Node manager modifier
+            nodeManagerYaml = {**nodeManagerYaml,
+                               'nodemanager' + str(i + 1): {'depends_on': ['namenode', 'resourcemanager'],
+                                                            'env_file': ['./hadoop.env'],
+                                                            'hostname': 'nodemanager' + str(i + 1) + '.hadoop',
+                                                            'image': 'uhopper/hadoop-nodemanager',
+                                                            'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
+
+
+        if dict['extras_spark']:
+            sparkYaml = {
+                'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env'], 'hostname': 'spark.hadoop',
+                          'image': 'uhopper/hadoop-spark', 'networks': ['hadoop'],
+                          'ports': ['4040:4040', '9000:9000', '8080:8080']}}
 
         # combine data node yaml with the services already in the docker-compose
-        newYamlData = {'services': {**dataNodeYaml, **preUpdateServices}}
+        newYamlData = {'services': {**dataNodeYaml, **resourceManagerNodeYaml, **nodeManagerYaml, **sparkYaml, **preUpdateServices},
+                       'volumes': {**volumesYaml, 'namenode-vol':{}}}
 
         # merge data in full docker-compose yaml
         yamlData.update(newYamlData)

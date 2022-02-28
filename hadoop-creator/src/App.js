@@ -1,18 +1,22 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import { ClusterOutlined, DashboardOutlined, SettingOutlined } from '@ant-design/icons';
 
 import ClusterBuilder from './components/cluster-builder';
+import ClusterMonitor from './components/cluster-monitor';
 
 function App() {
-  const [currentNav, setCurrentNav] = useState({current:"builder"});
+  const [currentNav, setCurrentNav] = useState("builder");
 
   function handleClick(e) {
     console.log('click ', e);
-    setCurrentNav({ current: e.key });
-    console.log('current Nav: ', currentNav);
+    setCurrentNav(e.key);
   };
+
+  useEffect(() => {
+    // hide elements on nav change
+  }, [currentNav])
 
   return (
     <div className="App">
@@ -22,9 +26,11 @@ function App() {
         </p>
       </header>
 
+
       <Menu 
         onClick={handleClick} 
         selectedKeys={[currentNav]}
+        onsel
         mode="horizontal"
       >
         <Menu.Item key="builder" icon={<SettingOutlined />}>
@@ -36,10 +42,12 @@ function App() {
         <Menu.Item key="monitor" icon={<DashboardOutlined />}>
           Cluster Monitoring
         </Menu.Item>
-      </Menu>
+      </Menu> 
 
       <div>
-        <ClusterBuilder/>
+        {currentNav === "builder" ? <ClusterBuilder/> : null}
+        {currentNav === "diagram" ? null : null}
+        {currentNav === "monitor" ? <ClusterMonitor/> : null}
       </div>
     </div>
   );

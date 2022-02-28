@@ -10,8 +10,9 @@ class Builder(Resource):
         self.origin = 'http://localhost:3000'
         self.status = 200
         self.payload = "default"
-        self.yaml = None
-        self.yamlFile = './hadoop-cluster/docker-compose.yml'
+        self.baseYamlFile = './hadoop-cluster/base-base-docker-compose.yml'
+        self.newYamlFile = './hadoop-cluster/docker-compose.yml'
+        self.yaml = {}
 
     def get(self):
         self.status = 200
@@ -85,14 +86,14 @@ class Builder(Resource):
         self.loadYaml()
         self.writeYaml(dict)
 
-        # docker - compose - f ../hadoop-cluster/docker-compose.yml up - d
-        #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
+        # docker - compose - f ../hadoop-cluster/base-base-docker-compose.yml up - d
+        #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'up', '-d'])
         #print("subprocess response: " + result.decode())
         #return result.decode()
         return "test"
 
     def stopCluster(self):
-        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'down'])
+        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'down'])
         print("subprocess response: " + result.decode())
         return result.decode()
 
@@ -101,14 +102,16 @@ class Builder(Resource):
         with open("./hadoop-cluster/user_hadoop.env", "w") as f:
             f.write("CLUSTER_NAME="+dict["name_node_cluster_name"])
 
+    # load yaml from docker-compose only first time
     def loadYaml(self):
-        with open(self.yamlFile, 'r') as f:
-            self.yaml = yaml.load(f, Loader=yaml.FullLoader)
+        if not self.yaml:
+            with open(self.baseYamlFile, 'r') as f:
+                self.yaml = yaml.load(f, Loader=yaml.FullLoader)
 
-    # reset yaml to starting data
+    # reset yaml dict to starting data
     def resetYaml(self):
         # write yaml to file
-        with open(self.yamlFile, 'w') as f:
+        with open(self.baseYamlFile, 'w') as f:
             yaml.dump(self.yaml, f)
 
      # used to modify yaml in order to add resources to cluster as necessary
@@ -130,5 +133,5 @@ class Builder(Resource):
         yamlData.update(newYamlData)
 
         # write yaml to file
-        with open(self.yamlFile, 'w') as f:
+        with open(self.newYamlFile, 'w') as f:
             yaml.dump(yamlData, f)

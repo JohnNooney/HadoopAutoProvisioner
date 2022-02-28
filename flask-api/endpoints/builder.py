@@ -36,11 +36,15 @@ class Builder(Resource):
                 containerId = self.startCluster(args['data'])
                 self.status = 200
                 self.payload = {"clusterConf": "Successfully started"}
+            elif args['stop'] == "cluster":
+                self.stopCluster()
+                self.status = 200
+                self.payload = {"clusterConf": "Successfully Stopped"}
 
         except Exception as e:
-            print("Unable to start container, error: ", e)
+            print("Unable to accept request, error: ", e)
             self.status = 400
-            self.payload = "Error. Unable to start container."
+            self.payload = "Error: Unable to accept request. Check server. "
 
         finally:
             return {'received': args, 'payload': self.payload}, \

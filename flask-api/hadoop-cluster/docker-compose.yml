@@ -4,7 +4,7 @@ services:
   namenode:
     image: uhopper/hadoop-namenode
     hostname: namenode.hadoop
-    networks: 
+    networks:
       - hadoop
     volumes:
       - namenode-vol:/hadoop/dfs/name
@@ -15,22 +15,10 @@ services:
     ports:
       - "50070:50070"
 
-  datanode1:
-    image: uhopper/hadoop-datanode
-    hostname: datanode1.hadoop
-    networks: 
-      - hadoop
-    depends_on:
-      - namenode
-    volumes:
-      - datanode-vol:/hadoop/dfs/data
-    env_file:
-      - ./hadoop.env
-
   resourcemanager:
     image: uhopper/hadoop-resourcemanager
     hostname: resourcemanager.hadoop
-    networks: 
+    networks:
       - hadoop
     depends_on:
       - namenode
@@ -42,7 +30,7 @@ services:
   nodemanager1:
     image: uhopper/hadoop-nodemanager
     hostname: nodemanager1.hadoop
-    networks: 
+    networks:
       - hadoop
     depends_on:
       - namenode
@@ -55,7 +43,7 @@ services:
   spark:
     image: uhopper/hadoop-spark
     hostname: spark.hadoop
-    networks: 
+    networks:
       - hadoop
     env_file:
       - ./hadoop.env

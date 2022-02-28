@@ -1,62 +1,18 @@
-version: '3.4'
-
-services:
-  namenode:
-    image: uhopper/hadoop-namenode
-    hostname: namenode.hadoop
-    networks:
-      - hadoop
-    volumes:
-      - namenode-vol:/hadoop/dfs/name
-    environment:
-      - CLUSTER_NAME=autohadoop
-    env_file:
-      - ./hadoop.env
-    ports:
-      - "50070:50070"
-
-  resourcemanager:
-    image: uhopper/hadoop-resourcemanager
-    hostname: resourcemanager.hadoop
-    networks:
-      - hadoop
-    depends_on:
-      - namenode
-    env_file:
-      - ./hadoop.env
-    ports:
-      - "8088:8088"
-
-  nodemanager1:
-    image: uhopper/hadoop-nodemanager
-    hostname: nodemanager1.hadoop
-    networks:
-      - hadoop
-    depends_on:
-      - namenode
-      - resourcemanager
-    env_file:
-      - ./hadoop.env
-    ports:
-      - "8042:8042"
-
-  spark:
-    image: uhopper/hadoop-spark
-    hostname: spark.hadoop
-    networks:
-      - hadoop
-    env_file:
-      - ./hadoop.env
-    command: tail -f /var/log/dmesg
-    ports:
-      - "4040:4040"
-      - "9000:9000"
-      - "8080:8080"
-
-volumes:
-  namenode-vol: {}
-  datanode-vol: {}
-
 networks:
   hadoop: {}
-
+services:
+  namenode:
+    env_file:
+    - ./hadoop.env
+    environment:
+    - CLUSTER_NAME=autohadoop
+    hostname: namenode.hadoop
+    image: uhopper/hadoop-namenode
+    networks:
+    - hadoop
+    ports:
+    - 50070:50070
+    volumes:
+    - namenode-vol:/hadoop/dfs/name
+version: '3.4'
+volumes: null

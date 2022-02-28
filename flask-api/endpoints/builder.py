@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 import docker
+import yaml
 import ast
 import subprocess
 
@@ -9,6 +10,8 @@ class Builder(Resource):
         self.origin = 'http://localhost:3000'
         self.status = 200
         self.payload = "default"
+        self.yaml = None
+        self.yamlFile = './hadoop-cluster/docker-compose.yml'
 
     def get(self):
         self.status = 200
@@ -77,6 +80,11 @@ class Builder(Resource):
         dict = ast.literal_eval(vars)
         print("dict: ", dict)
         print("Cluster Name: ", dict["name_node_cluster_name"])
+        # map each dict value to environment variables to be used in the docker compose
+        self.writeEnv(dict)
+        self.loadYaml()
+        self.writeYaml(dict)
+
         # docker - compose - f ../hadoop-cluster/docker-compose.yml up - d
         #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
         #print("subprocess response: " + result.decode())
@@ -87,3 +95,40 @@ class Builder(Resource):
         result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'down'])
         print("subprocess response: " + result.decode())
         return result.decode()
+
+    # write Hadoop cluster data to .env file
+    def writeEnv(self, dict):
+        with open("./hadoop-cluster/user_hadoop.env", "w") as f:
+            f.write("CLUSTER_NAME="+dict["name_node_cluster_name"])
+
+    def loadYaml(self):
+        with open(self.yamlFile, 'r') as f:
+            self.yaml = yaml.load(f, Loader=yaml.FullLoader)
+
+    # reset yaml to starting data
+    def resetYaml(self):
+        # write yaml to file
+        with open(self.yamlFile, 'w') as f:
+            yaml.dump(self.yaml, f)
+
+     # used to modify yaml in order to add resources to cluster as necessary
+    def writeYaml(self, dict):
+        self.resetYaml()
+        yamlData = self.yaml
+        preUpdateServices = yamlData['services']
+
+        # based on how many worker nodes requested add data
+        dataNodeYaml = {}
+        for i in range(int(dict['data_node_workers'])):
+            # DataNode modifier
+            dataNodeYaml = {**dataNodeYaml, 'datanode'+str(i+1): {'image': 'uhopper/hadoop-datanode', 'hostname': 'datanode'+str(i+1)+'.hadoop', 'networks': ['hadoop'], 'depends_on': ['namenode'], 'volumes': ['datanode-vol:/hadoop/dfs/data'], 'env_file': ['./hadoop.env']}}
+
+        # combine data node yaml with the services already in the docker-compose
+        newYamlData = {'services': {**dataNodeYaml, **preUpdateServices}}
+
+        # merge data in full docker-compose yaml
+        yamlData.update(newYamlData)
+
+        # write yaml to file
+        with open(self.yamlFile, 'w') as f:
+            yaml.dump(yamlData, f)

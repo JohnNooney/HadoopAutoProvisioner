@@ -1,11 +1,12 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import { ClusterOutlined, DashboardOutlined, SettingOutlined } from '@ant-design/icons';
+import { ClusterOutlined, DashboardOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
 
 import ClusterBuilder from './components/cluster-builder';
 import ClusterMonitor from './components/cluster-monitor';
 import ClusterDiagram from './components/cluster-diagram';
+import Home from './components/home';
 
 function App() {
   const [currentNav, setCurrentNav] = useState(localStorage.getItem('nav') || "builder");
@@ -34,18 +35,21 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <p>
           Auto Hadoop Provisioner
         </p>
-      </header>
+      </header> */}
 
 
-      <Menu 
+      <Menu
         onClick={handleClick} 
         selectedKeys={[currentNav]}
         mode="horizontal"
       >
+        <Menu.Item key="home" icon={<HomeOutlined />}>
+          Home
+        </Menu.Item>
         <Menu.Item key="builder" icon={<SettingOutlined />}>
           Cluster Builder
         </Menu.Item>
@@ -58,6 +62,7 @@ function App() {
       </Menu> 
 
       <div>
+        {currentNav === "home" ? <Home/> : null}
         {currentNav === "builder" ? <ClusterBuilder clusterData={cluster} clusterSetter={setCluster} /> : null}
         {currentNav === "diagram" ? <ClusterDiagram clusterData={cluster}/> : null}
         {currentNav === "monitor" ? <ClusterMonitor clusterData={cluster}/> : null}

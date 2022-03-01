@@ -17,7 +17,6 @@ function App() {
   };
 
   useEffect(() => {
-    // hide elements on nav change
   }, [currentNav])
 
   return (

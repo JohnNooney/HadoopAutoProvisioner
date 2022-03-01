@@ -200,7 +200,26 @@ function ClusterBuilder(props) {
                 </Form.Item>
               </Col>
             </Row>
+          </div> : null}
+
+          <div className='cluster_builder_destroy'>
+            <Row justify='center' align='middle'>
+              <Col>
+                {props.clusterData != null ? <ButtonRequest
+                  requestType = "POST"
+                  buttonText="Stop Cluster"
+                  buttonColor="danger"
+                  notificationCustomMsg = "Please wait for your cluster to stop..."
+                  displayPayload = "true"
+                  payloadCustomMsg = "Tearing down now: "
+                  form = {form}
+                  postData = {{"type":"stop"}}
+                  clusterSetter = {props.clusterSetter}
+                /> : null}
+              </Col>
+            </Row>
           </div>
+
           
         </Form>
       </div> 

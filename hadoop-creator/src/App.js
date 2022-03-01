@@ -8,7 +8,7 @@ import ClusterMonitor from './components/cluster-monitor';
 import ClusterDiagram from './components/cluster-diagram';
 
 function App() {
-  const [currentNav, setCurrentNav] = useState("builder");
+  const [currentNav, setCurrentNav] = useState(localStorage.getItem('nav') || "builder");
   const [cluster, setCluster] = useState();
 
   function handleClick(e) {
@@ -16,8 +16,16 @@ function App() {
     setCurrentNav(e.key);
   };
 
+  //trigger anytime currentNav changes
   useEffect(() => {
+    // set nav state in local storage
+    localStorage.setItem('nav', currentNav);
   }, [currentNav])
+  
+  // persist data with page refresh by calling API for cluster details
+  function getClusterData(){
+    //TODO: implement fetch to API for cluster data and links
+  }
 
   return (
     <div className="App">
@@ -31,7 +39,6 @@ function App() {
       <Menu 
         onClick={handleClick} 
         selectedKeys={[currentNav]}
-        onsel
         mode="horizontal"
       >
         <Menu.Item key="builder" icon={<SettingOutlined />}>

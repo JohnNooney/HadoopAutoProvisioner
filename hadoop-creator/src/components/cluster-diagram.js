@@ -5,7 +5,6 @@ import { useState } from 'react';
 const { Option } = Select;
 
 function ClusterDiagram(props) {
-    let cluster = {};
     
     return (
     <div className="cluster_diagram">
@@ -20,8 +19,7 @@ function ClusterDiagram(props) {
         
         <Divider/>
 
-        {/* TODO: use cluster variable as props passed to this component */}
-        {cluster != {} ? <Empty description={<span>No cluster built yet...</span>}/> : null}
+        {props.clusterData == null ? <Empty description={<span>No cluster built yet...</span>}/> : null}
 
     </div>
     );

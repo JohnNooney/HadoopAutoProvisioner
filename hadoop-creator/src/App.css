@@ -19,6 +19,20 @@
   text-align: left;
 }
 
+.home_breadcrumbs{
+  margin-left: 5vw;
+  margin-top: 1vh;
+}
+
+.home_layout{
+  background-color: white;
+}
+
+.home_content{
+  background-color: white;
+  margin: 1vh 5vw 1vh 5vw;
+}
+
 .ButtonRequest Button{
   margin: 5vh 5vh 0vh 0vh;
 }

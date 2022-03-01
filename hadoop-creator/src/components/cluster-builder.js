@@ -95,10 +95,10 @@ function ClusterBuilder(props) {
             <br/>
 
             <Form.Item name='name_node_cluster_name' label="Cluster Name">
-              <Input placeholder="Name of Cluster"/>
+              <Input placeholder="Name of Cluster" disabled={props.clusterData}/>
             </Form.Item>
             <Form.Item name='name_node_secondary_name_node' label="Secondary Name Node" valuePropName="checked">
-              <Switch />
+              <Switch disabled={props.clusterData}/>
             </Form.Item>
           
           </div>
@@ -121,6 +121,7 @@ function ClusterBuilder(props) {
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
+                disabled={props.clusterData}
               >
                 <Option value="1">One</Option>
                 <Option value="2">Two</Option>
@@ -139,7 +140,7 @@ function ClusterBuilder(props) {
             <br/>
             
             <Form.Item name='yarn_resource_manager' label="Resource Manager" valuePropName="checked">
-              <Switch />
+              <Switch disabled={props.clusterData}/>
             </Form.Item>
             <Form.Item name='yarn_node_managers' label="Node Managers">
             <Select
@@ -150,6 +151,7 @@ function ClusterBuilder(props) {
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
+                disabled={props.clusterData}
               >
                 <Option value="1">One</Option>
                 <Option value="2">Two</Option>
@@ -169,10 +171,10 @@ function ClusterBuilder(props) {
             <br/>
 
             <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
-              <Switch />
+              <Switch disabled={props.clusterData}/>
             </Form.Item>
             <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
-              <Switch />
+              <Switch disabled={props.clusterData}/>
             </Form.Item>
           </div>
           

@@ -20,6 +20,8 @@ function ClusterMonitor(props) {
       <div className='cluster_monitor_title'> 
         <Row justify="center" align="bottom">
           <Col>
+            <br/>
+            <br/>
             <h1>Monitor your cluster.</h1>
           </Col>
         </Row>

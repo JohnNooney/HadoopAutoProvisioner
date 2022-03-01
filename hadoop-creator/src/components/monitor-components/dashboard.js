@@ -23,9 +23,9 @@ function ClusterDashboard(props) {
         <div className='cluster_monitor_dashboard'> 
             <Row justify="center" align="top" gutter={[40,24]}>
                 <Col align="start">
-                <Card title="Name Node Details">
-                <p><a href={props.Data.namenode}>Name Node WebUI</a></p>
-                </Card>
+                    <Card title="Name Node Details">
+                        <p><a href={props.Data.namenode}>Name Node WebUI</a></p>
+                    </Card>
                 </Col>
                 <Col align="start">
                 <Card title="Data Node Details">
@@ -36,14 +36,14 @@ function ClusterDashboard(props) {
                 </Card>
                 </Col>
                 <Col align="start">
-                <Card title="Resource Manager Details">
-                <p><a href={props.Data.yarn}>YARN Web UI</a></p>
-                </Card>
+                    <Card title="Resource Manager Details">
+                        <p><a href={props.Data.yarn}>YARN Web UI</a></p>
+                    </Card>
                 </Col>
                 <Col align="start">
-                <Card title="Spark Details">
-                <p><a href={props.Data.spark}>Spark UI</a></p>
-                </Card>
+                    <Card title="Spark Details">
+                        <p><a href={props.Data.spark}>Spark UI</a></p>
+                    </Card>
                 </Col>
             </Row>
         </div>

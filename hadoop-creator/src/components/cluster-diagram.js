@@ -11,6 +11,8 @@ function ClusterDiagram(props) {
         <div className='cluster_diagram_title'> 
         <Row justify="center" align="bottom">
             <Col>
+            <br/>
+            <br/>
             <h1>Explore your cluster.</h1>
             </Col>
         </Row>

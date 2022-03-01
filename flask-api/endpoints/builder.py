@@ -23,7 +23,7 @@ class Builder(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('data', required=True)
+        parser.add_argument('data', required=False)
         parser.add_argument('type', required=True)
 
         args = parser.parse_args()  # parse arguments to dictionary
@@ -40,7 +40,8 @@ class Builder(Resource):
                 containerId = self.startCluster(args['data'])
                 self.status = 200
                 self.payload = {"clusterConf": "Successfully started"}
-            elif args['stop'] == "cluster":
+            elif args['type'] == "stop":
+                print("stopping cluster...")
                 self.stopCluster()
                 self.status = 200
                 self.payload = {"clusterConf": "Successfully Stopped"}
@@ -114,7 +115,7 @@ class Builder(Resource):
         with open(self.baseYamlFile, 'w') as f:
             yaml.dump(self.yaml, f)
 
-     # used to modify yaml in order to add resources to cluster as necessary
+    # used to modify yaml in order to add resources to cluster as necessary
     def writeYaml(self, dict):
         self.resetYaml()
         yamlData = self.yaml
@@ -127,7 +128,7 @@ class Builder(Resource):
         nodeManagerYaml = {}
         sparkYaml = {}
 
-        # based on how many worker nodes requested add data
+        # based on how many worker nodes requested
         for i in range(int(dict['data_node_workers'])):
             # DataNode modifier
             dataNodeYaml = {**dataNodeYaml, 'datanode' + str(i + 1): {'image': 'uhopper/hadoop-datanode',
@@ -138,12 +139,13 @@ class Builder(Resource):
                                                                       'env_file': ['./hadoop.env']}}
             volumesYaml = {**volumesYaml, 'datanode-vol'+str(i + 1): {}}
 
+        # based on if the resource manager was enabled
         if dict['yarn_resource_manager']:
             resourceManagerNodeYaml = {'resourcemanager': {'depends_on': ['namenode'], 'env_file': ['./hadoop.env'],
                                                            'hostname': 'resourcemanager.hadoop',
                                                            'image': 'uhopper/hadoop-resourcemanager',
                                                            'networks': ['hadoop'], 'ports': ['8088:8088']}}
-
+        # based on how many node managers requested
         for i in range(int(dict['yarn_node_managers'])):
             # Node manager modifier
             nodeManagerYaml = {**nodeManagerYaml,
@@ -153,7 +155,7 @@ class Builder(Resource):
                                                             'image': 'uhopper/hadoop-nodemanager',
                                                             'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
 
-
+        # based on if spark was enabled
         if dict['extras_spark']:
             sparkYaml = {
                 'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env'], 'hostname': 'spark.hadoop',

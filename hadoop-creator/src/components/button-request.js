@@ -57,18 +57,20 @@ function buttonClick(props){
     .then(data => {
         console.log('Success:', data);
         //set cluster data using form data (used in other components)
-        if(props.form){
-            props.clusterSetter(props.form.getFieldsValue());
-            console.log("cluster object set using form data");
+        if(props.postData){
+            if(props.form && props.postData["type"] == "cluster"){
+                props.clusterSetter(props.form.getFieldsValue());
+                console.log("cluster object set using form data");
+            }
+    
+            // if stopping cluster reset form data
+            if(props.postData["type"] == "stop"){
+                props.form.resetFields();
+                props.clusterSetter(null);
+                console.log("stopping cluster. form data reset");
+            }
         }
-
-        // if stopping cluster reset form data
-        if(props.postData["type"] == "stop"){
-            props.form.resetFields();
-            props.clusterSetter(null);
-            console.log("stopping cluster. form data reset");
-        }
-
+        
         // success message to user
         const notif = {
             "type":"success", 

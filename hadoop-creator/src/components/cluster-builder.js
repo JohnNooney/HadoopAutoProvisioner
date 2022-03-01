@@ -4,10 +4,12 @@ import { useState } from 'react';
 
 const { Option } = Select;
 
-function ClusterBuilder() {
+// props.clusterData is used for keeping the cluster data state
+// props.clusterSetter is used for setting the cluster data state
+function ClusterBuilder(props) {
   // const [activeSelector, setActiveSelector] = useState("");
-  
   const [form] = Form.useForm();
+  form.setFieldsValue(props.clusterData);
   const defaultData={
     data_node_workers:'1',
     extras_spark:true,
@@ -31,8 +33,8 @@ function ClusterBuilder() {
     console.log(`selected ${value}`);
   }
 
+  // Not in use - using custom button instead
   function onSubmitClick(values){
-    
     console.log(values);
     //alert(JSON.stringify(form.getFieldsValue(), null, 2));
     //alert(values['data_node_input']);
@@ -40,10 +42,12 @@ function ClusterBuilder() {
 
   function onFill(){
     form.setFieldsValue(defaultData);
+    //props.clusterSetter(defaultData);
   }
 
   function onReset(){
     form.resetFields();
+    //props.clusterSetter(form.getFieldsValue());
   }
 
   return (
@@ -171,7 +175,8 @@ function ClusterBuilder() {
               <Switch />
             </Form.Item>
           </div>
-
+          
+          {props.clusterData == null ?
           <div className='cluster_builder_submit'>
             <Row justify='center' align='middle'>
               <Col>
@@ -187,6 +192,7 @@ function ClusterBuilder() {
                       payloadCustomMsg = "Your Container ID: "
                       form = {form}
                       postData = {{"type":"cluster"}}
+                      clusterSetter = {props.clusterSetter}
                     />
                     <Button htmlType="button" onClick={onFill}>Fill</Button>
                     <Button type="link" onClick={onReset}>Reset</Button>

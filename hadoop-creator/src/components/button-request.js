@@ -9,6 +9,7 @@ import {Button, notification} from 'antd';
 // props.postData = {"data" : "test from react"}
 // props.displayPayload = true/false
 // props.payloadCustomMsg = "Your container ID: " *will be prepended to string that displays payload
+// props.clusterSetter keeps track of cluster data state (only set on success)
 function ButtonRequest(props) {
   return (
     <div className="DockerRun">
@@ -54,8 +55,20 @@ function buttonClick(props){
         }
     })
     .then(data => {
-
         console.log('Success:', data);
+        //set cluster data using form data (used in other components)
+        if(props.form){
+            props.clusterSetter(props.form.getFieldsValue());
+            console.log("cluster object set using form data");
+        }
+
+        // if stopping cluster reset form data
+        if(props.postData["type"] == "stop"){
+            props.form.resetFields();
+            props.clusterSetter(null);
+            console.log("stopping cluster. form data reset");
+        }
+
         // success message to user
         const notif = {
             "type":"success", 

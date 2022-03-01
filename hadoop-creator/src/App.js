@@ -5,9 +5,11 @@ import { ClusterOutlined, DashboardOutlined, SettingOutlined } from '@ant-design
 
 import ClusterBuilder from './components/cluster-builder';
 import ClusterMonitor from './components/cluster-monitor';
+import ClusterDiagram from './components/cluster-diagram';
 
 function App() {
   const [currentNav, setCurrentNav] = useState("builder");
+  const [cluster, setCluster] = useState();
 
   function handleClick(e) {
     console.log('click ', e);
@@ -45,9 +47,9 @@ function App() {
       </Menu> 
 
       <div>
-        {currentNav === "builder" ? <ClusterBuilder/> : null}
-        {currentNav === "diagram" ? null : null}
-        {currentNav === "monitor" ? <ClusterMonitor/> : null}
+        {currentNav === "builder" ? <ClusterBuilder clusterData={cluster} clusterSetter={setCluster} /> : null}
+        {currentNav === "diagram" ? <ClusterDiagram clusterData={cluster}/> : null}
+        {currentNav === "monitor" ? <ClusterMonitor clusterData={cluster}/> : null}
       </div>
     </div>
   );

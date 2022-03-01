@@ -6,18 +6,6 @@ const { Option } = Select;
 function ClusterDashboard(props) {
 
     let counter = 0;
-
-    function listDataNodes()
-    {
-        let counter = 1;
-        let elems = "";
-        props.Data.datanodes.forEach(element => {
-            elems = elems+ "<p><a href="+element+">Data Node "+counter+" Manager</a></p>";
-            counter++;
-        });
-
-        return elems
-    }
     
     return (
         <div className='cluster_monitor_dashboard'> 
@@ -44,6 +32,15 @@ function ClusterDashboard(props) {
                     <Card title="Spark Details">
                         <p><a href={props.Data.spark}>Spark UI</a></p>
                     </Card>
+                </Col>
+            </Row>
+
+            <Row justify='center' align='middle' gutter={[40, 24]}>
+                <Col align="start">
+                    <Space direction="vertical">
+                        <p>This is where the HDFS API commands will go</p>
+                        <p>Possibly another form here with a drop down box of different jobs to run</p>
+                    </Space>
                 </Col>
             </Row>
         </div>

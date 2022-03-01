@@ -9,18 +9,23 @@ import ClusterDiagram from './components/cluster-diagram';
 
 function App() {
   const [currentNav, setCurrentNav] = useState(localStorage.getItem('nav') || "builder");
-  const [cluster, setCluster] = useState();
-
+  const [cluster, setCluster] = useState(null);
   function handleClick(e) {
     console.log('click ', e);
     setCurrentNav(e.key);
   };
 
-  //trigger anytime currentNav changes
+  // trigger anytime currentNav changes
   useEffect(() => {
     // set nav state in local storage
     localStorage.setItem('nav', currentNav);
   }, [currentNav])
+
+  // trigger anytime cluster Data changes
+  useEffect(() => {
+    // set cluster data in local storage (in case of page refresh)
+    
+  }, [cluster])
   
   // persist data with page refresh by calling API for cluster details
   function getClusterData(){

@@ -35,13 +35,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <p>
-          Auto Hadoop Provisioner
-        </p>
-      </header> */}
-
-
       <Menu
         onClick={handleClick} 
         selectedKeys={[currentNav]}

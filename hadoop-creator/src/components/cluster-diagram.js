@@ -19,7 +19,7 @@ function ClusterDiagram(props) {
         
         <Divider/>
 
-        {props.clusterData == null ? <Empty description={<span>No cluster built yet...</span>}/> : null}
+        {props.clusterData == null ? <Empty description={<span>No cluster running...</span>}/> : null}
 
     </div>
     );

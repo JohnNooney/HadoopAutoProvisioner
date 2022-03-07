@@ -1,19 +1,70 @@
-import {Row, Col, Select, Divider, Card, Space, Empty  } from 'antd';
+import {Row, Col, Select, Divider, Card, Space, Empty, Button  } from 'antd';
 import ButtonRequest from './button-request';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ClusterDashboard from './monitor-components/dashboard';
 
 const { Option } = Select;
 
 function ClusterMonitor(props) {
   // const [activeSelector, setActiveSelector] = useState("");
-  const [clusterDetails, setClusterDetails] = useState();
+  const [clusterUrlsLoading, setClusterUrlsLoading] = useState(false);
+  const [clusterUrls, setClusterUrls] = useState();
   const defaultData = {
     namenode : "http://localhost:50070/",
     yarn : "http://localhost:8088/",
     spark : "",
     datanodes : ["http://localhost:8042/","http://localhost:8043/"]
   };
+
+  // Gets called on page load
+  useEffect(() => {
+      // call api for URLs
+      if(props.clusterData){
+        console.log("getting cluster URLs...");
+        getClusterData();
+      }
+    
+  }, []);
+
+  function onClick(){
+    getClusterData();
+  }
+
+  function getClusterData(){
+    setClusterUrlsLoading(true);
+
+    const fetchRequest = {
+      method:'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    }
+
+    //append post data to body
+    console.log("cluster data: ", props.clusterData);
+    fetchRequest.body = JSON.stringify({data: props.clusterData});
+
+    fetch('http://localhost:5000/scrape', fetchRequest)
+    .then(response => {
+        if(response.status >= 400){
+            console.log(response)
+            throw new Error('The HTTP status of the response: ' + response.status + ' ' + response.statusText)
+        }
+        else{
+            return response.json()
+        }
+    })
+    .then(data => {
+        console.log('Success:', data);
+        if(data["payload"]){
+          setClusterUrls(data["payload"]);
+        }
+    })
+    .finally(() => {setClusterUrlsLoading(false);})
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
   
   return (
     <div className="cluster_monitor">
@@ -28,7 +79,13 @@ function ClusterMonitor(props) {
         <Divider/>
       </div>
 
-      {props.clusterData == null ? <Empty description={<span>No cluster running...</span>}/> : <ClusterDashboard Data={defaultData}/>} 
+      {/* <Row justify="center" align="bottom">
+          <Col>
+            <Button type='primary' onClick={onClick}>Test</Button>
+          </Col>
+      </Row> */}
+
+      {!clusterUrls || clusterUrlsLoading ? <Empty description={<span>No cluster running...</span>}/> : <ClusterDashboard Data={clusterUrls}/>} 
     </div>
   );
 }

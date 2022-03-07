@@ -25,12 +25,43 @@ function App() {
   // trigger anytime cluster Data changes
   useEffect(() => {
     // set cluster data in local storage (in case of page refresh)
-    
-  }, [cluster])
+    console.log("checking for running cluster...");
+
+    getClusterData();
+  }, [])
   
   // persist data with page refresh by calling API for cluster details
   function getClusterData(){
-    //TODO: implement fetch to API for cluster data and links
+    const fetchRequest = {
+      method:'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    }
+
+    fetch('http://localhost:5000/build', fetchRequest)
+    .then(response => {
+        if(response.status >= 400){
+            console.log(response)
+            throw new Error('The HTTP status of the response: ' + response.status + ' ' + response.statusText)
+        }
+        else{
+            return response.json()
+        }
+    })
+    .then(data => {
+        console.log('Success:', data);
+        if(data["payload"] == "none"){
+          console.log("No cluster running");
+        }
+        else{
+          console.log("cluster retrieved");
+          setCluster(data["payload"]);
+        }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   }
 
   return (

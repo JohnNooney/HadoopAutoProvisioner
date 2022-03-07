@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 import docker
+import os
+import json
 import yaml
 import ast
 import subprocess
@@ -13,10 +15,17 @@ class Builder(Resource):
         self.baseYamlFile = './hadoop-cluster/base-docker-compose.yml'
         self.newYamlFile = './hadoop-cluster/docker-compose.yml'
         self.yaml = {}
+        self.recievedData = {}
 
     def get(self):
         self.status = 200
-        self.payload = {"payload": "test"}
+        self.readStoredDict()
+
+        if self.recievedData:
+            self.payload = {"payload": self.recievedData}
+        else:
+            self.payload = {"payload": "none"}
+
         return self.payload, \
                self.status, \
                {'Access-Control-Allow-Origin': self.origin}  # return data and 200 OK code
@@ -82,21 +91,48 @@ class Builder(Resource):
         dict = ast.literal_eval(vars)
         print("dict: ", dict)
         print("Cluster Name: ", dict["name_node_cluster_name"])
+
+        self.storeDict(dict)
+
         # map each dict value to environment variables to be used in the docker compose
         self.writeEnv(dict)
+
+        # load base yaml file and append new data based on request from UI
         self.loadYaml()
         self.writeYaml(dict)
 
         # docker - compose - f ./hadoop-cluster/docker-compose.yml up - d
-        #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'up', '-d'])
+        #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-docker-compose.yml', 'up', '-d'])
         #print("subprocess response: " + result.decode())
         #return result.decode()
         return "test"
 
     def stopCluster(self):
-        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-base-docker-compose.yml', 'down', '-v'])
-        print("subprocess response: " + result.decode())
-        return result.decode()
+        self.deleteDict()
+        # result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-docker-compose.yml', 'down'])
+        # print("subprocess response: " + result.decode())
+        # return result.decode()
+        return "test"
+
+    # store dictionary sent by UI. Used to restore state
+    def storeDict(self, dict):
+        print("writing cached json for UI state...")
+        with open("cached-state.json", "w") as f:
+            json.dump(dict, f)
+
+    def readStoredDict(self):
+        print("reading cached json for UI state...")
+        try:
+            with open("cached-state.json", 'r') as f:
+                self.recievedData = json.load(f)
+                print("read json: ", self.recievedData)
+        except FileNotFoundError:
+            print("No saved cached state")
+            self.recievedData = {}
+
+    # delete stored dictionary
+    def deleteDict(self):
+        os.remove("cached-state.json")
 
     # write Hadoop cluster data to .env file
     def writeEnv(self, dict):

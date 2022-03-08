@@ -19,7 +19,6 @@ function ButtonRequest(props) {
 }
 
 function buttonClick(props){
-    const data = {"data":"test from react"}
 
      // POST start notification
      const notif = {
@@ -60,13 +59,13 @@ function buttonClick(props){
         // if request has postData
         if(props.postData){
             //set cluster data using form data (used in other components)
-            if(props.form && props.postData["type"] == "cluster"){
+            if(props.form && props.postData["type"] === "cluster"){
                 props.clusterSetter(props.form.getFieldsValue());
                 console.log("cluster object set using form data");
             }
     
             // if stopping cluster reset form data
-            if(props.postData["type"] == "stop"){
+            if(props.postData["type"] === "stop"){
                 props.form.resetFields();
                 props.clusterSetter(null);
                 console.log("stopping cluster. form data reset");

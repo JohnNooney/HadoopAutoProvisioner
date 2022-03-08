@@ -51,7 +51,7 @@ function App() {
     })
     .then(data => {
         console.log('Success:', data);
-        if(data["payload"] == "none"){
+        if(data["payload"] === "none"){
           console.log("No cluster running");
         }
         else{

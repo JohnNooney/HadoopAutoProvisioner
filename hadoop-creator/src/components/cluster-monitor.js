@@ -1,22 +1,20 @@
-import {Row, Col, Select, Divider, Card, Space, Empty, Button  } from 'antd';
-import ButtonRequest from './button-request';
+import {Row, Col, Divider, Empty  } from 'antd';
 import { useEffect, useState } from 'react';
 import ClusterDashboard from './monitor-components/dashboard';
-
-const { Option } = Select;
 
 function ClusterMonitor(props) {
   // const [activeSelector, setActiveSelector] = useState("");
   const [clusterUrlsLoading, setClusterUrlsLoading] = useState(false);
   const [clusterUrls, setClusterUrls] = useState();
-  const defaultData = {
-    namenode : "http://localhost:50070/",
-    yarn : "http://localhost:8088/",
-    spark : "",
-    datanodes : ["http://localhost:8042/","http://localhost:8043/"]
-  };
+  // const defaultData = {
+  //   namenode : "http://localhost:50070/",
+  //   yarn : "http://localhost:8088/",
+  //   spark : "",
+  //   datanodes : ["http://localhost:8042/","http://localhost:8043/"]
+  // };
 
   // Gets called on page load
+  
   useEffect(() => {
       // call api for URLs
       if(props.clusterData){
@@ -25,10 +23,6 @@ function ClusterMonitor(props) {
       }
     
   }, []);
-
-  function onClick(){
-    getClusterData();
-  }
 
   function getClusterData(){
     setClusterUrlsLoading(true);
@@ -84,8 +78,7 @@ function ClusterMonitor(props) {
             <Button type='primary' onClick={onClick}>Test</Button>
           </Col>
       </Row> */}
-
-      {!clusterUrls || clusterUrlsLoading ? <Empty description={<span>No cluster running...</span>}/> : <ClusterDashboard Data={clusterUrls}/>} 
+      {!clusterUrls || clusterUrlsLoading ?  <Empty description={clusterUrlsLoading ? <span>Getting cluster data...</span> : <span>No cluster running...</span>}/> : <ClusterDashboard Data={clusterUrls}/>} 
     </div>
   );
 }

@@ -1,9 +1,11 @@
-import {Row, Col, Select, Space, Card, Form, Input, Button } from 'antd';
+import {Row, Col, Select, Space, Card, Form, Input, Button, Spin, Alert } from 'antd';
+import { useState } from 'react';
 
 
 const { Option } = Select;
 
 function ClusterDashboard(props) {
+    const [isJobLoading, setIsJobLoading] = useState(false);
     const [jobForm] = Form.useForm();
     let counter = 0;
 
@@ -15,6 +17,8 @@ function ClusterDashboard(props) {
     }
 
     function sendJob(jobData){
+        setIsJobLoading(true);
+
         const fetchRequest = {
             method:'POST',
             headers: {
@@ -42,6 +46,7 @@ function ClusterDashboard(props) {
                 console.log("received data: ", data["payload"]);
               }
           })
+          .finally(() => {setIsJobLoading(false);})
           .catch((error) => {
             console.error('Error:', error);
           });
@@ -56,7 +61,7 @@ function ClusterDashboard(props) {
                             { props.Data.namenode &&
                             <Col align="start">
                                 <Card title="Name Node">
-                                    <p><a href={props.Data.namenode}>Name Node Web UI</a></p>
+                                    <p><a href={props.Data.namenode} target="_blank">Name Node Web UI</a></p>
                                 </Card>
                             </Col>
                             }
@@ -66,7 +71,7 @@ function ClusterDashboard(props) {
                             <Card title="Data Node(s)">
                                 {props.Data.datanodes.map(element =>{
                                     counter++;
-                                    return <p><a href={element}>Data Node {counter} Manager</a></p>
+                                    return <p><a href={element} target="_blank">Data Node {counter} Manager</a></p>
                                 })}
                             </Card>
                             </Col>
@@ -75,7 +80,7 @@ function ClusterDashboard(props) {
                             {props.Data.yarn &&
                             <Col align="start">
                                 <Card title="Resource Manager">
-                                    <p><a href={props.Data.yarn}>YARN Web UI</a></p>
+                                    <p><a href={props.Data.yarn} target="_blank">YARN Web UI</a></p>
                                 </Card>
                             </Col>
                             }
@@ -83,7 +88,7 @@ function ClusterDashboard(props) {
                             {props.Data.spark && 
                             <Col align="start">
                                 <Card title="Spark">
-                                    <p><a href={props.Data.spark}>Spark UI</a></p>
+                                    <p><a href={props.Data.spark} target="_blank">Spark UI</a></p>
                                 </Card>
                             </Col>
                             }
@@ -180,11 +185,23 @@ function ClusterDashboard(props) {
                                 </Form.Item>
 
                                 <Form.Item>
+                                    {isJobLoading ?
+                                    <Spin />
+                                    : 
                                     <Button type='primary' htmlType="submit">
                                         Submit
-                                    </Button>
+                                    </Button>}
+                                    
                                 </Form.Item>
                             </Form>
+                            {
+                                isJobLoading ? 
+                                <Alert
+                                    message="Job running..."
+                                    description="View detailed progress on your job through the Yarn Web UI"
+                                    type="info"
+                                />: null
+                            }
                         </Space>
                     </Card>
                 </Col>

@@ -45,15 +45,15 @@ class Scraper(Resource):
         print(container, " request subprocess response: " + result.decode())
 
         # put result into a format that can be iterated
-        portData = result.decode().replace("\n", "/").split('/')
+        portData = result.decode().replace("\n", ":").split(':')
 
         # if port data has more than one open port
         if len(portData) > 3:
             print(portData)
-            return portData[::2]
+            return portData[1::2]
         elif len(portData) == 3:
             # only one port exists
-            return portData[0]
+            return portData[1]
         else:
             return "no port found"
 

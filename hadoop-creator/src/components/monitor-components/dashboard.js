@@ -18,12 +18,15 @@ function ClusterDashboard(props) {
                 <Col>
                     <Card title="Cluster Component Paths">
                         <Row className justify="center" align="top" gutter={[40,24]}>
+                            { props.Data.namenode &&
                             <Col align="start">
                                 <Card title="Name Node">
                                     <p><a href={props.Data.namenode}>Name Node Web UI</a></p>
                                 </Card>
                             </Col>
+                            }
 
+                            { props.Data.datanodes && 
                             <Col align="start">
                             <Card title="Data Node(s)">
                                 {props.Data.datanodes.map(element =>{
@@ -32,18 +35,23 @@ function ClusterDashboard(props) {
                                 })}
                             </Card>
                             </Col>
-
+                            }
+                            
+                            {props.Data.yarn &&
                             <Col align="start">
                                 <Card title="Resource Manager">
                                     <p><a href={props.Data.yarn}>YARN Web UI</a></p>
                                 </Card>
                             </Col>
+                            }
 
+                            {props.Data.spark && 
                             <Col align="start">
                                 <Card title="Spark">
                                     <p><a href={props.Data.spark}>Spark UI</a></p>
                                 </Card>
                             </Col>
+                            }
                         </Row>
                     </Card>
                 </Col>
@@ -78,8 +86,8 @@ function ClusterDashboard(props) {
                                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                 }
                                             >
-                                                <Option value="yarn">Yarn</Option>
-                                                <Option value="spark">Spark</Option>
+                                                {props.Data.yarn && <Option value="yarn">Yarn</Option>}
+                                                {props.Data.spark && <Option value="spark">Spark</Option>}
                                             </Select>
                                         </Form.Item>
 

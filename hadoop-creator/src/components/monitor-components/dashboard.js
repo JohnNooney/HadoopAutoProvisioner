@@ -1,4 +1,4 @@
-import {Row, Col, Select, Divider, Space, Card, Form, Input, Button } from 'antd';
+import {Row, Col, Select, Space, Card, Form, Input, Button } from 'antd';
 
 
 const { Option } = Select;
@@ -7,7 +7,7 @@ function ClusterDashboard(props) {
     const [jobForm] = Form.useForm();
 
     function onSubmitClick(){
-
+        alert('job submit click');
     }
 
     let counter = 0;
@@ -30,7 +30,7 @@ function ClusterDashboard(props) {
                             <Col align="start">
                             <Card title="Data Node(s)">
                                 {props.Data.datanodes.map(element =>{
-                                    counter++
+                                    counter++;
                                     return <p><a href={element}>Data Node {counter} Manager</a></p>
                                 })}
                             </Card>

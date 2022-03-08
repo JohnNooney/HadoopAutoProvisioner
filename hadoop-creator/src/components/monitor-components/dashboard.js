@@ -5,12 +5,47 @@ const { Option } = Select;
 
 function ClusterDashboard(props) {
     const [jobForm] = Form.useForm();
+    let counter = 0;
 
     function onSubmitClick(){
         alert('job submit click');
+
+        // send job data to API
+        sendJob(jobForm.getFieldsValue());
     }
 
-    let counter = 0;
+    function sendJob(jobData){
+        const fetchRequest = {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+          }
+      
+          //append post data to body
+          console.log("job data: ", jobData);
+          fetchRequest.body = JSON.stringify({data: jobData});
+      
+          fetch('http://localhost:5000/command', fetchRequest)
+          .then(response => {
+              if(response.status >= 400){
+                  console.log(response)
+                  throw new Error('The HTTP status of the response: ' + response.status + ' ' + response.statusText)
+              }
+              else{
+                  return response.json()
+              }
+          })
+          .then(data => {
+              console.log('Success:', data);
+              if(data["payload"]){
+                console.log("received data: ", data["payload"]);
+              }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }
     
     return (
         <div className='cluster_monitor_dashboard'> 
@@ -76,7 +111,7 @@ function ClusterDashboard(props) {
                                     <Input.Group compact>
                                         <Form.Item 
                                             name={['job','type']} 
-                                            rules={[{required:true, message:'Job type required'}]}
+                                            rules={[{required:true, message:'Type required'}]}
                                         >
                                             <Select
                                                 showSearch
@@ -93,7 +128,7 @@ function ClusterDashboard(props) {
 
                                         <Form.Item
                                             name={['job','operation']} 
-                                            rules={[{required:true, message:'Job operation required'}]}
+                                            rules={[{required:true, message:'Operation required'}]}
                                         >
                                             <Select
                                                 showSearch
@@ -110,18 +145,34 @@ function ClusterDashboard(props) {
                                         </Form.Item>
 
                                         <Form.Item
-                                            name={['job','modifier']} 
+                                            name={['job','maps']} 
                                         >
                                             <Select
                                                 showSearch
-                                                placeholder="Modifier"
+                                                placeholder="Number of Maps"
                                                 optionFilterProp="children"
                                                 filterOption={(input, option) =>
                                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                 }
                                             >
-                                                <Option value="time_1">Run for 1 minute</Option>
-                                                <Option value="time_2">Run for 2 minutes</Option>
+                                                <Option value="10000">1000 Maps</Option>
+                                                <Option value="20000">2000 Maps</Option>
+                                            </Select>
+                                            
+                                        </Form.Item>
+                                        <Form.Item
+                                            name={['job','samples']} 
+                                        >
+                                            <Select
+                                                showSearch
+                                                placeholder="Samples per Map"
+                                                optionFilterProp="children"
+                                                filterOption={(input, option) =>
+                                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                }
+                                            >
+                                                <Option value="16">16 samples per map</Option>
+                                                <Option value="17">17 samples per map</Option>
                                             </Select>
                                             
                                         </Form.Item>

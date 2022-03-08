@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 import subprocess
+import ast
 
 # This endpoint takes care of sending commands to the Hadoop Cluster
 class Commander(Resource):
@@ -15,6 +16,8 @@ class Commander(Resource):
         args = parser.parse_args()  # parse arguments to dictionary
 
         print("POST incoming data: ", args['data'])
+        dict = ast.literal_eval(args['data'])
+        self.runJob(dict['job'])
 
         self.status = 200
         self.payload = {"payload": "test POST"}
@@ -30,3 +33,14 @@ class Commander(Resource):
                 'Access-Control-Allow-Methods': 'POST, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Content-Type': 'application/json'}
+
+    def runJob(self, jobData):
+        result = ''
+        if jobData["type"] == "spark":
+            print("starting spark job...")
+            subprocess.run(['docker', 'exec', 'hadoop-cluster-spark-1', 'spark-submit',
+                                              '--class', 'org.apache.spark.examples.SparkPi', '--master', 'yarn',
+                                              '--deploy-mode', 'cluster', 'examples/jars/spark-examples_2.11-2.0.2.jar',
+                                              '1000'])
+            # result = result.decode()
+            print("subprocess finished...")

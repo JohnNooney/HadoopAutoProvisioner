@@ -33,6 +33,11 @@
   margin: 1vh 5vw 1vh 5vw;
 }
 
+.flow{
+  width: 100vw;
+  height: 80vh;
+}
+
 .ButtonRequest Button{
   margin: 5vh 5vh 0vh 0vh;
 }

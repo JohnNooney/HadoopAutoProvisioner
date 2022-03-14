@@ -67,7 +67,7 @@ function ClusterMonitor(props) {
           <Col>
             <br/>
             <br/>
-            <h1>Monitor your cluster.</h1>
+            <h1>Monitor Your Cluster</h1>
           </Col>
         </Row>
         <Divider/>

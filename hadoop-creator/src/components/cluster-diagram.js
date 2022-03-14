@@ -10,7 +10,7 @@ function ClusterDiagram(props) {
             <Col>
             <br/>
             <br/>
-            <h1>Explore your cluster.</h1>
+            <h1>Explore Your Cluster</h1>
             </Col>
         </Row>
         </div> 
@@ -18,7 +18,7 @@ function ClusterDiagram(props) {
         
         <Divider/>
 
-        {props.clusterData == null ? <Empty description={<span>No cluster running...</span>}/> : <FlowDiagram/>}
+        {props.clusterData == null ? <Empty description={<span>No cluster running...</span>}/> : <FlowDiagram clusterData={props.clusterData}/>}
         
 
     </div>

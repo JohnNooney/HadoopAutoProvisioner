@@ -176,23 +176,24 @@ class Builder(Resource):
             volumesYaml = {**volumesYaml, 'datanode-vol'+str(i + 1): {}}
 
         # based on if the resource manager was enabled
-        if dict['yarn_resource_manager']:
+        if 'yarn_resource_manager' in dict:
             resourceManagerNodeYaml = {'resourcemanager': {'depends_on': ['namenode'], 'env_file': ['./hadoop.env'],
                                                            'hostname': 'resourcemanager.hadoop',
                                                            'image': 'uhopper/hadoop-resourcemanager',
                                                            'networks': ['hadoop'], 'ports': ['8088:8088']}}
         # based on how many node managers requested
-        for i in range(int(dict['yarn_node_managers'])):
-            # Node manager modifier
-            nodeManagerYaml = {**nodeManagerYaml,
-                               'nodemanager' + str(i + 1): {'depends_on': ['namenode', 'resourcemanager'],
-                                                            'env_file': ['./hadoop.env'],
-                                                            'hostname': 'nodemanager' + str(i + 1) + '.hadoop',
-                                                            'image': 'uhopper/hadoop-nodemanager',
-                                                            'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
+        if 'yarn_node_managers' in dict:
+            for i in range(int(dict['yarn_node_managers'])):
+                # Node manager modifier
+                nodeManagerYaml = {**nodeManagerYaml,
+                                   'nodemanager' + str(i + 1): {'depends_on': ['namenode', 'resourcemanager'],
+                                                                'env_file': ['./hadoop.env'],
+                                                                'hostname': 'nodemanager' + str(i + 1) + '.hadoop',
+                                                                'image': 'uhopper/hadoop-nodemanager',
+                                                                'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
 
         # based on if spark was enabled
-        if dict['extras_spark']:
+        if 'extras_spark' in dict:
             sparkYaml = {
                 'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env'], 'hostname': 'spark.hadoop',
                           'image': 'uhopper/hadoop-spark', 'networks': ['hadoop'],

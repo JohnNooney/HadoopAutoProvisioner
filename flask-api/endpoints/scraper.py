@@ -72,7 +72,7 @@ class Scraper(Resource):
         print("namenode port: ", nameNode, "\n")
 
         # get the yarn node's open port (resource manager)
-        if dict['yarn_resource_manager']:
+        if 'yarn_resource_manager' in dict:
             yarnNode = self.rootUrl+self.getContainerPort('hadoop-cluster-resourcemanager-1')
             print("yarn port: ", yarnNode, "\n")
 
@@ -85,7 +85,7 @@ class Scraper(Resource):
 
 
         # get the spark container's open port
-        if dict['extras_spark']:
+        if 'extras_spark' in dict:
             sparkNodePorts = self.getContainerPort('hadoop-cluster-spark-1')
 
             for port in sparkNodePorts:

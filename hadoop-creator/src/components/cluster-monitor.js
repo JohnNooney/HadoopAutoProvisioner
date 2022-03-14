@@ -1,4 +1,4 @@
-import {Row, Col, Divider, Empty  } from 'antd';
+import {Row, Col, Divider, Empty, Spin  } from 'antd';
 import { useEffect, useState } from 'react';
 import ClusterDashboard from './monitor-components/dashboard';
 
@@ -78,7 +78,16 @@ function ClusterMonitor(props) {
             <Button type='primary' onClick={onClick}>Test</Button>
           </Col>
       </Row> */}
-      {!clusterUrls || clusterUrlsLoading ?  <Empty description={clusterUrlsLoading ? <span>Getting cluster data...</span> : <span>No cluster running...</span>}/> : <ClusterDashboard Data={clusterUrls}/>} 
+      {!clusterUrls || clusterUrlsLoading ? 
+      <Empty description={clusterUrlsLoading ? <span>Getting cluster data...</span> : <span>No cluster running...</span>}/> 
+      : 
+      <ClusterDashboard Data={clusterUrls}/>} 
+      {clusterUrlsLoading?
+      <div>
+        <br/>
+        <Spin size='large'/>
+      </div>
+      :null}
     </div>
   );
 }

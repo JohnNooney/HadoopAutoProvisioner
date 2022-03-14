@@ -104,9 +104,6 @@ function ClusterBuilder(props) {
             <Form.Item name='name_node_cluster_name' label="Cluster Name">
               <Input placeholder="Name of Cluster" disabled={props.clusterData}/>
             </Form.Item>
-            <Form.Item name='name_node_secondary_name_node' label="Secondary Name Node" valuePropName="checked">
-              <Switch disabled={props.clusterData}/>
-            </Form.Item>
           
           </div>
 

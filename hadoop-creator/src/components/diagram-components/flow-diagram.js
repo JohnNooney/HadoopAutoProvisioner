@@ -62,7 +62,7 @@ function FlowDiagram(props) {
         //build namenode
         if(props.clusterData){
             console.log("adding name node to diagram list...");
-            var namenode = {id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 150, y: 0 }};
+            var namenode = {id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 180, y: 0 }};
             list.push(namenode);
         }
         
@@ -70,37 +70,53 @@ function FlowDiagram(props) {
         //build resource manager
         if(props.clusterData.yarn_resource_manager){
             console.log("adding resource manager to diagram list...");
-            var resourcemanager = {id: 'resourcemanager', data: { label: 'Resource Manager' }, position: { x: 150, y: 100 }};
+            var resourcemanager = {id: 'resourcemanager', data: { label: 'Resource Manager' }, position: { x: 180, y: 100 }};
             list.push(resourcemanager);
+
+            // create edge from name node to resource manager
         }
         
 
-        //build node managers
+        //build node managers (this will only work with a max of 3 nodes)
         if(props.clusterData.yarn_node_managers){
-            let nodeManagers = parseInt(props.clusterData.yarn_node_managers)
-
+            let nodeManagers = parseInt(props.clusterData.yarn_node_managers);
+            let spacingFactor = 90*(nodeManagers-1);
+            let startingX = 180 - spacingFactor;
             for (let i = 0; i < nodeManagers; i++) {
                 console.log("adding resource manager ", i+1 ," to diagram list...");
-                var nodemanager = {id: 'nodemanager-1', data: { label: 'Node Manager 1' }, position: { x: 0, y: 200 }};
+                
+                var nodemanager = {id: 'nodemanager-'+String(i+1), data: { label: 'Node Manager '+ String(i+1)}, position: { x: startingX, y: 200 }};
                 list.push(nodemanager);
+
+                // create edge from resource manager (if exists) to datanode otherwise name node to DataNode
+
+                startingX+=180;
             }
         }
 
-        //build data nodes
+        //build data nodes (this will only work with a max of 3 nodes)
         if(props.clusterData.data_node_workers){
             let dataNodes = parseInt(props.clusterData.data_node_workers)
+            let spacingFactor = 90*(dataNodes-1);
+            let startingX = 180 - spacingFactor;
+            let startingY = props.clusterData.yarn_node_managers ? 300 : 200;
 
             for (let i = 0; i < dataNodes; i++) {
                 console.log("adding data node ", i+1 ," to diagram list...");
-                var datanode = {};
+               
+                var datanode = {id: 'datanode-'+String(i+1), data: { label: 'Data Node '+ String(i+1)}, position: { x: startingX, y: startingY }};
                 list.push(datanode);
+
+                // create edge from node managers (if exists) to datanode otherwise from name node
+
+                startingX+=180;
             }
         }
 
         //build spark
         if(props.clusterData.extras_spark){
             console.log("adding spark to diagram list...");
-            var spark = {};
+            var spark = {id: 'spark', data: { label: 'Spark' }, position: { x: 430, y: 100 }};
             list.push(spark);
 
             // create edge from spark to resource manager

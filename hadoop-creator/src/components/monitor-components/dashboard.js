@@ -66,7 +66,7 @@ function ClusterDashboard(props) {
                             </Col>
                             }
 
-                            { props.Data.datanodes && 
+                            { props.Data.datanodes[0] &&
                             <Col align="start">
                             <Card title="Data Node(s)">
                                 {props.Data.datanodes.map(element =>{
@@ -85,10 +85,13 @@ function ClusterDashboard(props) {
                             </Col>
                             }
 
-                            {props.Data.spark && 
+                            {props.Data.spark[0] && 
                             <Col align="start">
                                 <Card title="Spark">
-                                    <p><a href={props.Data.spark} target="_blank">Spark UI</a></p>
+                                    {props.Data.spark.map(element =>{
+                                        counter++;
+                                        return <p><a href={element} target="_blank">Spark UI {counter}</a></p>
+                                    })}
                                 </Card>
                             </Col>
                             }
@@ -127,7 +130,8 @@ function ClusterDashboard(props) {
                                                 }
                                             >
                                                 {props.Data.yarn && <Option value="yarn">Yarn</Option>}
-                                                {props.Data.spark && <Option value="spark">Spark</Option>}
+                                                {props.Data.spark[0] && <Option value="spark">Spark</Option>}
+                                                <Option value="namenode">Name Node</Option>
                                             </Select>
                                         </Form.Item>
 

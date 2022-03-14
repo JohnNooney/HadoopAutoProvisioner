@@ -1,4 +1,5 @@
 import {Row, Col, Divider, Empty  } from 'antd';
+import FlowDiagram from './diagram-components/flow-diagram';
 
 function ClusterDiagram(props) {
     
@@ -17,7 +18,8 @@ function ClusterDiagram(props) {
         
         <Divider/>
 
-        {props.clusterData == null ? <Empty description={<span>No cluster running...</span>}/> : null}
+        {props.clusterData == null ? <Empty description={<span>No cluster running...</span>}/> : <FlowDiagram/>}
+        
 
     </div>
     );

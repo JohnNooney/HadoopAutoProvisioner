@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ReactFlow, {
   removeElements,
@@ -9,6 +9,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 
 function FlowDiagram(props) {
+
     const initialElements = [
         { id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 180, y: 0 } },
         { id: 'resourcemanager', data: { label: 'Resource Manager' }, position: { x: 180, y: 100 } },
@@ -62,7 +63,8 @@ function FlowDiagram(props) {
         //build namenode
         if(props.clusterData){
             console.log("adding name node to diagram list...");
-            var namenode = {id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 180, y: 0 }};
+            var startingY = props.clusterData.yarn_resource_manager ? 0 : 100;
+            var namenode = {id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 180, y: startingY }};
             list.push(namenode);
         }
         
@@ -74,6 +76,8 @@ function FlowDiagram(props) {
             list.push(resourcemanager);
 
             // create edge from name node to resource manager
+            var resourcemanagerEdge = { id: 'edges-nn-rm', source: 'namenode', target: 'resourcemanager', type: 'smoothstep', };
+            list.push(resourcemanagerEdge);
         }
         
 
@@ -89,6 +93,8 @@ function FlowDiagram(props) {
                 list.push(nodemanager);
 
                 // create edge from resource manager (if exists) to datanode otherwise name node to DataNode
+                var nodemanagerEdge = {id: 'edges-rm-nm'+String(i+1), source: 'resourcemanager', target: 'nodemanager-'+String(i+1), type: 'smoothstep' };
+                list.push(nodemanagerEdge);
 
                 startingX+=180;
             }
@@ -108,6 +114,14 @@ function FlowDiagram(props) {
                 list.push(datanode);
 
                 // create edge from node managers (if exists) to datanode otherwise from name node
+                var datanodeEdge = {};
+                if(props.clusterData.yarn_node_managers){
+                    datanodeEdge = { id: 'edges-nm'+String(i+1)+'-dn'+String(i+1), source: 'nodemanager-'+String(i+1), target: 'datanode-'+String(i+1), type: 'smoothstep' }
+                }
+                else{
+                    datanodeEdge = { id: 'edges-nn-dn'+String(i+1), source: 'namenode', target: 'datanode-'+String(i+1), type: 'smoothstep' }
+                }
+                list.push(datanodeEdge);
 
                 startingX+=180;
             }
@@ -120,6 +134,8 @@ function FlowDiagram(props) {
             list.push(spark);
 
             // create edge from spark to resource manager
+            var sparkEdge = { id: 'edges-s-rm', source: 'spark', target: 'resourcemanager', type: 'smoothstep' }
+            list.push(sparkEdge);
         }
         
         console.log("diagram list: ", list);
@@ -127,8 +143,8 @@ function FlowDiagram(props) {
     }
 
     function onLoad(reactFlowInstance){
-        buildDiagram();
-        //setElements(buildDiagram());
+        setElements(buildDiagram());
+        console.log("dynamic list has been set");
         reactFlowInstance.fitView();
     }
 

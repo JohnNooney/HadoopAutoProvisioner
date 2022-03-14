@@ -9,14 +9,14 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 
 function FlowDiagram(props) {
-    //let clusterElements = [];
     const initialElements = [
-        { id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 150, y: 0 } },
-        { id: 'resourcemanager', data: { label: 'Resource Manager' }, position: { x: 150, y: 100 } },
-        { id: 'nodemanager-1', data: { label: 'Node Manager 1' }, position: { x: 0, y: 200 } },
-        { id: 'nodemanager-2', data: { label: 'Node Manager 2' }, position: { x: 300, y: 200 } },
-        { id: 'datanode-1', data: { label: 'Data Node 1' }, position: { x: 0, y: 300 } },
-        { id: 'datanode-2', data: { label: 'Data Node 2' }, position: { x: 300, y: 300 } },
+        { id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 180, y: 0 } },
+        { id: 'resourcemanager', data: { label: 'Resource Manager' }, position: { x: 180, y: 100 } },
+        { id: 'nodemanager-1', data: { label: 'Node Manager 1' }, position: { x: 30, y: 200 } },
+        { id: 'nodemanager-2', data: { label: 'Node Manager 2' }, position: { x: 330, y: 200 } },
+        { id: 'datanode-1', data: { label: 'Data Node 1' }, position: { x: 30, y: 300 } },
+        { id: 'datanode-2', data: { label: 'Data Node 2' }, position: { x: 330, y: 300 } },
+        { id: 'spark', data: { label: 'Spark' }, position: { x: 430, y: 100 } },
         {
           id: 'edges-nn-rm',
           source: 'namenode',
@@ -47,36 +47,72 @@ function FlowDiagram(props) {
           target: 'datanode-2',
           type: 'smoothstep',
         },
+        {
+            id: 'edges-s-rm',
+            source: 'spark',
+            target: 'resourcemanager',
+            type: 'smoothstep',
+        },
     ];
     const [elements, setElements] = useState(initialElements);
 
-    function buildDiagram(list){
+    function buildDiagram(){
+        let list = [];
 
         //build namenode
-        var namenode = {};
-        list.push(namenode);
+        if(props.clusterData){
+            console.log("adding name node to diagram list...");
+            var namenode = {id: 'namenode', type: 'input', data: { label: 'Name Node' }, position: { x: 150, y: 0 }};
+            list.push(namenode);
+        }
+        
 
         //build resource manager
-        var resourcemanager = {};
-        list.push(resourcemanager);
+        if(props.clusterData.yarn_resource_manager){
+            console.log("adding resource manager to diagram list...");
+            var resourcemanager = {id: 'resourcemanager', data: { label: 'Resource Manager' }, position: { x: 150, y: 100 }};
+            list.push(resourcemanager);
+        }
+        
 
         //build node managers
-        var nodemanager = {};
-        list.push(nodemanager);
+        if(props.clusterData.yarn_node_managers){
+            let nodeManagers = parseInt(props.clusterData.yarn_node_managers)
+
+            for (let i = 0; i < nodeManagers; i++) {
+                console.log("adding resource manager ", i+1 ," to diagram list...");
+                var nodemanager = {id: 'nodemanager-1', data: { label: 'Node Manager 1' }, position: { x: 0, y: 200 }};
+                list.push(nodemanager);
+            }
+        }
 
         //build data nodes
-        var datanode = {};
-        list.push(datanode);
+        if(props.clusterData.data_node_workers){
+            let dataNodes = parseInt(props.clusterData.data_node_workers)
+
+            for (let i = 0; i < dataNodes; i++) {
+                console.log("adding data node ", i+1 ," to diagram list...");
+                var datanode = {};
+                list.push(datanode);
+            }
+        }
 
         //build spark
-        var spark = {};
-        list.push(spark);
+        if(props.clusterData.extras_spark){
+            console.log("adding spark to diagram list...");
+            var spark = {};
+            list.push(spark);
 
+            // create edge from spark to resource manager
+        }
+        
+        console.log("diagram list: ", list);
         return list;
     }
 
     function onLoad(reactFlowInstance){
-        //set buildDiagram()
+        buildDiagram();
+        //setElements(buildDiagram());
         reactFlowInstance.fitView();
     }
 

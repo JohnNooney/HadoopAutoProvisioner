@@ -1,12 +1,13 @@
 import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space  } from 'antd';
 import ButtonRequest from './button-request';
+import { useState } from 'react';
 
 const { Option } = Select;
 
 // props.clusterData is used for keeping the cluster data state
 // props.clusterSetter is used for setting the cluster data state
 function ClusterBuilder(props) {
-  // const [activeSelector, setActiveSelector] = useState("");
+  const [yarnEnabled, setYarnEnabled] = useState(false);
   const [form] = Form.useForm();
   form.setFieldsValue(props.clusterData);
   const defaultData={
@@ -32,6 +33,10 @@ function ClusterBuilder(props) {
     console.log(`selected ${value}`);
   }
 
+  function yarnSwitchChange(value){
+    setYarnEnabled(value);
+  }
+
   // Not in use - using custom button instead
   function onSubmitClick(values){
     console.log(values);
@@ -41,11 +46,14 @@ function ClusterBuilder(props) {
 
   function onFill(){
     form.setFieldsValue(defaultData);
+    // set yarn switch state
+    yarnSwitchChange(defaultData.yarn_resource_manager);
     //props.clusterSetter(defaultData);
   }
 
   function onReset(){
     form.resetFields();
+    yarnSwitchChange();
     //props.clusterSetter(form.getFieldsValue());
   }
 
@@ -139,10 +147,11 @@ function ClusterBuilder(props) {
             <br/>
             
             <Form.Item name='yarn_resource_manager' label="Resource Manager" valuePropName="checked">
-              <Switch disabled={props.clusterData}/>
+              <Switch disabled={props.clusterData}  onChange={yarnSwitchChange}/>
             </Form.Item>
+            {yarnEnabled ? 
             <Form.Item name='yarn_node_managers' label="Node Managers">
-            <Select
+              <Select
                 showSearch
                 placeholder="Number of Node Managers"
                 optionFilterProp="children"
@@ -156,10 +165,11 @@ function ClusterBuilder(props) {
                 <Option value="2">Two</Option>
                 <Option value="3">Three</Option>
               </Select>
-            </Form.Item>
+            </Form.Item> : null}
+            
           </div>
          
-
+          {yarnEnabled ?
           <div className='extras_config'>
             <Divider />
             <Row justify="start" align="bottom">
@@ -176,6 +186,9 @@ function ClusterBuilder(props) {
               <Switch disabled={props.clusterData}/>
             </Form.Item>
           </div>
+          : null}
+
+          <br/>
           
           {props.clusterData == null ?
           <div className='cluster_builder_submit'>

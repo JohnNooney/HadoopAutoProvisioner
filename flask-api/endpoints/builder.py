@@ -92,8 +92,6 @@ class Builder(Resource):
         print("dict: ", dict)
         print("Cluster Name: ", dict["name_node_cluster_name"])
 
-        self.storeDict(dict)
-
         # map each dict value to environment variables to be used in the docker compose
         self.writeEnv(dict)
 
@@ -101,18 +99,25 @@ class Builder(Resource):
         self.loadYaml()
         self.writeYaml(dict)
 
+        # TODO: surround this with a try/catch later on
         # docker - compose - f ./hadoop-cluster/docker-compose.yml up - d
-        #result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-docker-compose.yml', 'up', '-d'])
-        #print("subprocess response: " + result.decode())
-        #return result.decode()
-        return "test"
+        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'up', '-d'])
+        print("subprocess response: " + result.decode())
+
+        self.storeDict(dict)
+
+        return result.decode()
+        # return "test"
 
     def stopCluster(self):
+
+        result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/docker-compose.yml', 'down', '-v'])
+        print("subprocess response: " + result.decode())
+
         self.deleteDict()
-        # result = subprocess.check_output(['docker', 'compose', '-f', 'hadoop-cluster/base-docker-compose.yml', 'down'])
-        # print("subprocess response: " + result.decode())
-        # return result.decode()
-        return "test"
+
+        return result.decode()
+        # return "test"
 
     # store dictionary sent by UI. Used to restore state
     def storeDict(self, dict):

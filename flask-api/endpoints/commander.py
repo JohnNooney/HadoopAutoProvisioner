@@ -38,7 +38,7 @@ class Commander(Resource):
         result = ''
         if jobData["type"] == "spark":
             print("starting spark job...")
-            subprocess.run(['docker', 'exec', 'hadoop-cluster-spark-1', 'spark-submit',
+            subprocess.run(['docker', 'exec', 'hadoop-cluster_spark_1', 'spark-submit',
                                               '--class', 'org.apache.spark.examples.SparkPi', '--master', 'yarn',
                                               '--deploy-mode', 'cluster', 'examples/jars/spark-examples_2.11-2.0.2.jar',
                                               '1000'])

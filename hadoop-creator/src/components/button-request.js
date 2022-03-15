@@ -38,7 +38,7 @@ function buttonClick(props){
     if(props.postData && props.form){
         //append form data
         props.postData.data = props.form.getFieldsValue();
-        alert(JSON.stringify(props.postData, null, 2));
+        // alert(JSON.stringify(props.postData, null, 2));
 
         fetchRequest.body = JSON.stringify(props.postData)
     }

@@ -186,23 +186,24 @@ class Builder(Resource):
                                                            'hostname': 'resourcemanager.hadoop',
                                                            'image': 'uhopper/hadoop-resourcemanager',
                                                            'networks': ['hadoop'], 'ports': ['8088:8088']}}
-        # based on how many node managers requested
-        if 'yarn_node_managers' in dict:
-            for i in range(int(dict['yarn_node_managers'])):
-                # Node manager modifier
-                nodeManagerYaml = {**nodeManagerYaml,
-                                   'nodemanager' + str(i + 1): {'depends_on': ['namenode', 'resourcemanager'],
-                                                                'env_file': ['./hadoop.env'],
-                                                                'hostname': 'nodemanager' + str(i + 1) + '.hadoop',
-                                                                'image': 'uhopper/hadoop-nodemanager',
-                                                                'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
 
-        # based on if spark was enabled
-        if 'extras_spark' in dict:
-            sparkYaml = {
-                'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env'], 'hostname': 'spark.hadoop',
-                          'image': 'uhopper/hadoop-spark', 'networks': ['hadoop'],
-                          'ports': ['4040:4040', '9000:9000', '8080:8080']}}
+            # based on how many node managers requested
+            if 'yarn_node_managers' in dict:
+                for i in range(int(dict['yarn_node_managers'])):
+                    # Node manager modifier
+                    nodeManagerYaml = {**nodeManagerYaml,
+                                       'nodemanager' + str(i + 1): {'depends_on': ['namenode', 'resourcemanager'],
+                                                                    'env_file': ['./hadoop.env'],
+                                                                    'hostname': 'nodemanager' + str(i + 1) + '.hadoop',
+                                                                    'image': 'uhopper/hadoop-nodemanager',
+                                                                    'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
+
+            # based on if spark was enabled
+            if 'extras_spark' in dict:
+                sparkYaml = {
+                    'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env'], 'hostname': 'spark.hadoop',
+                              'image': 'uhopper/hadoop-spark', 'networks': ['hadoop'],
+                              'ports': ['4040:4040', '9000:9000', '8080:8080']}}
 
         # combine data node yaml with the services already in the docker-compose
         newYamlData = {'services': {**dataNodeYaml, **resourceManagerNodeYaml, **nodeManagerYaml, **sparkYaml, **preUpdateServices},

@@ -85,6 +85,7 @@ function ClusterDashboard(props) {
                             </Col>
                             }
 
+                            {/* Spark dashboard is inaccessible
                             {props.Data.spark[0] && 
                             <Col align="start">
                                 <Card title="Spark">
@@ -94,7 +95,7 @@ function ClusterDashboard(props) {
                                     })}
                                 </Card>
                             </Col>
-                            }
+                            } */}
                         </Row>
                     </Card>
                 </Col>
@@ -131,7 +132,7 @@ function ClusterDashboard(props) {
                                             >
                                                 {props.Data.yarn && <Option value="yarn">Yarn</Option>}
                                                 {props.Data.spark[0] && <Option value="spark">Spark</Option>}
-                                                <Option value="namenode">Name Node</Option>
+                                                <Option value="hadoop">Hadoop</Option>
                                             </Select>
                                         </Form.Item>
 
@@ -154,7 +155,7 @@ function ClusterDashboard(props) {
                                         </Form.Item>
 
                                         <Form.Item
-                                            name={['job','maps']} 
+                                            name={['job','mod1']} 
                                         >
                                             <Select
                                                 showSearch
@@ -170,7 +171,7 @@ function ClusterDashboard(props) {
                                             
                                         </Form.Item>
                                         <Form.Item
-                                            name={['job','samples']} 
+                                            name={['job','mod2']} 
                                         >
                                             <Select
                                                 showSearch

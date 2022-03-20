@@ -28,6 +28,19 @@ function Contents(props) {
                                 <Text>In this page you will find information on how this application works</Text>
                             </Col>
                         </Row>
+
+                        <Divider />
+
+                        <Row justify="start" align="middle">
+                            <Col>
+                                <Title>Quick Start Guide</Title>
+                            </Col>
+                        </Row>
+                        <Row justify="start" align="middle">
+                            <Col>
+                                <Text>Follow these simple steps in order to get a Hadoop cluster up fast.</Text>
+                            </Col>
+                        </Row>
                     </div> 
                 </Content>
             }

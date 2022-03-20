@@ -20,6 +20,11 @@ function ButtonRequest(props) {
 
 function buttonClick(props){
 
+    if(props.loadingCallback){
+        // set useState loading
+        props.loadingCallback(true);
+    }
+
      // POST start notification
      const notif = {
         "type":"info", 
@@ -84,6 +89,7 @@ function buttonClick(props){
         }
         openNotification(notif);
     })
+    .finally(() => {if(props.loadingCallback){props.loadingCallback(false);}})
     .catch((error) => {
         console.error('Error:', error);
         // error message to user

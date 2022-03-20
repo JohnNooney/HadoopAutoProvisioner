@@ -1,11 +1,21 @@
 import {Row, Col, Divider, Typography , Layout, Menu, Breadcrumb  } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import Contents from './home-components/contents';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 const { Title, Text } = Typography;
 
 function Home(props) {
+    const [content, setContent] = useState(['welcome']);
+    const [menuItem, setMenuItem] = useState({keyPath:["welcome"]});
+
+    function onSelect(props){
+        console.log(props);
+        setContent(props.key);
+        setMenuItem(props)
+    }
     
     return (
         <div className="home">
@@ -13,34 +23,29 @@ function Home(props) {
                 <Sider>
                     <Menu
                         style={{height:"96vh"}}
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
+                        selectedKeys={content}
+                        onSelect={onSelect}
                         mode='inline'
                         theme='light'
                         >
-                        <Menu.Item key="1">
-                            Navigation One
+                        <Menu.Item key="welcome">
+                            Welcome
                         </Menu.Item>
-                        <Menu.Item key="2" >
-                            Navigation Two
-                        </Menu.Item>
-                        <SubMenu key="sub1"  title="Navigation Two">
-                                <Menu.Item key="3">Option 3</Menu.Item>
-                                <Menu.Item key="4">Option 4</Menu.Item>
-                            <SubMenu key="sub1-2" title="Submenu">
-                                <Menu.Item key="5">Option 5</Menu.Item>
-                                <Menu.Item key="6">Option 6</Menu.Item>
-                            </SubMenu>
+                        <SubMenu key="user guide"  title="User Guide">
+                                <Menu.Item key="builder">Builder</Menu.Item>
+                                <Menu.Item key="diagram">Diagram</Menu.Item>
+                                <Menu.Item key="monitor">Monitoring</Menu.Item>
                         </SubMenu>
-                        <SubMenu key="sub2"  title="Navigation Three">
-                            <Menu.Item key="7">Option 7</Menu.Item>
-                            <Menu.Item key="8">Option 8</Menu.Item>
-                            <Menu.Item key="9">Option 9</Menu.Item>
-                            <Menu.Item key="10">Option 10</Menu.Item>
+                        <SubMenu key="hadoop"  title="Hadoop">
+                            <Menu.Item key="overview">Overview</Menu.Item>
+                            <Menu.Item key="name node">Name Node</Menu.Item>
+                            <Menu.Item key="data node">Data Node</Menu.Item>
+                            <Menu.Item key="yarn">YARN</Menu.Item>
+                            <Menu.Item key="spark">Spark</Menu.Item>
                         </SubMenu>
                         <Menu.Item key="link" >
-                            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                                Ant Design
+                            <a href="https://github.com/JohnNooney/HadoopAutoProvisioner" target="_blank" rel="noopener noreferrer">
+                                Source Code
                             </a>
                         </Menu.Item>
                     </Menu>
@@ -51,27 +56,15 @@ function Home(props) {
                         <Breadcrumb.Item href="">
                             <HomeOutlined/>
                         </Breadcrumb.Item>
-                        <Breadcrumb.Item>Application</Breadcrumb.Item>
+                        {menuItem.keyPath[1] &&
+                            <Breadcrumb.Item>{menuItem.keyPath[1]}</Breadcrumb.Item>
+                        }
+                        {menuItem.keyPath[0] &&
+                            <Breadcrumb.Item>{menuItem.keyPath[0]}</Breadcrumb.Item>
+                        }
                     </Breadcrumb>
-                    <Content className='home_content'>
-                        <div className='home_title'> 
-                            <Row justify="start" align="middle">
-                                <Col>
-                                    <br/>
-                                    <br/>
-                                    <Title>Welcome to Auto Hadoop Provisioner</Title>
-                                </Col>
-                            </Row>
-
-                            <Divider />
-                            
-                            <Row justify="start" align="middle">
-                                <Col>
-                                    <Text>In this page you will find information on how this application works</Text>
-                                </Col>
-                            </Row>
-                        </div> 
-                    </Content>
+                    
+                    <Contents contentKey={content}/>
                 </Layout>
             </Layout>
         </div>

@@ -183,9 +183,9 @@ function ClusterBuilder(props) {
             <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
               <Switch disabled={props.clusterData}/>
             </Form.Item>
-            <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
+            {/* <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
               <Switch disabled={props.clusterData}/>
-            </Form.Item>
+            </Form.Item> */}
           </div>
           : null}
 

@@ -1,6 +1,6 @@
-import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space  } from 'antd';
+import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space, Spin  } from 'antd';
 import ButtonRequest from './button-request';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const { Option } = Select;
 
@@ -9,6 +9,8 @@ const { Option } = Select;
 function ClusterBuilder(props) {
   const [yarnEnabled, setYarnEnabled] = useState(false);
   const [form] = Form.useForm();
+  const [isShutdownLoading, setIsShutdownLoading] = useState(false);
+
   form.setFieldsValue(props.clusterData);
   const defaultData={
     data_node_workers:'1',
@@ -21,7 +23,9 @@ function ClusterBuilder(props) {
     yarn_resource_manager:true,
   };
 
-
+  useEffect(() => {
+    setYarnEnabled(form.getFieldValue("yarn_resource_manager"));
+  },[form])
 
   function dataNodeChange(value) {
     //setActiveSelector(value);
@@ -215,19 +219,25 @@ function ClusterBuilder(props) {
 
           <div className='cluster_builder_destroy'>
             <Row justify='center' align='middle'>
-              <Col>
-                {props.clusterData != null ? <ButtonRequest
-                  requestType = "POST"
-                  buttonText="Stop Cluster"
-                  buttonColor="danger"
-                  notificationCustomMsg = "Please wait for your cluster to stop..."
-                  displayPayload = "true"
-                  payloadCustomMsg = "Tearing down now: "
-                  form = {form}
-                  postData = {{"type":"stop"}}
-                  clusterSetter = {props.clusterSetter}
-                /> : null}
-              </Col>
+              <Space>
+                <Col>
+                  {props.clusterData != null ? <ButtonRequest
+                    requestType = "POST"
+                    buttonText="Stop Cluster"
+                    buttonColor="danger"
+                    notificationCustomMsg = "Please wait for your cluster to stop..."
+                    displayPayload = "true"
+                    payloadCustomMsg = "Tearing down now: "
+                    form = {form}
+                    postData = {{"type":"stop"}}
+                    clusterSetter = {props.clusterSetter}
+                    loadingCallback = {setIsShutdownLoading}
+                  /> : null}
+                </Col>
+                <Col>
+                    {isShutdownLoading && <Spin/>}
+                </Col>
+              </Space>
             </Row>
           </div>
 

@@ -4,6 +4,7 @@ services:
   namenode:
     env_file:
     - ./hadoop.env
+    - ./user_hadoop.env
     environment:
     - CLUSTER_NAME=autohadoop
     hostname: namenode.hadoop

@@ -1,5 +1,5 @@
 import {Row, Col, Select, Space, Card, Form, Input, Button, Spin, Alert } from 'antd';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 
 const { Option } = Select;
@@ -7,6 +7,7 @@ const { Option } = Select;
 function ClusterDashboard(props) {
     const [isJobLoading, setIsJobLoading] = useState(false);
     const [jobForm] = Form.useForm();
+    const [operation, setOperation] = useState();
     let counter = 0;
 
     function onSubmitClick(){
@@ -14,6 +15,29 @@ function ClusterDashboard(props) {
 
         // send job data to API
         sendJob(jobForm.getFieldsValue());
+    }
+
+    function onOperationSelect(props)
+    {
+        setOperation(props);
+    }
+
+    function getMod1Placeholder()
+    {
+        var placeholder = "";
+
+        if(operation === "pi"){
+            placeholder = "Number of Maps";
+        }
+        else if(operation === "terasort"){
+            placeholder = "Bytes of Data";
+        }
+        return placeholder;
+    }
+
+    function getMod2Placeholder()
+    {
+
     }
 
     function sendJob(jobData){
@@ -142,6 +166,7 @@ function ClusterDashboard(props) {
                                         >
                                             <Select
                                                 showSearch
+                                                onSelect={onOperationSelect}
                                                 placeholder="Operation"
                                                 optionFilterProp="children"
                                                 filterOption={(input, option) =>
@@ -149,43 +174,58 @@ function ClusterDashboard(props) {
                                                 }
                                             >
                                                 <Option value="pi">Pi</Option>
-                                                <Option value="map_reduce">Map Reduce</Option>
+                                                <Option value="terasort">Terasort</Option>
                                             </Select>
                                             
                                         </Form.Item>
-
-                                        <Form.Item
+                                        
+                                        {operation &&
+                                            <Form.Item
                                             name={['job','mod1']} 
-                                        >
-                                            <Select
-                                                showSearch
-                                                placeholder="Number of Maps"
-                                                optionFilterProp="children"
-                                                filterOption={(input, option) =>
-                                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                                }
                                             >
-                                                <Option value="10000">1000 Maps</Option>
-                                                <Option value="20000">2000 Maps</Option>
-                                            </Select>
-                                            
-                                        </Form.Item>
-                                        <Form.Item
-                                            name={['job','mod2']} 
-                                        >
-                                            <Select
-                                                showSearch
-                                                placeholder="Samples per Map"
-                                                optionFilterProp="children"
-                                                filterOption={(input, option) =>
-                                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                                }
-                                            >
-                                                <Option value="16">16 samples per map</Option>
-                                                <Option value="17">17 samples per map</Option>
-                                            </Select>
-                                            
-                                        </Form.Item>
+                                                <Select
+                                                    showSearch
+                                                    placeholder={getMod1Placeholder}
+                                                    optionFilterProp="children"
+                                                    filterOption={(input, option) =>
+                                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                    }
+                                                >
+                                                    { operation === "pi" &&
+                                                        <React.Fragment>
+                                                            <Option value="10000">1000 Maps</Option>
+                                                            <Option value="20000">2000 Maps</Option>
+                                                        </React.Fragment>
+                                                    }
+                                                    { operation === "terasort" &&
+                                                        <React.Fragment>
+                                                            <Option value="100000">1 Gigabyte</Option>
+                                                            <Option value="1000000">10 Gigabytes</Option>
+                                                        </React.Fragment>
+                                                    }
+                                                    
+                                                </Select>
+                                                
+                                            </Form.Item>
+                                        }
+                                        
+
+                                        { operation === "pi" &&
+                                            <Form.Item name={['job','mod2']} >
+                                                <Select
+                                                    showSearch
+                                                    placeholder="Samples per Map"
+                                                    optionFilterProp="children"
+                                                    filterOption={(input, option) =>
+                                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                    }
+                                                >
+                                                    <Option value="16">16 samples per map</Option>
+                                                    <Option value="17">17 samples per map</Option>
+                                                </Select>
+                                            </Form.Item>
+                                        }
+                                        
                                     </Input.Group>
                                 </Form.Item>
 

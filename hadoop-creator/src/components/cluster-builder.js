@@ -10,6 +10,8 @@ function ClusterBuilder(props) {
   const [yarnEnabled, setYarnEnabled] = useState(false);
   const [form] = Form.useForm();
   const [isShutdownLoading, setIsShutdownLoading] = useState(false);
+  const [workerNodeCount, setWorkerNodeCount] = useState();
+  //const [workerManagerNodeCount, setWorkerManagerNodeCount] = useState();
 
   form.setFieldsValue(props.clusterData);
   const defaultData={
@@ -27,21 +29,16 @@ function ClusterBuilder(props) {
     setYarnEnabled(form.getFieldValue("yarn_resource_manager"));
   },[form])
 
+
   function dataNodeChange(value) {
     //setActiveSelector(value);
-    console.log(`selected ${value}`);
-  }
-
-  function yarnNodeChange(value) {
-    //setActiveSelector(value);
-    console.log(`selected ${value}`);
+    setWorkerNodeCount(value)
   }
 
   function yarnSwitchChange(value){
     setYarnEnabled(value);
   }
 
-  // Not in use - using custom button instead
   function onSubmitClick(values){
     console.log(values);
     //alert(JSON.stringify(form.getFieldsValue(), null, 2));
@@ -60,6 +57,10 @@ function ClusterBuilder(props) {
     yarnSwitchChange();
     //props.clusterSetter(form.getFieldsValue());
   }
+
+  const validateMessages = {
+    required: '${label} is required!',
+  };
 
   return (
     <div className="cluster_builder">
@@ -95,6 +96,7 @@ function ClusterBuilder(props) {
           layout="horizontal"
           form={form}
           onFinish={onSubmitClick}
+          validateMessages={validateMessages}
         >
           <div className='name_node_config'>
             <Divider />
@@ -105,7 +107,11 @@ function ClusterBuilder(props) {
             </Row>
             <br/>
 
-            <Form.Item name='name_node_cluster_name' label="Cluster Name">
+            <Form.Item 
+            name='name_node_cluster_name' 
+            label="Cluster Name" 
+            rules={[{ required: true }]}
+            >
               <Input placeholder="Name of Cluster" disabled={props.clusterData}/>
             </Form.Item>
           
@@ -120,7 +126,14 @@ function ClusterBuilder(props) {
             </Row>
             <br/>
 
-            <Form.Item name='data_node_workers' label="Worker Nodes">
+            <Form.Item 
+            name='data_node_workers' 
+            label="Worker Nodes"
+            rules={[
+              { 
+                required: true,
+              }
+            ]}>
               <Select
                 showSearch
                 placeholder="Number of Worker Nodes"
@@ -151,12 +164,27 @@ function ClusterBuilder(props) {
               <Switch disabled={props.clusterData}  onChange={yarnSwitchChange}/>
             </Form.Item>
             {yarnEnabled ? 
-            <Form.Item name='yarn_node_managers' label="Node Managers">
+            <Form.Item 
+            name='yarn_node_managers' 
+            label="Node Managers"
+            rules={[
+              { 
+                required: true,
+              },
+              ({getFieldValue}) => ({
+                validator(_, value){
+                  if (value == getFieldValue("data_node_workers")){
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Node Manager and Data Node count need to match"));
+                },
+              }),
+            ]}>
               <Select
                 showSearch
                 placeholder="Number of Node Managers"
                 optionFilterProp="children"
-                onChange={yarnNodeChange}
+                defaultValue={workerNodeCount}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
@@ -181,6 +209,9 @@ function ClusterBuilder(props) {
             <br/>
 
             <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
+              <Switch disabled={props.clusterData}/>
+            </Form.Item>
+            <Form.Item name='extras_historyserver' label="History Server" valuePropName="checked">
               <Switch disabled={props.clusterData}/>
             </Form.Item>
             {/* <Form.Item name='extras_spark_notebook' label="Spark Notebook" valuePropName="checked">
@@ -208,6 +239,7 @@ function ClusterBuilder(props) {
                       form = {form}
                       postData = {{"type":"cluster"}}
                       clusterSetter = {props.clusterSetter}
+                      formButton = {true}
                     />
                     <Button htmlType="button" onClick={onFill}>Fill</Button>
                     <Button type="link" onClick={onReset}>Reset</Button>
@@ -223,7 +255,7 @@ function ClusterBuilder(props) {
                 <Col>
                   {props.clusterData != null ? <ButtonRequest
                     requestType = "POST"
-                    buttonText="Stop Cluster"
+                    buttonText={isShutdownLoading ? "Stopping Cluster": "Stop Cluster"}
                     buttonColor="danger"
                     notificationCustomMsg = "Please wait for your cluster to stop..."
                     displayPayload = "true"
@@ -232,6 +264,7 @@ function ClusterBuilder(props) {
                     postData = {{"type":"stop"}}
                     clusterSetter = {props.clusterSetter}
                     loadingCallback = {setIsShutdownLoading}
+                    disableButton = {isShutdownLoading}
                   /> : null}
                 </Col>
                 <Col>

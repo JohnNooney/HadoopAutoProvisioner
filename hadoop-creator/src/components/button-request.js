@@ -1,4 +1,4 @@
-import {Button, notification} from 'antd';
+import {Button, Form, notification} from 'antd';
 
 // Button that sends a request to the API
 // can customize based on props provided
@@ -10,12 +10,17 @@ import {Button, notification} from 'antd';
 // props.displayPayload = true/false
 // props.payloadCustomMsg = "Your container ID: " *will be prepended to string that displays payload
 // props.clusterSetter keeps track of cluster data state (only set on success)
+// props.formButton = true/false 
 function ButtonRequest(props) {
-  return (
-    <div className="DockerRun">
-          <Button type={props.buttonColor} onClick={() => buttonClick(props)} >{props.buttonText}</Button>
-    </div>
-  );
+    return (
+        <div className="DockerRun">
+            {props.formButton ? 
+            <Button htmlType='submit' type={props.buttonColor} onClick={() => buttonClick(props)} >{props.buttonText}</Button>
+            : 
+            <Button type={props.buttonColor} disabled={props.disableButton} onClick={() => buttonClick(props)} >{props.buttonText}</Button>
+            }  
+        </div>
+    );
 }
 
 function buttonClick(props){

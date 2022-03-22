@@ -142,7 +142,17 @@ class Builder(Resource):
     # write Hadoop cluster data to .env file
     def writeEnv(self, dict):
         with open("./hadoop-cluster/user_hadoop.env", "w") as f:
-            f.write("CLUSTER_NAME="+dict["name_node_cluster_name"])
+            f.write("CLUSTER_NAME="+dict["name_node_cluster_name"]+"\n")
+            
+            if 'extras_historyserver' in dict:
+                if dict['extras_historyserver']:
+                    f.write("YARN_CONF_yarn_log_server_url=http://historyserver.hadoop:8188/applicationhistory/logs/"+"\n")
+                    f.write("YARN_CONF_yarn_timeline___service_enabled=true"+"\n")
+                    f.write("YARN_CONF_yarn_timeline___service_generic___application___history_enabled=true"+"\n")
+                    f.write("YARN_CONF_yarn_resourcemanager_system___metrics___publisher_enabled=true"+"\n")
+
+                    f.write("YARN_CONF_yarn_resourcemanager_hostname=resourcemanager.hadoop"+"\n")
+                    f.write("YARN_CONF_yarn_timeline___service_hostname=resourcemanager.hadoop"+"\n")
 
     # load yaml from docker-compose only first time
     def loadYaml(self):
@@ -166,6 +176,7 @@ class Builder(Resource):
         dataNodeYaml = {}
         volumesYaml = {}
         resourceManagerNodeYaml = {}
+        historyServerYaml = {}
         nodeManagerYaml = {}
         sparkYaml = {}
 
@@ -177,12 +188,12 @@ class Builder(Resource):
                                                                       'networks': ['hadoop'],
                                                                       'depends_on': ['namenode'],
                                                                       'volumes': ['datanode-vol'+str(i + 1)+':/hadoop/dfs/data'],
-                                                                      'env_file': ['./hadoop.env']}}
+                                                                      'env_file': ['./hadoop.env', './user_hadoop.env']}}
             volumesYaml = {**volumesYaml, 'datanode-vol'+str(i + 1): {}}
 
         # based on if the resource manager was enabled
         if 'yarn_resource_manager' in dict:
-            resourceManagerNodeYaml = {'resourcemanager': {'depends_on': ['namenode'], 'env_file': ['./hadoop.env'],
+            resourceManagerNodeYaml = {'resourcemanager': {'depends_on': ['namenode'], 'env_file': ['./hadoop.env', './user_hadoop.env'],
                                                            'hostname': 'resourcemanager.hadoop',
                                                            'image': 'uhopper/hadoop-resourcemanager',
                                                            'networks': ['hadoop'], 'ports': ['8088:8088']}}
@@ -193,7 +204,7 @@ class Builder(Resource):
                     # Node manager modifier
                     nodeManagerYaml = {**nodeManagerYaml,
                                        'nodemanager' + str(i + 1): {'depends_on': ['namenode', 'resourcemanager'],
-                                                                    'env_file': ['./hadoop.env'],
+                                                                    'env_file': ['./hadoop.env', './user_hadoop.env'],
                                                                     'hostname': 'nodemanager' + str(i + 1) + '.hadoop',
                                                                     'image': 'uhopper/hadoop-nodemanager',
                                                                     'networks': ['hadoop'], 'ports': [str(8042+i)+':8042']}} # increment port forward
@@ -201,12 +212,12 @@ class Builder(Resource):
             # based on if spark was enabled
             if 'extras_spark' in dict:
                 sparkYaml = {
-                    'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env'], 'hostname': 'spark.hadoop',
+                    'spark': {'command': 'tail -f /var/log/dmesg', 'env_file': ['./hadoop.env', './user_hadoop.env'], 'hostname': 'spark.hadoop',
                               'image': 'uhopper/hadoop-spark', 'networks': ['hadoop'],
                               'ports': ['4040:4040', '9000:9000', '8080:8080']}}
 
         # combine data node yaml with the services already in the docker-compose
-        newYamlData = {'services': {**dataNodeYaml, **resourceManagerNodeYaml, **nodeManagerYaml, **sparkYaml, **preUpdateServices},
+        newYamlData = {'services': {**dataNodeYaml, **resourceManagerNodeYaml, **historyServerYaml, **nodeManagerYaml, **sparkYaml, **preUpdateServices},
                        'volumes': {**volumesYaml, 'namenode-vol':{}}}
 
         # merge data in full docker-compose yaml

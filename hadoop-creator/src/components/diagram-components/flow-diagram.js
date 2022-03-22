@@ -130,12 +130,23 @@ function FlowDiagram(props) {
         //build spark
         if(props.clusterData.extras_spark){
             console.log("adding spark to diagram list...");
-            var spark = {id: 'spark', data: { label: 'Spark' }, position: { x: 430, y: 100 }};
+            var spark = {id: 'spark', data: { label: 'Spark' }, position: { x: 360, y: 100 }};
             list.push(spark);
 
             // create edge from spark to resource manager
             var sparkEdge = { id: 'edges-s-rm', source: 'spark', target: 'resourcemanager', type: 'smoothstep' }
             list.push(sparkEdge);
+        }
+
+        //build history server
+        if(props.clusterData.extras_historyserver){
+            console.log("adding history server to diagram list...");
+            var spark = {id: 'history', data: { label: 'History Server' }, position: { x: -90, y: 100 }};
+            list.push(spark);
+
+            // create edge from spark to resource manager
+            var historyEdge = { id: 'edges-h-rm', source: 'history', target: 'resourcemanager', type: 'smoothstep' }
+            list.push(historyEdge);
         }
         
         console.log("diagram list: ", list);

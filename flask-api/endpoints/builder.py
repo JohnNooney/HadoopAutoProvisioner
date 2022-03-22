@@ -197,7 +197,13 @@ class Builder(Resource):
                                                            'hostname': 'resourcemanager.hadoop',
                                                            'image': 'uhopper/hadoop-resourcemanager',
                                                            'networks': ['hadoop'], 'ports': ['8088:8088']}}
-
+            # based on if the history server is enabled
+            if 'extras_historyserver' in dict:
+                if dict['extras_historyserver']:
+                    historyServerYaml = {'historyserver': {'depends_on': ['namenode'], 'env_file': ['./hadoop.env', './user_hadoop.env'],
+                                                           'hostname': 'historyserver.hadoop',
+                                                           'image': 'uhopper/hadoop-historyserver',
+                                                           'networks': ['hadoop'],}}                                             
             # based on how many node managers requested
             if 'yarn_node_managers' in dict:
                 for i in range(int(dict['yarn_node_managers'])):

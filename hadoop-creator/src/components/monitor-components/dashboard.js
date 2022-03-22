@@ -8,6 +8,7 @@ function ClusterDashboard(props) {
     const [isJobLoading, setIsJobLoading] = useState(false);
     const [jobForm] = Form.useForm();
     const [operation, setOperation] = useState();
+    const [job, setJob] = useState();
     let counter = 0;
 
     function onSubmitClick(){
@@ -17,27 +18,14 @@ function ClusterDashboard(props) {
         sendJob(jobForm.getFieldsValue());
     }
 
-    function onOperationSelect(props)
+    function onOperationSelect(value)
     {
-        setOperation(props);
+        setOperation(value);
     }
 
-    function getMod1Placeholder()
+    function onJobSelect(value)
     {
-        var placeholder = "";
-
-        if(operation === "pi"){
-            placeholder = "Number of Maps";
-        }
-        else if(operation === "terasort"){
-            placeholder = "Bytes of Data";
-        }
-        return placeholder;
-    }
-
-    function getMod2Placeholder()
-    {
-
+        setJob(value)
     }
 
     function sendJob(jobData){
@@ -148,6 +136,7 @@ function ClusterDashboard(props) {
                                         >
                                             <Select
                                                 showSearch
+                                                onSelect={onJobSelect}
                                                 placeholder="Job Type"
                                                 optionFilterProp="children"
                                                 filterOption={(input, option) =>
@@ -174,7 +163,11 @@ function ClusterDashboard(props) {
                                                 }
                                             >
                                                 <Option value="pi">Pi</Option>
+                                                { job === "spark" ?
+                                                <Option value="groupby">Group By Test</Option>
+                                                :
                                                 <Option value="terasort">Terasort</Option>
+                                                }
                                             </Select>
                                             
                                         </Form.Item>
@@ -183,29 +176,38 @@ function ClusterDashboard(props) {
                                             <Form.Item
                                             name={['job','mod1']} 
                                             >
+                                                { operation === "pi" &&
                                                 <Select
                                                     showSearch
-                                                    placeholder={getMod1Placeholder}
+                                                    placeholder="Number of Maps"
                                                     optionFilterProp="children"
                                                     filterOption={(input, option) =>
                                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
                                                 >
-                                                    { operation === "pi" &&
                                                         <React.Fragment>
                                                             <Option value="10000">1000 Maps</Option>
                                                             <Option value="20000">2000 Maps</Option>
                                                         </React.Fragment>
+                                                
+                                                </Select>
+                                                }
+                                                { operation === "terasort" &&
+                                                <Select
+                                                    showSearch
+                                                    placeholder="Bytes of Data"
+                                                    optionFilterProp="children"
+                                                    filterOption={(input, option) =>
+                                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
-                                                    { operation === "terasort" &&
+                                                >
                                                         <React.Fragment>
                                                             <Option value="100000">1 Gigabyte</Option>
                                                             <Option value="1000000">10 Gigabytes</Option>
                                                         </React.Fragment>
-                                                    }
                                                     
                                                 </Select>
-                                                
+                                                }
                                             </Form.Item>
                                         }
                                         

@@ -181,7 +181,7 @@ function ClusterBuilder(props) {
               },
               ({getFieldValue}) => ({
                 validator(_, value){
-                  if (value == getFieldValue("data_node_workers")){
+                  if (value === getFieldValue("data_node_workers")){
                     return Promise.resolve();
                   }
                   return Promise.reject(new Error("Node Manager and Data Node count need to match"));

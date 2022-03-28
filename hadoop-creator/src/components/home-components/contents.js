@@ -1,16 +1,15 @@
-import {Row, Col, Divider, Typography , Layout, Menu, Breadcrumb  } from 'antd';
+import {Row, Col, Divider, Typography , Layout  } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 
-const { SubMenu } = Menu;
-const { Content, Sider } = Layout;
+
+const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
 function Contents(props) {
     // props.contentKey corresponds to the menu key clicked
     return (
         <div>
-            {props.contentKey == 'welcome' &&
+            {props.contentKey === 'welcome' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -84,7 +83,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'builder' &&
+            {props.contentKey === 'builder' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -130,7 +129,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'diagram' &&
+            {props.contentKey === 'diagram' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -151,7 +150,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'monitor' &&
+            {props.contentKey === 'monitor' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -187,7 +186,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'overview' &&
+            {props.contentKey === 'overview' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -208,7 +207,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'name node' &&
+            {props.contentKey === 'name node' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -229,7 +228,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'data node' &&
+            {props.contentKey === 'data node' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -250,7 +249,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'yarn' &&
+            {props.contentKey === 'yarn' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -271,7 +270,7 @@ function Contents(props) {
                     </div> 
                 </Content>
             }
-            {props.contentKey == 'spark' &&
+            {props.contentKey === 'spark' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">

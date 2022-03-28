@@ -1,11 +1,10 @@
-import {Row, Col, Divider, Typography , Layout, Menu, Breadcrumb  } from 'antd';
+import { Layout, Menu, Breadcrumb  } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Contents from './home-components/contents';
 
 const { SubMenu } = Menu;
-const { Content, Sider } = Layout;
-const { Title, Text } = Typography;
+const { Sider } = Layout;
 
 function Home(props) {
     const [content, setContent] = useState(['welcome']);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import {Modal } from 'antd';
 
@@ -143,8 +143,8 @@ function FlowDiagram(props) {
         //build history server
         if(props.clusterData.extras_historyserver){
             console.log("adding history server to diagram list...");
-            var spark = {id: 'history', data: { label: 'History Server' }, position: { x: -90, y: 100 }};
-            list.push(spark);
+            var history = {id: 'history', data: { label: 'History Server' }, position: { x: -90, y: 100 }};
+            list.push(history);
 
             // create edge from spark to resource manager
             var historyEdge = { id: 'edges-h-rm', source: 'history', target: 'resourcemanager', type: 'smoothstep' }
@@ -196,6 +196,9 @@ function FlowDiagram(props) {
                 break;
             case "spark":
                 message = sparkDesc;
+                break;
+            default:
+                message = "component message not found..."
                 break;
         }
 

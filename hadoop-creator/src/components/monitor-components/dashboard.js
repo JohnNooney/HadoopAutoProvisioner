@@ -6,6 +6,7 @@ const { Option } = Select;
 
 function ClusterDashboard(props) {
     const [isJobLoading, setIsJobLoading] = useState(false);
+    const [jobCompleteSuccess, setJobCompleteSuccess] = useState();
     const [jobForm] = Form.useForm();
     const [operation, setOperation] = useState();
     const [job, setJob] = useState();
@@ -13,8 +14,7 @@ function ClusterDashboard(props) {
 
     function onSubmitClick(){
         // send job data to API
-        console.log("JOB: ", jobForm.getFieldsValue());
-        //sendJob(jobForm.getFieldsValue());
+        sendJob(jobForm.getFieldsValue());
     }
 
     function onOperationSelect(value)
@@ -53,12 +53,14 @@ function ClusterDashboard(props) {
           })
           .then(data => {
               console.log('Success:', data);
+              setJobCompleteSuccess(true);
               if(data["payload"]){
                 console.log("received data: ", data["payload"]);
               }
           })
           .finally(() => {setIsJobLoading(false);})
           .catch((error) => {
+            setJobCompleteSuccess(false);
             console.error('Error:', error);
           });
     }
@@ -178,15 +180,14 @@ function ClusterDashboard(props) {
                                             >
                                                 <Select
                                                     showSearch
-                                                    onSelect={(values) => {alert(values);}}
                                                     placeholder="Number of Maps"
                                                     optionFilterProp="children"
                                                     filterOption={(input, option) =>
                                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
                                                 >
-                                                    <Option value="10000">1000 Maps</Option>
-                                                    <Option value="20000">2000 Maps</Option>
+                                                    <Option value="1000">1000 Maps</Option>
+                                                    <Option value="2000">2000 Maps</Option>
                                                 
                                                 </Select>
                                         
@@ -204,6 +205,7 @@ function ClusterDashboard(props) {
                                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
                                                 >
+                                                    <Option value="1000000">100 Megabytes</Option>
                                                     <Option value="10000000">1 Gigabyte</Option>
                                                     <Option value="100000000">10 Gigabytes</Option>
                                                     
@@ -222,8 +224,9 @@ function ClusterDashboard(props) {
                                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
                                                 >
+                                                    <Option value="8">8 samples per map</Option>
                                                     <Option value="16">16 samples per map</Option>
-                                                    <Option value="17">17 samples per map</Option>
+                                                    <Option value="24">24 samples per map</Option>
                                                 </Select>
                                             </Form.Item>
                                         }
@@ -245,8 +248,16 @@ function ClusterDashboard(props) {
                                 isJobLoading ? 
                                 <Alert
                                     message="Job running..."
-                                    description="View detailed progress on your job through the Yarn Web UI"
+                                    description="If Resource Manager is enabled AND job was submitted through Spark, view detailed progress on your job through the Yarn Web UI. Otherwise please wait..."
                                     type="info"
+                                />: null
+                            }
+                            {
+                                !isJobLoading && jobCompleteSuccess != null? 
+                                <Alert
+                                    message={jobCompleteSuccess ? "Job Finished" : "Something went wrong!"}
+                                    description={jobCompleteSuccess ? "Last job finished successfully" : "Last job finished unsuccessfully"}
+                                    type={jobCompleteSuccess ? "success" : "warning"}
                                 />: null
                             }
                         </Space>

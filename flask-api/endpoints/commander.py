@@ -42,7 +42,7 @@ class Commander(Resource):
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_spark_1', 'spark-submit',
                                                   '--class', 'org.apache.spark.examples.SparkPi', '--master', 'yarn',
                                                   '--deploy-mode', 'cluster', 'examples/jars/spark-examples_2.11-2.0.2.jar',
-                                                  jobData["mod1"]])
+                                                  jobData["modpi"]])
                 return "Pi completed..."
             elif jobData["operation"] == "groupby":
                 print("starting spark GroupByTest job...")
@@ -57,14 +57,14 @@ class Commander(Resource):
                 print("starting yarn pi job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'yarn',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'pi', jobData["mod1"], jobData["mod2"]])
+                                'pi', jobData["modpi"], jobData["modpi2"]])
                 return "Pi completed..."
             elif jobData["operation"] == "terasort":
                 # terasort operation
                 print("starting yarn tersort job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_resourcemanager_1', 'yarn',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'teragen', jobData["mod1"], "teragentest"])
+                                'teragen', jobData["modtera"], "teragentest"])
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_resourcemanager_1', 'yarn',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
                                 'terasort', "teragentest", "terasorttest"])
@@ -79,13 +79,13 @@ class Commander(Resource):
                 print("starting hadoop pi job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'pi', jobData["mod1"], jobData["mod2"]])
+                                'pi', jobData["modpi"], jobData["modpi1"]])
                 return "Pi completed..."
             elif jobData["operation"] == "terasort":
                 print("starting hadoop tersort job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'teragen', jobData["mod1"], "teragentest"])
+                                'teragen', jobData["modtera"], "teragentest"])
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
                                 'terasort', "teragentest", "terasorttest"])

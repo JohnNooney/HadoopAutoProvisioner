@@ -8,7 +8,7 @@ const { Sider } = Layout;
 
 function Home(props) {
     const [content, setContent] = useState(['welcome']);
-    const [menuItem, setMenuItem] = useState({keyPath:["welcome"]});
+    const [menuItem, setMenuItem] = useState({keyPath:['welcome']});
 
     function onSelect(props){
         console.log(props);

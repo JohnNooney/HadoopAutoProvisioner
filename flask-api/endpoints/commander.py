@@ -42,7 +42,7 @@ class Commander(Resource):
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_spark_1', 'spark-submit',
                                                   '--class', 'org.apache.spark.examples.SparkPi', '--master', 'yarn',
                                                   '--deploy-mode', 'cluster', 'examples/jars/spark-examples_2.11-2.0.2.jar',
-                                                  '1000'])
+                                                  jobData["mod1"]])
                 return "Pi completed..."
             elif jobData["operation"] == "groupby":
                 print("starting spark GroupByTest job...")
@@ -76,7 +76,7 @@ class Commander(Resource):
 
         elif jobData["type"] == "hadoop":
             if jobData["operation"] == "pi":
-                print("starting hadoop job...")
+                print("starting hadoop pi job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
                                 'pi', jobData["mod1"], jobData["mod2"]])

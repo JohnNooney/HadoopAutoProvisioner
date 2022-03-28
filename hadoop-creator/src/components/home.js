@@ -25,6 +25,7 @@ function Home(props) {
                         style={{height:"96vh"}}
                         selectedKeys={content}
                         onSelect={onSelect}
+                        defaultOpenKeys={["hadoop", "user guide"]}
                         mode='inline'
                         theme='light'
                         >

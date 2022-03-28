@@ -100,14 +100,14 @@ function Contents(props) {
                                         and wait until your cluster has been torndown.
                                     </Paragraph>
 
-                                    <Title level={3}>Name Node Config</Title>
+                                    <Title level={2}>Name Node Config</Title>
                                     <Paragraph>
                                         The Name Node configuration only has one field: 'Cluster Name'. All this attribute does is apply a name to your cluster
                                         within the Name Node Docker container. Even though it is a required field, it doesn't serve any other purpose other
                                         than identification.
                                     </Paragraph>
 
-                                    <Title level={3}>Data Node Config</Title>
+                                    <Title level={2}>Data Node Config</Title>
                                     <Paragraph>
                                         Data Nodes are essential to the distributed nature of Hadoop. But due to resources potentially being limited on tester's 
                                         computers only a maximum of 3 Data Nodes are allowed. You may also notice that there are no attributes for declaring how 
@@ -115,9 +115,12 @@ function Contents(props) {
                                         
                                     </Paragraph>
 
-                                    <Title level={3}>Yarn Config</Title>
+                                    <Title level={2}>Yarn Config</Title>
+                                    <Paragraph>
+                                        
+                                    </Paragraph>
 
-                                    <Title level={3}>Extras Config</Title>
+                                    <Title level={2}>Extras Config</Title>
 
                                     <Title level={2}>How It Works</Title>
 

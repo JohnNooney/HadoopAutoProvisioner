@@ -33,7 +33,7 @@ function buttonClick(props){
      // POST start notification
      const notif = {
         "type":"info", 
-        "title": props.requestType + " Status", 
+        "title": props.notificationTitle + " Request Status", 
         "desc":"The " + props.requestType + " request has been sent. " + props.notificationCustomMsg};
     openNotification(notif);
 
@@ -85,7 +85,7 @@ function buttonClick(props){
         // success message to user
         const notif = {
             "type":"success", 
-            "title":props.requestType + " Status", 
+            "title":props.notificationTitle + " Request Status", 
             "desc":"The " + props.requestType + " request has been received. " + props.payloadCustomMsg
         };
 
@@ -100,7 +100,7 @@ function buttonClick(props){
         // error message to user
         const notif = {
             "type":"error", 
-            "title":props.requestType + " Status", 
+            "title":props.notificationTitle + " Request Status", 
             "desc":"The " + props.requestType + " request has failed - " + error};
         openNotification(notif);
     });

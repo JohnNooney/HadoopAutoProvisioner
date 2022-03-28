@@ -13,7 +13,8 @@ function ClusterDashboard(props) {
 
     function onSubmitClick(){
         // send job data to API
-        sendJob(jobForm.getFieldsValue());
+        console.log("JOB: ", jobForm.getFieldsValue());
+        //sendJob(jobForm.getFieldsValue());
     }
 
     function onOperationSelect(value)
@@ -170,27 +171,31 @@ function ClusterDashboard(props) {
                                             
                                         </Form.Item>
                                         
-                                        {operation &&
+                                    
+                                        { operation === "pi" &&
                                             <Form.Item
-                                            name={['job','mod1']} 
+                                            name={['job','modpi']} 
                                             >
-                                                { operation === "pi" &&
                                                 <Select
                                                     showSearch
+                                                    onSelect={(values) => {alert(values);}}
                                                     placeholder="Number of Maps"
                                                     optionFilterProp="children"
                                                     filterOption={(input, option) =>
                                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
                                                 >
-                                                        <React.Fragment>
-                                                            <Option value="10000">1000 Maps</Option>
-                                                            <Option value="20000">2000 Maps</Option>
-                                                        </React.Fragment>
+                                                    <Option value="10000">1000 Maps</Option>
+                                                    <Option value="20000">2000 Maps</Option>
                                                 
                                                 </Select>
-                                                }
-                                                { operation === "terasort" &&
+                                        
+                                            </Form.Item>
+                                        }
+                                        { operation === "terasort" &&
+                                            <Form.Item
+                                            name={['job','modtera']} 
+                                            >
                                                 <Select
                                                     showSearch
                                                     placeholder="Bytes of Data"
@@ -199,19 +204,16 @@ function ClusterDashboard(props) {
                                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                     }
                                                 >
-                                                        <React.Fragment>
-                                                            <Option value="10000000">1 Gigabyte</Option>
-                                                            <Option value="100000000">10 Gigabytes</Option>
-                                                        </React.Fragment>
+                                                    <Option value="10000000">1 Gigabyte</Option>
+                                                    <Option value="100000000">10 Gigabytes</Option>
                                                     
                                                 </Select>
-                                                }
                                             </Form.Item>
                                         }
                                         
 
                                         { operation === "pi" &&
-                                            <Form.Item name={['job','mod2']} >
+                                            <Form.Item name={['job','modpi2']} >
                                                 <Select
                                                     showSearch
                                                     placeholder="Samples per Map"

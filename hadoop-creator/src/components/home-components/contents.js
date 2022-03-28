@@ -7,9 +7,10 @@ const { Title, Text, Paragraph } = Typography;
 
 function Contents(props) {
     // props.contentKey corresponds to the menu key clicked
+    // alert(props.contentKey);
     return (
         <div>
-            {props.contentKey === 'welcome' &&
+            {props.contentKey == 'welcome' &&
                 <Content className='home_content'>
                     <div className='home_title'> 
                         <Row justify="start" align="middle">
@@ -97,6 +98,11 @@ function Contents(props) {
                                         Simply fill out the desired attributes of your Hadoop cluster and click 'Build Cluster'.
                                         Once you're done with experimenting with your cluster press and 'Stop Cluster' button
                                         and wait until your cluster has been torndown.
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        Below you will find a detailed description of what each configuration field does in this application. 
+                                        And for those who are curious, you will also find an explainantion of how the Cluster Builder communicates with the API. 
                                     </Paragraph>
 
                                     <Title level={2}>Name Node Config</Title>

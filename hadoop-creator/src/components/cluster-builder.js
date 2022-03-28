@@ -66,18 +66,19 @@ function ClusterBuilder(props) {
   return (
     <div className="cluster_builder">
       {/* TODO: REMOVE THIS... or reuse */}
-      <Row justify="end" align="middle">
+      {/* <Row justify="end" align="middle">
         < Col >
           <ButtonRequest
             requestType = "GET"
             buttonText="Test API"
             buttonColor="primary"
+            notificationTitle = "Cluster Test"
             notificationCustomMsg = "Please wait for a response..."
             displayPayload = "true"
             payloadCustomMsg = "Your response: "
           />
         </Col>
-      </Row>
+      </Row> */}
 
       <div className='cluster_config_form'> 
         <Row justify="center" align="bottom">
@@ -245,6 +246,7 @@ function ClusterBuilder(props) {
                       requestType = "POST"
                       buttonText="Build Cluster"
                       buttonColor="primary"
+                      notificationTitle = "Cluster Building"
                       notificationCustomMsg = "Please wait for your cluster to start..."
                       displayPayload = "true"
                       payloadCustomMsg = "Your Container ID: "
@@ -269,6 +271,7 @@ function ClusterBuilder(props) {
                     requestType = "POST"
                     buttonText={isShutdownLoading ? "Stopping Cluster": "Stop Cluster"}
                     buttonColor="danger"
+                    notificationTitle = "Cluster Shutdown"
                     notificationCustomMsg = "Please wait for your cluster to stop..."
                     displayPayload = "true"
                     payloadCustomMsg = "Tearing down now: "

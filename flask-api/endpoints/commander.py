@@ -20,10 +20,9 @@ class Commander(Resource):
 
         print("POST incoming data: ", args['data'])
         dict = ast.literal_eval(args['data'])
-        self.runJob(dict['job'])
+        message = self.runJob(dict['job'])
 
-        self.status = 200
-        self.payload = {"payload": "test POST"}
+        self.payload = {"payload": message}
         return self.payload, \
                self.status, \
                {'Access-Control-Allow-Origin': self.origin}  # return data and 200 OK code
@@ -51,6 +50,7 @@ class Commander(Resource):
                                                   '--class', 'org.apache.spark.examples.SparkPi', '--master', 'yarn',
                                                   '--deploy-mode', 'cluster', 'examples/jars/spark-examples_2.11-2.0.2.jar',
                                                   jobData["modpi"]])
+                self.status = 200
                 return "Pi completed..."
             elif jobData["operation"] == "groupby":
                 print("starting spark GroupByTest job...")
@@ -58,6 +58,7 @@ class Commander(Resource):
                                 '--class', 'org.apache.spark.examples.GroupByTest', '--master', 'yarn',
                                 '--deploy-mode', 'cluster', 'examples/jars/spark-examples_2.11-2.0.2.jar'])
                 # result = result.decode()
+                self.status = 200
                 return "GroupByTest completed..."
         elif jobData["type"] == "yarn":
             if jobData["operation"] == "pi":
@@ -81,6 +82,7 @@ class Commander(Resource):
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
                                 'teravalidate', "terasorttest_"+date, "teravalidatetest_"+date])
 
+                self.status = 200
                 return "Terasort completed..."
 
         elif jobData["type"] == "hadoop":
@@ -102,5 +104,18 @@ class Commander(Resource):
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
                                 'teravalidate', "terasorttest_"+date, "teravalidatetest_"+date])
 
+                self.status = 200
                 return "Terasort completed..."
             print("subprocess finished...")
+
+        elif jobData["type"] == "hdfs":
+            if jobData["operation"] == "folder":
+                print("creating a Hadoop folder...")
+                subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hdfs', 'dfs', '-mkdir', jobData["modfolder"]])
+
+                print('Folder created.')
+                self.status = 200
+                return "Folder created."
+
+        self.status = 500
+        return "Job not run."

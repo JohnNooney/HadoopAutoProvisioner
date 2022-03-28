@@ -75,6 +75,16 @@ function Contents(props) {
 
                                             <Text>Issue: Hadoop Cluster not starting</Text> 
                                             <li>Make sure the Hadoop API Docker container is running. It may need to be restarted, use these commands to restart the container.</li>
+                                            <br/>
+
+                                            <Text>Issue: Jobs not showing up in YARN UI</Text> 
+                                            <li>At the moment the <Text strong>only Spark jobs that are able to show up in the YARN UI</Text>. This is because of an issue with the configuration file for the cluster not working as intended.</li>
+                                        
+                                            <br/>
+
+                                            <Text>Issue: Jobs not running</Text> 
+                                            <li>There may be a problem with the cluster and/or API. First stop the cluster and then restart the API with the same commands as above.</li>
+                                        
                                         </ul>
                                     </Paragraph>
 
@@ -114,20 +124,33 @@ function Contents(props) {
 
                                     <Title level={2}>Data Node Config</Title>
                                     <Paragraph>
-                                        Data Nodes are essential to the distributed nature of Hadoop. But due to resources potentially being limited on tester's 
-                                        computers only a maximum of 3 Data Nodes are allowed. You may also notice that there are no attributes for declaring how 
+                                        Data Nodes are essential to the distributed nature of Hadoop. It's important to note that only a <Text strong>maximum of 3 Data Nodes are allowed</Text> due to resources potentially being limited on tester's 
+                                        computers. You may also notice that there are no attributes for declaring how 
                                         much memory these Data Nodes are allowed. This is because Docker handles the distribution of resources to all the containers.
                                         
                                     </Paragraph>
 
                                     <Title level={2}>Yarn Config</Title>
                                     <Paragraph>
-                                        
+                                        In this section the only attributes you need to worry about is if you want to use YARN and how many Node Managers you want.
+                                        Keep in mind that <Text strong>the number of Node Managers should always match the number of Data Nodes</Text>. This is because in order for YARN's resource manager
+                                        to be aware of the Data Node, a YARN Node Manager is required. If you were to submit a YARN Job then the resource manager will only send onOperations 
+                                        to the Data Nodes that it is aware of. 
                                     </Paragraph>
 
                                     <Title level={2}>Extras Config</Title>
+                                    <Paragraph>
+                                        Here the only Extra for now is the inclusion of Spark. When you enable Spark then a Spark node will be spun up with the cluster. 
+                                        With a Spark node, additional functionality in the 'Cluster Monitoring' tab will become available. More information on what that entails can be 
+                                        found in the 'Monitoring' section on the left. 
+                                    </Paragraph>
 
                                     <Title level={2}>How It Works</Title>
+                                    <Paragraph>
+                                        Once you fill out the form on the UI and click the 'Build Cluster' button then a POST request is made to an API.
+                                        The API is responsible for being the middle man betwen this website and the Hadoop Cluster. See the diagram below.
+
+                                    </Paragraph>
 
                                 </Typography>
                             </Col>
@@ -142,15 +165,29 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Cluster Diagram</Title>
-                            </Col>
-                        </Row>
+                                <Typography>
+                                    
+                                    <Title>Cluster Diagram</Title>
+                                    <Paragraph>
+                                        The cluster diagram is used as a way to visualy explore the different compnents of your cluster and how they interact with each other.
+                                        Each time a new cluster configuration is created, the diagram is dynamically updated and generated. Another key feature of this component
+                                        is the ability to click on each component and see how it is interacting with it's connecting components. Use this to learn more about how
+                                        Hadoop components interact with each other. 
+                                    </Paragraph>
 
-                        <Divider />
+                                    <Title level={2}>Known Bugs</Title>
+                                    <Paragraph>
+                                        <ul>
+                                            <li>
+                                                <Text>
+                                                    Anytime you switch tabs and click in the chart, the diagram jumps to different coordinates. 
+                                                    This is just a visual bug, so need to worry about something happenign to your cluster.
+                                                </Text>
+                                            </li>
+                                        </ul>
+                                    </Paragraph>
 
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>The cluster diagram is used as a way to visualy explore the different compnents of your cluster and how they interact with each other.</Text>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 
@@ -163,30 +200,38 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Cluster Monitoring</Title>
-                            </Col>
-                        </Row>
+                                <Typography>
+                                    
+                                    <Title>Cluster Monitoring</Title>
+                                    <Paragraph>
+                                        The Cluster Monitor can be seen as a hub for your Hadoop cluster. Here you can view all the links to your Cluster's web UIs. 
+                                        With the Name Node UI you are able to see an overview of your entire cluster as well as the HDFS file structure of it. 
+                                    </Paragraph>
 
-                        <Divider />
+                                    <Title level={2}> Job Builder</Title>
+                                    <Paragraph>
+                                        The job builder allows you to send out sample jobs to your cluster. You may notice that there are multiple
+                                        types of jobs you can run:
 
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>The cluster monitor component can be seen as a hub for your Hadoop cluster.</Text>
-                                <Text>Hadoop components links...</Text>
-                                <Text>Hadoop job builder...</Text>
-                            
-                            </Col>
-                        </Row>
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <br/>
-                                <Text>Hadoop components links...</Text>
-                            </Col>
-                        </Row>
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <br/>
-                                <Text>Hadoop job builder...</Text>
+                                        <ul>
+                                            <li>
+                                                <Text>Hadoop</Text>
+                                            </li>
+                                            <li>
+                                                <Text>YARN</Text>
+                                            </li>
+                                            <li>
+                                                <Text>Spark</Text>
+                                            </li>
+                                            <li>
+                                                <Text>HDFS</Text>
+                                            </li>
+                                        </ul>
+                                        <br/>
+
+                                        Each job also has a set list of different operations they can perform.
+                                    </Paragraph>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 

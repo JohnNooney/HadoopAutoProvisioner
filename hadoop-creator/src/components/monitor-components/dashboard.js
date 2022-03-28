@@ -1,5 +1,5 @@
 import {Row, Col, Select, Space, Card, Form, Input, Button, Spin, Alert } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const { Option } = Select;
@@ -147,6 +147,7 @@ function ClusterDashboard(props) {
                                                 {props.Data.yarn && <Option value="yarn">Yarn</Option>}
                                                 {props.Data.spark[0] && <Option value="spark">Spark</Option>}
                                                 <Option value="hadoop">Hadoop</Option>
+                                                <Option value="hdfs">HDFS</Option>
                                             </Select>
                                         </Form.Item>
 
@@ -163,17 +164,32 @@ function ClusterDashboard(props) {
                                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                                 }
                                             >
-                                                <Option value="pi">Pi</Option>
-                                                { job === "spark" ?
-                                                <Option value="groupby">Group By Test</Option>
+                                                { job === "hdfs" ?
+                                                <Option value="folder">Make Folder</Option>
                                                 :
-                                                <Option value="terasort">Terasort</Option>
+                                                <React.Fragment>
+                                                    <Option value="pi">Pi</Option>
+                                                    { job === "spark" ?
+                                                    <Option value="groupby">Group By Test</Option>
+                                                    :
+                                                    <Option value="terasort">Terasort</Option>
+                                                    }
+                                                </React.Fragment>
                                                 }
+                                                
                                             </Select>
                                             
                                         </Form.Item>
                                         
-                                    
+                                        { operation === "folder" &&
+                                            <Form.Item 
+                                            name={['job','modfolder']} 
+                                            rules={[{ required: true }]}
+                                            >
+                                              <Input placeholder="Folder Name"/>
+                                            </Form.Item>
+                                            
+                                        }
                                         { operation === "pi" &&
                                             <Form.Item
                                             name={['job','modpi']} 
@@ -235,7 +251,7 @@ function ClusterDashboard(props) {
                                 </Form.Item>
 
                                 <Form.Item>
-                                    {isJobLoading ?
+                                    {isJobLoading === true ?
                                     <Spin />
                                     : 
                                     <Button type='primary' htmlType="submit">
@@ -245,7 +261,7 @@ function ClusterDashboard(props) {
                                 </Form.Item>
                             </Form>
                             {
-                                isJobLoading ? 
+                                isJobLoading === true ? 
                                 <Alert
                                     message="Job running..."
                                     description="If Resource Manager is enabled AND job was submitted through Spark, view detailed progress on your job through the Yarn Web UI. Otherwise please wait..."

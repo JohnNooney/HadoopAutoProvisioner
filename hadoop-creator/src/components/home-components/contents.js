@@ -69,7 +69,7 @@ function Contents(props) {
                                     <Paragraph>
                                         <ul>
                                             <Text>Issue: Incosistent UI elements or bugs</Text> 
-                                            <li>Try Refreshing the page</li>
+                                            <li>Try Refreshing the page or switching tabs.</li>
 
                                             <br/>
 

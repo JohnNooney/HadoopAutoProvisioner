@@ -12,8 +12,6 @@ function ClusterDashboard(props) {
     let counter = 0;
 
     function onSubmitClick(){
-        alert('job submit click');
-
         // send job data to API
         sendJob(jobForm.getFieldsValue());
     }

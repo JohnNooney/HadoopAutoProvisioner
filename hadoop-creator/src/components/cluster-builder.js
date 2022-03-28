@@ -1,6 +1,7 @@
 import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space, Spin  } from 'antd';
 import ButtonRequest from './button-request';
 import { useEffect, useState } from 'react';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -111,6 +112,7 @@ function ClusterBuilder(props) {
             name='name_node_cluster_name' 
             label="Cluster Name" 
             rules={[{ required: true }]}
+            tooltip={{ title: 'Setting the cluster name will be used for identification purposes.', icon: <InfoCircleOutlined/>}}
             >
               <Input placeholder="Name of Cluster" disabled={props.clusterData}/>
             </Form.Item>
@@ -127,6 +129,7 @@ function ClusterBuilder(props) {
             <br/>
 
             <Form.Item 
+            tooltip={{ title: 'Increasing the number of data nodes will help increase performance and fault tolerance. Read more on the Home page...', icon: <InfoCircleOutlined/>}}
             name='data_node_workers' 
             label="Worker Nodes"
             rules={[
@@ -160,11 +163,16 @@ function ClusterBuilder(props) {
             </Row>
             <br/>
             
-            <Form.Item name='yarn_resource_manager' label="Resource Manager" valuePropName="checked">
+            <Form.Item 
+            tooltip={{ title: 'Add YARN to your cluster and be able to track and manage jobs through a UI.', icon: <InfoCircleOutlined/>}}
+            name='yarn_resource_manager' 
+            label="Resource Manager" 
+            valuePropName="checked">
               <Switch disabled={props.clusterData}  onChange={yarnSwitchChange}/>
             </Form.Item>
             {yarnEnabled ? 
             <Form.Item 
+            tooltip={{ title: 'In order for YARN to keep track of every data node, a node manager is required.', icon: <InfoCircleOutlined/>}}
             name='yarn_node_managers' 
             label="Node Managers"
             rules={[
@@ -208,7 +216,11 @@ function ClusterBuilder(props) {
             </Row>
             <br/>
 
-            <Form.Item name='extras_spark' label="Spark" valuePropName="checked">
+            <Form.Item 
+            tooltip={{ title: 'Spark will replace MapReduce computing. Making jobs run much faster by using RAM.', icon: <InfoCircleOutlined/>}}
+            name='extras_spark' 
+            label="Spark" 
+            valuePropName="checked">
               <Switch disabled={props.clusterData}/>
             </Form.Item>
             {/* <Form.Item name='extras_historyserver' label="History Server" valuePropName="checked">

@@ -69,12 +69,13 @@ function ClusterDashboard(props) {
         <div className='cluster_monitor_dashboard'> 
             <Row justify="center" align="top">
                 <Col>
-                    <Card title="Cluster Component Paths">
+                    <Card title="Cluster Quick Access Links">
                         <Row className justify="center" align="top" gutter={[40,24]}>
                             { props.Data.namenode &&
                             <Col align="start">
                                 <Card title="Name Node">
                                     <p><a href={props.Data.namenode} target="_blank">Name Node Web UI</a></p>
+                                    <p><a href={(props.Data.namenode+"/explorer.html#")} target="_blank">HDFS Directory</a></p>
                                 </Card>
                             </Col>
                             }

@@ -1,6 +1,8 @@
 from flask_restful import Resource, reqparse
 import subprocess
 import ast
+import datetime
+import time
 
 # This endpoint takes care of sending commands to the Hadoop Cluster
 class Commander(Resource):
@@ -8,6 +10,7 @@ class Commander(Resource):
         self.origin = 'http://localhost:3000' # only allow request from this host
         self.status = 200
         self.payload = "default"
+        self.jobCounter = 0
 
     def post(self):
         parser = reqparse.RequestParser()
@@ -36,6 +39,11 @@ class Commander(Resource):
 
     def runJob(self, jobData):
         result = ''
+
+        # get the current datetime for labeling folders
+        ts = time.time()
+        date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
+
         if jobData["type"] == "spark":
             if jobData["operation"] == "pi":
                 print("starting spark pi job...")
@@ -62,15 +70,16 @@ class Commander(Resource):
             elif jobData["operation"] == "terasort":
                 # terasort operation
                 print("starting yarn tersort job...")
+
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_resourcemanager_1', 'yarn',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'teragen', jobData["modtera"], "teragentest"])
+                                'teragen', jobData["modtera"], "teragentest_"+date])
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_resourcemanager_1', 'yarn',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'terasort', "teragentest", "terasorttest"])
+                                'terasort', "teragentest_"+date, "terasorttest_"+date])
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_resourcemanager_1', 'yarn',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'teravalidate', "terasorttest", "teravalidatetest"])
+                                'teravalidate', "terasorttest_"+date, "teravalidatetest_"+date])
 
                 return "Terasort completed..."
 
@@ -79,19 +88,19 @@ class Commander(Resource):
                 print("starting hadoop pi job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'pi', jobData["modpi"], jobData["modpi1"]])
+                                'pi', jobData["modpi"], jobData["modpi2"]])
                 return "Pi completed..."
             elif jobData["operation"] == "terasort":
                 print("starting hadoop tersort job...")
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'teragen', jobData["modtera"], "teragentest"])
+                                'teragen', jobData["modtera"], "teragentest_"+date])
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'terasort', "teragentest", "terasorttest"])
+                                'terasort', "teragentest_"+date, "terasorttest_"+date])
                 subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hadoop',
                                 'jar', '/opt/hadoop-2.7.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar',
-                                'teravalidate', "terasorttest", "teravalidatetest"])
+                                'teravalidate', "terasorttest_"+date, "teravalidatetest_"+date])
 
                 return "Terasort completed..."
             print("subprocess finished...")

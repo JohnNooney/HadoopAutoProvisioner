@@ -200,8 +200,8 @@ function ClusterDashboard(props) {
                                                     }
                                                 >
                                                         <React.Fragment>
-                                                            <Option value="100000">1 Gigabyte</Option>
-                                                            <Option value="1000000">10 Gigabytes</Option>
+                                                            <Option value="10000000">1 Gigabyte</Option>
+                                                            <Option value="100000000">10 Gigabytes</Option>
                                                         </React.Fragment>
                                                     
                                                 </Select>

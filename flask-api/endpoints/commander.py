@@ -111,7 +111,7 @@ class Commander(Resource):
         elif jobData["type"] == "hdfs":
             if jobData["operation"] == "folder":
                 print("creating a Hadoop folder...")
-                subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hdfs', 'dfs', '-mkdir', jobData["modfolder"]])
+                subprocess.run(['docker', 'exec', 'hadoop-cluster_namenode_1', 'hdfs', 'dfs', '-mkdir', '-p', '/user/hadoop/'+jobData["modfolder"]])
 
                 print('Folder created.')
                 self.status = 200

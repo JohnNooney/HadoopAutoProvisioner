@@ -366,7 +366,8 @@ function Contents(props) {
                                     <Title level={2}>Hadoop Distributed File System - HDFS</Title>
                                     <Paragraph>
                                     HDFS is the primary distributed storage used by Hadoop applications. A HDFS cluster primarily consists of a NameNode that manages the file system metadata and DataNodes that store the actual data.
-                                    HDFS provides better data throughput than traditional file systems, in addition to high fault tolerance and native support of large datasets.
+                                    HDFS provides better data throughput than traditional file systems, in addition to high fault tolerance and native support of large datasets. In addition, HDFS treats hardware failure as the norm rather than
+                                    an exception. Data stored on each node is replicated across the whole cluster so in case one node fails, multiple backups exist. 
 
                                     <br/>
                                     <br/>
@@ -394,7 +395,21 @@ function Contents(props) {
                                     <Title>Hadoop Name Node</Title>
                                     <Paragraph>
                                         The Name Node or Master Node contains all meta-data info about the files stored within the cluster: Name, permissions, directory, and which nodes contain which blocks.
-                                        When a file comes in to the cluster to be stored it is broken up into blocks. The Name Node makes sure to track the file directory structure and placement of blocks for each file.
+                                        When a file comes in to the cluster to be stored it is broken up into blocks. The Name Node makes sure to track the file directory structure and placement of blocks for each file. 
+                                        
+                                        <br/>
+                                        <br/>
+
+                                        See an example of this process below.
+                                    </Paragraph>
+                                    <Image src="/simple_cluster_replication.png" />
+
+                                    <Title>More Resources</Title>
+                                    <Paragraph>
+                                        <ul>
+                                            <li><a href='https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html#NameNode+and+DataNodes'>Hadoop Documentation on Name Nodes</a></li>
+                                            <li><a href='https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html'>Hadoop Documentation on HDFS Architecture</a></li>
+                                        </ul>
                                     </Paragraph>
                                 </Typography>
                             </Col>

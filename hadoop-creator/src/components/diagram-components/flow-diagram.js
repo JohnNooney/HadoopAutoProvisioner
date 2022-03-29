@@ -176,7 +176,7 @@ function FlowDiagram(props) {
     {
         const namenodeDesc = "The Name Node keeps track of all Data Nodes and replicates Data as necessary.";
         const datanodeDesc = "The Data Node stores fragments of data and performs an opertion on them that has been given to them either by the Name Node or Node Manager.";
-        const resourcemanagerDesc = "The Resource Manager introduces YARN to the cluster. YARN has a more fine-grained approach to managing Data Nodes.";
+        const resourcemanagerDesc = "The Resource Manager introduces YARN to the cluster. YARN has a more fine-grained approach to managing Data Nodes through Node Managers.";
         const nodemanagerDesc = "The Node Manager recieves instructions from the Resource Manager and passes it on to its corresponding Data Node.";
         const sparkDesc = "Spark uses RAM to execute jobs/programs faster. User's give the Spark container a job and it gets passed to the Resource Manager for a distributed execution across all the Data Nodes.";
 

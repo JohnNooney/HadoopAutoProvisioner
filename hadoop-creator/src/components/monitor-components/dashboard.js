@@ -71,7 +71,7 @@ function ClusterDashboard(props) {
             <Row justify="center" align="top">
                 <Col>
                     <Card title={
-                        <Tooltip title="Use these links to navigate to your cluster's UIs">
+                        <Tooltip title="Use these links to navigate to your various cluster UIs.">
                             <Space>
                                 Cluster Quick Access Links
                                 <InfoCircleOutlined/>

@@ -1,5 +1,6 @@
-import {Row, Col, Select, Space, Card, Form, Input, Button, Spin, Alert } from 'antd';
+import {Row, Col, Select, Space, Card, Form, Input, Button, Spin, Alert, Tooltip } from 'antd';
 import React, { useState, useEffect } from 'react';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 
 const { Option } = Select;
@@ -69,7 +70,13 @@ function ClusterDashboard(props) {
         <div className='cluster_monitor_dashboard'> 
             <Row justify="center" align="top">
                 <Col>
-                    <Card title="Cluster Quick Access Links">
+                    <Card title={
+                        <Tooltip title="Use these links to navigate to your cluster's UIs">
+                            <Space>
+                                Cluster Quick Access Links
+                                <InfoCircleOutlined/>
+                            </Space>
+                        </Tooltip>}>
                         <Row className justify="center" align="top" gutter={[40,24]}>
                             { props.Data.namenode &&
                             <Col align="start">
@@ -120,7 +127,13 @@ function ClusterDashboard(props) {
 
             <Row justify='center' align='middle' gutter={[40, 24]}>
                 <Col align="start">
-                    <Card title="Run Jobs">
+                    <Card title={
+                        <Tooltip title="Construct jobs to test your cluster's performance and functionality with.">
+                            <Space>
+                                Run Jobs
+                                <InfoCircleOutlined/>
+                            </Space>
+                        </Tooltip>}>
                         <Space direction="vertical">
                             <p>Select from the dropdown below the type of job you would like to run.</p>
 

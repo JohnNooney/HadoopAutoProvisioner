@@ -167,7 +167,7 @@ function Contents(props) {
                                     </Paragraph>
 
                                     <Paragraph>
-                                        So when you make the request from this website to build a Hadoop Cluster a command is sent to the Flask API to start a container for each Hadoop Node. And similarly when you make a request to run a job on this website, a request is sent to the Flask
+                                        So when you make the request from this website to build a Hadoop Cluster, a command is sent to the Flask API to start a container for each Hadoop Node. And similarly when you make a request to run a job on this website, a request is sent to the Flask
                                         API to send a command to the Docker container the job is meant for. 
                                     </Paragraph>
 

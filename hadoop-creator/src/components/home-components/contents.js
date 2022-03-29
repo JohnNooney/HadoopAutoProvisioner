@@ -434,7 +434,7 @@ function Contents(props) {
                                         The Name Node or Master Node contains all meta-data info about the files stored within the cluster: Name, permissions, directory, and which nodes contain which blocks.
                                         When a file comes in to the cluster to be stored it is broken up into blocks. The Name Node makes sure to track the file directory structure and placement of blocks for each file. 
                                         However if the Name Node were to be corrupted/destroyed then the entire HDFS will be brought down. Which is why a Secondary Name Node is sometimes used - which acts as a backup in case
-                                        the Primary Name Node is deleted. It is also common practice to create backups of the Name Node meta data.
+                                        the Primary Name Node is deleted. It is also common practice to create backups of the Name Node meta data in order to avoid total cluster failure.
                                         
                                         <br/>
                                         <br/>

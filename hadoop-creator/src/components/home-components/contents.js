@@ -1,5 +1,5 @@
-import {Row, Col, Divider, Typography , Layout  } from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
+import {Row, Col, Divider, Typography , Layout, Button, Table  } from 'antd';
+import { ClusterOutlined, DashboardOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
 
 
 const { Content } = Layout;
@@ -8,6 +8,82 @@ const { Title, Text, Paragraph } = Typography;
 function Contents(props) {
     // props.contentKey corresponds to the menu key clicked
     // alert(props.contentKey);
+
+    const dataSource = [
+        {
+          key: '1',
+          job: 'HDFS',
+          op: 'Make Folder',
+          mod: 'Folder Name',
+          desc: 'Makes a folder with the given name in HDFS on the cluster'
+        },
+        {
+        key: '2',
+        job: 'Hadoop',
+        op: 'Pi',
+        mod: 'Number of Maps and Samples Per Map',
+        desc: 'Runs a performance test by calculating Pi through a MapReduce operation. The higher the number of maps, the longer ther operation but this can be offset with a higher sample size per map.'
+        },
+        {
+        key: '3',
+        job: 'Hadoop',
+        op: 'Terasort',
+        mod: 'File Size',
+        desc: 'Runs a performance test by generating a file of the given size and performs a MapReduce on it.'
+        },
+        {
+        key: '4',
+        job: 'YARN',
+        op: 'Pi',
+        mod: 'Number of Maps and Samples Per Map',
+        desc: 'Runs a performance test by calculating Pi through a MapReduce operation. The higher the number of maps, the longer ther operation but this can be offset with a higher sample size per map.'
+        },
+        {
+        key: '5',
+        job: 'YARN',
+        op: 'Terasort',
+        mod: 'File Size',
+        desc: 'Runs a performance test by generating a file of the given size and performs a MapReduce on it.'
+        },
+        {
+        key: '5',
+        job: 'Spark',
+        op: 'Pi',
+        mod: 'Number of Maps and Samples Per Map',
+        desc: 'Runs a performance test by calculating Pi through a MapReduce operation. The higher the number of maps, the longer ther operation but this can be offset with a higher sample size per map.'
+        },
+        {
+        key: '5',
+        job: 'Spark',
+        op: 'GroupByTest',
+        mod: 'none',
+        desc: 'Runs a performance test by generating a sample file and performing a MapReduce operation on it.'
+        },
+      ];
+      
+      const columns = [
+        {
+          title: 'Job Type',
+          dataIndex: 'job',
+          key: 'job',
+        },
+        {
+          title: 'Operation',
+          dataIndex: 'op',
+          key: 'op',
+        },
+        {
+          title: 'Modifier(s)',
+          dataIndex: 'mod',
+          key: 'mod',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'desc',
+            key: 'desc',
+        },
+      ];
+
     return (
         <div>
             {props.contentKey == 'welcome' &&
@@ -30,8 +106,8 @@ function Contents(props) {
                                     <Paragraph>
                                     Not only does this application serve as a playground for Hadoop but it will also help teach you about how Hadoop works.
                                     If you have never used Hadoop or would like a quick refresher please read through some of the documentation in the Hadoop section 
-                                    on the left. Or if you prefer to just experient with the app first, I recommend following this short guide below. Alternatively, you can find a more detailed
-                                    detailed guide on the left, where each section of this website is explained thoroughly.
+                                    on the left. Or if you prefer to just experient with the app first, I recommend following this short guide below. You can find a more detailed
+                                    guide on the left, where each section of this website is explained thoroughly.
                                     </Paragraph>
 
                                     <Title level={2}>Quick Start Guide</Title>
@@ -40,10 +116,10 @@ function Contents(props) {
                                     <Paragraph>
                                         <ol>
                                             <li>
-                                                <Text>Navigate to the <Text strong>Cluster Builder</Text> Tab and press the 'Fill' button.</Text> 
+                                                <Text>Navigate to the <SettingOutlined /> <Text strong>Cluster Builder</Text> Tab and press the <Button size='small'>Fill</Button> button.</Text> 
                                             </li>
                                             <li>
-                                                <Text>Then press the 'Start Cluster' button. This may take a couple minutes if this is your first time since the Hadoop container images need to be downloaded from Docker.</Text> 
+                                                <Text>Then press the <Button type="primary" size='small'>Build Cluster</Button> button. This may take a couple minutes if this is your first time since the Hadoop container images need to be downloaded from Docker.</Text> 
                                             </li>
                                             <li>
                                                 <Text>All done... Your Hadoop cluster is built.</Text> 
@@ -51,13 +127,13 @@ function Contents(props) {
                                             <br/>
                                             <Text strong>Optional Next Steps</Text>
                                             <li>
-                                                <Text>Visually explore your cluster on the <Text strong>Cluster Diagarm</Text> tab. Click on each component to learn a little about their purpose. </Text> 
+                                                <Text>Visually explore your cluster on the <ClusterOutlined /> <Text strong>Cluster Diagarm</Text> tab. Click on each component to learn a little about their purpose. </Text> 
                                             </li>
                                             <li>
-                                                <Text>Run sample Hadoop jobs and navigate to Hadoop UIs on the <Text strong>Cluster Monitoring</Text> tab.</Text> 
+                                                <Text>Run sample Hadoop jobs and navigate to Hadoop UIs on the <DashboardOutlined/> <Text strong>Cluster Monitoring</Text> tab.</Text> 
                                             </li>
                                             <li>
-                                                <Text>Teardown your Hadoop cluster by navigating back to the <Text strong>Cluster Builder</Text> tab and clicking 'Stop Cluster'. This may take a minute or two so be patient.</Text> 
+                                                <Text>Teardown your Hadoop cluster by navigating back to the <SettingOutlined />  <Text strong>Cluster Builder</Text> tab and clicking <Button type="danger" size='small'>Stop Cluster</Button>. This may take a minute or two so be patient.</Text> 
                                             </li>
                                             <li>
                                                 <Text>Experiment with creating different Hadoop configurations. Happy Hadooping!</Text> 
@@ -105,8 +181,8 @@ function Contents(props) {
                                     <Title>Cluster Builder</Title>
                                     <Paragraph>
                                         The cluster builder is a way of configuring a Hadoop cluster through a form. 
-                                        Simply fill out the desired attributes of your Hadoop cluster and click 'Build Cluster'.
-                                        Once you're done with experimenting with your cluster press and 'Stop Cluster' button
+                                        Simply fill out the desired attributes of your Hadoop cluster and click <Button type="primary" size='small'>Build Cluster</Button> .
+                                        Once you're done with experimenting with your cluster press and <Button type="danger" size='small'>Stop Cluster</Button> button
                                         and wait until your cluster has been torndown.
                                     </Paragraph>
 
@@ -141,13 +217,13 @@ function Contents(props) {
                                     <Title level={2}>Extras Config</Title>
                                     <Paragraph>
                                         Here the only Extra for now is the inclusion of Spark. When you enable Spark then a Spark node will be spun up with the cluster. 
-                                        With a Spark node, additional functionality in the 'Cluster Monitoring' tab will become available. More information on what that entails can be 
+                                        With a Spark node, additional functionality in the <DashboardOutlined/> <Text strong>Cluster Monitoring</Text> tab will become available. More information on what that entails can be 
                                         found in the 'Monitoring' section on the left. 
                                     </Paragraph>
 
                                     <Title level={2}>How It Works</Title>
                                     <Paragraph>
-                                        Once you fill out the form on the UI and click the 'Build Cluster' button then a POST request is made to an API.
+                                        Once you fill out the form on the UI and click the <Button type="primary" size='small'>Build Cluster</Button> button then a POST request is made to an API.
                                         The API is responsible for being the middle man betwen this website and the Hadoop Cluster. See the diagram below.
 
                                     </Paragraph>
@@ -174,6 +250,8 @@ function Contents(props) {
                                         is the ability to click on each component and see how it is interacting with it's connecting components. Use this to learn more about how
                                         Hadoop components interact with each other. 
                                     </Paragraph>
+
+                                    <Title level={2}>Example Diagram</Title>
 
                                     <Title level={2}>Known Bugs</Title>
                                     <Paragraph>
@@ -204,8 +282,29 @@ function Contents(props) {
                                     
                                     <Title>Cluster Monitoring</Title>
                                     <Paragraph>
-                                        The Cluster Monitor can be seen as a hub for your Hadoop cluster. Here you can view all the links to your Cluster's web UIs. 
-                                        With the Name Node UI you are able to see an overview of your entire cluster as well as the HDFS file structure of it. 
+                                        The Cluster Monitor can be seen as a hub for your Hadoop cluster. Here you can view all the links to your Cluster's web UIs.  
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        With the <Text strong>Name Node UI</Text> you are able to see an overview of your entire cluster. In this UI you can see basic statistics
+                                        of your UI. Some key points to look at here are how much data is available to your cluster, how much it has used, and how many data nodes 
+                                        are active in your cluster. I highly suggest looking through this UI first in case something is going wrong with your cluster, ie: jobs are
+                                        not running. It may be that your data nodes were not set up properly. If that is the case, then shutting down your cluster and restarting it may 
+                                        be a viable solution.
+
+                                        In Addition you'll have a quick access link to the HDFS directories. With this link you can check to see what types of files and directories exist on your
+                                        cluster. If you end up running a job to make a folder, you can go to this quick access link to view it.
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        The <Text strong>Data Node UIs</Text> only become available if you have enabled the Resource Manager (YARN) on your cluster. For each data node alive in your
+                                        cluster you should have a corresponding Node Manager. The Node Manager is what is providing the UI for your Data Node. I would suggest using these quick access links
+                                        to check up on your Data Nodes to see some useful statistics about them.  
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        The <Text strong>Resource Manager UI</Text> only becomes available if you have enabled the Resource Manager (YARN) on your cluster config. You can use this quick
+                                        access link view all you YARN or Spark related jobs. This can be useful to check on the status and progress of any jobs you have started.
                                     </Paragraph>
 
                                     <Title level={2}> Job Builder</Title>
@@ -229,8 +328,12 @@ function Contents(props) {
                                         </ul>
                                         <br/>
 
-                                        Each job also has a set list of different operations they can perform.
+                                        Each job also has a set list of different operations they can perform where each operation has a set of different modifiers.
                                     </Paragraph>
+
+                                    <Table dataSource={dataSource} columns={columns} />;
+
+                                    
                                 </Typography>
                             </Col>
                         </Row>
@@ -244,15 +347,15 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Hadoop Overview</Title>
-                            </Col>
-                        </Row>
+                                <Typography>
+                                    
+                                    <Title>Hadoop Overview</Title>
 
-                        <Divider />
+                                    <Paragraph>
+                                        What Hadoop is used for
+                                    </Paragraph>
 
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>What Hadoop is used for</Text>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 

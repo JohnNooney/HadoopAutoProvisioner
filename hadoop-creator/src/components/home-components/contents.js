@@ -403,8 +403,8 @@ function Contents(props) {
                                     <Title level={2}>Hadoop Distributed File System - HDFS</Title>
                                     <Paragraph>
                                     HDFS is the primary distributed storage used by Hadoop applications. A HDFS cluster primarily consists of a NameNode that manages the file system metadata and DataNodes that store the actual data.
-                                    HDFS provides better data throughput than traditional file systems, in addition to high fault tolerance and native support of large datasets. In addition, HDFS treats hardware failure as the norm rather than
-                                    an exception. Data stored on each node is replicated across the whole cluster so in case one node fails, multiple backups exist. 
+                                    HDFS provides better data throughput than traditional file systems, in addition to high fault tolerance and native support of large datasets. Also, HDFS treats hardware failure as the norm rather than
+                                    an exception. Data stored on each node is replicated across the whole cluster so in case one node fails, multiple backups exist (See the Name Node section for more information on Data Replication). 
 
                                     <br/>
                                     <br/>
@@ -433,12 +433,13 @@ function Contents(props) {
                                     <Paragraph>
                                         The Name Node or Master Node contains all meta-data info about the files stored within the cluster: Name, permissions, directory, and which nodes contain which blocks.
                                         When a file comes in to the cluster to be stored it is broken up into blocks. The Name Node makes sure to track the file directory structure and placement of blocks for each file. 
-                                        However if the 
+                                        However if the Name Node were to be corrupted/destroyed then the entire HDFS will be brought down. Which is why a Secondary Name Node is sometimes used - which acts as a backup in case
+                                        the Primary Name Node is deleted. It is also common practice to create backups of the Name Node meta data.
                                         
                                         <br/>
                                         <br/>
 
-                                        See an example of this process below.
+                                        See an example of the Data Replication process below.
                                     </Paragraph>
                                     <Image src="/simple_cluster_replication.png" />
 

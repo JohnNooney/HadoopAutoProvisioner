@@ -141,6 +141,36 @@ function Contents(props) {
                                         </ol>
                                     </Paragraph>
 
+                                    <Title level={2}>How It Works</Title>
+                                    <Paragraph>
+                                        Once you fill out the form in the <SettingOutlined /> <Text strong>Cluster Builder</Text> and click the <Button type="primary" size='small'>Build Cluster</Button> button then a POST request is made to a Flask API.
+                                        The API is responsible for being the middle man betwen this website and the Hadoop Cluster. A key element of getting this to work is being able to make Docker commands from within a Docker container. This application 
+                                        uses a Docker-Out-Of-Docker approach (More on this below).
+                                        
+                                        <br/>
+                                        <br/>
+                                        See the system diagram below.
+
+                                    </Paragraph>
+                                    <Image src='/system_diagram.png' />
+
+                                    <Title level={3}>Docker</Title>
+                                    <Paragraph>
+                                        As a quick primer, Docker is a containerization technology that allows for applications to be bundled into a small self-contained enviroments called containers. The container only has the things required to run the application in it,
+                                        ie: a lightweight version of an OS (no GUI), the required packages for the app, and the app itself. This allows for rapid deployment and portability of your app on any system that has the Docker software on it.  
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        For those reasons, everything in this application is running in a container. Even the Hadoop cluster. The tricky part to getting this to work though, is being able to run Docker commands from within a Docker container. A solution to this
+                                        is called <Text strong>Docker-Out-Of-Docker</Text>, where the Docker container is making Docker commands from outside it's container - essentially controlling the host's Docker software. All that is required for this is to share the host's Docker files with the container, 
+                                        which is why when you look at the diagram above, you can see the Flask API is connected to the docker.socket volume. This gives the container access to the Docker software/files running on the host.
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        So when you make the request from this website to build a Hadoop Cluster a command is sent to the Flask API to start a container for each Hadoop Node. And similarly when you make a request to run a job on this website, a request is sent to the Flask
+                                        API to send a command to the Docker container the job is meant for. 
+                                    </Paragraph>
+
                                     <Title level={2}>Troubleshooting Tips</Title>
                                     <Paragraph>
                                         <ul>
@@ -219,13 +249,6 @@ function Contents(props) {
                                         Here the only Extra for now is the inclusion of Spark. When you enable Spark then a Spark node will be spun up with the cluster. 
                                         With a Spark node, additional functionality in the <DashboardOutlined/> <Text strong>Cluster Monitoring</Text> tab will become available. More information on what that entails can be 
                                         found in the 'Monitoring' section on the left. 
-                                    </Paragraph>
-
-                                    <Title level={2}>How It Works</Title>
-                                    <Paragraph>
-                                        Once you fill out the form on the UI and click the <Button type="primary" size='small'>Build Cluster</Button> button then a POST request is made to an API.
-                                        The API is responsible for being the middle man betwen this website and the Hadoop Cluster. See the diagram below.
-
                                     </Paragraph>
 
                                 </Typography>
@@ -396,6 +419,7 @@ function Contents(props) {
                                     <Paragraph>
                                         The Name Node or Master Node contains all meta-data info about the files stored within the cluster: Name, permissions, directory, and which nodes contain which blocks.
                                         When a file comes in to the cluster to be stored it is broken up into blocks. The Name Node makes sure to track the file directory structure and placement of blocks for each file. 
+                                        However if the 
                                         
                                         <br/>
                                         <br/>

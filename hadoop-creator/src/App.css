@@ -34,6 +34,12 @@
   margin: 1vh 5vw 1vh 5vw;
 }
 
+@media screen and (min-width: 1500px) {
+  .home_content {
+    width: 50%;
+  }
+}
+
 .flow{
   width: 100vw;
   height: 80vh;

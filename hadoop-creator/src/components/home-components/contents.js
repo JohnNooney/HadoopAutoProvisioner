@@ -180,7 +180,21 @@ function Contents(props) {
                                             <br/>
 
                                             <Text>Issue: Hadoop Cluster not starting</Text> 
-                                            <li>Make sure the Hadoop API Docker container is running. It may need to be restarted, use these commands to restart the container.</li>
+                                            <li>It may be that you have to wait, sometimes it can take some time for the cluster to start up. 
+                                                Otherwise, make sure the Hadoop API Docker container is running. It may need to be restarted - use these commands to restart the container:
+                                                
+                                                <ol>
+                                                    <li>
+                                                        <Text code copyable>docker stop container hadoopapi</Text>
+                                                    </li>
+                                                    <li>
+                                                        <Text code copyable>docker rm container hadoopapi</Text>
+                                                    </li>
+                                                    <li>
+                                                        <Text code copyable>docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker johnnoon74/hadoopapi:latest --name hadoopapi </Text>
+                                                    </li>
+                                                </ol>
+                                            </li>
                                             <br/>
 
                                             <Text>Issue: Jobs not showing up in YARN UI</Text> 

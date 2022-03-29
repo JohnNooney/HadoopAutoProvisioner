@@ -265,7 +265,10 @@ function ClusterDashboard(props) {
                                 isJobLoading === true ? 
                                 <Alert
                                     message="Job running..."
-                                    description="If Resource Manager is enabled AND job was submitted through Spark, view detailed progress on your job through the Yarn Web UI. Otherwise please wait..."
+                                    description={props.Data.yarn ? 
+                                        "If job submitted through Spark, view detailed progress on your job through the Yarn Web UI. Otherwise please wait or look at the Docker container logs for the Hadoop API..."
+                                        : 
+                                        "Job progress can be seen by looking at the Docker container logs for the Hadoop API..."}
                                     type="info"
                                 />: null
                             }

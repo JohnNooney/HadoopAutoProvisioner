@@ -1,4 +1,4 @@
-import {Row, Col, Divider, Typography , Layout, Button, Table  } from 'antd';
+import {Row, Col, Divider, Typography , Layout, Button, Table, Image  } from 'antd';
 import { ClusterOutlined, DashboardOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
 
 
@@ -252,6 +252,7 @@ function Contents(props) {
                                     </Paragraph>
 
                                     <Title level={2}>Example Diagram</Title>
+                                    <Image src='/diagram.png' />
 
                                     <Title level={2}>Known Bugs</Title>
                                     <Paragraph>
@@ -349,11 +350,32 @@ function Contents(props) {
                                 <br/>
                                 <Typography>
                                     
-                                    <Title>Hadoop Overview</Title>
+                                    <Title>Background</Title>
 
                                     <Paragraph>
-                                        What Hadoop is used for
+                                    With increasiing accessibility of cloud processing in recent years, companies have been adopting strategies of collecting 
+                                    and processing large amounts of information about their customers. This concept of collecting data is commonly referred to 
+                                    as Big Data. With Big Data, companies can analyze trends in the market and their customer's habits.
                                     </Paragraph>
+                                    <Paragraph>
+                                    So with petabytes of data being generated every minute, there needs to be a system that can manage the volume, velocity, and variety of incoming data.
+                                    The ideal architecture for managing Big Data is a distributed system. With a distributed system, multiple servers work together to split up data for read/write operations. 
+                                    Which is exactly how Hadoop works. Hadoop is a software framework for creating a distributed storage and processing system.
+                                    </Paragraph>
+
+                                    <Title level={2}>Hadoop Distributed File System - HDFS</Title>
+                                    <Paragraph>
+                                    HDFS is the primary distributed storage used by Hadoop applications. A HDFS cluster primarily consists of a NameNode that manages the file system metadata and DataNodes that store the actual data.
+                                    HDFS provides better data throughput than traditional file systems, in addition to high fault tolerance and native support of large datasets.
+
+                                    <br/>
+                                    <br/>
+
+                                    See below a diagram of a basic HDFS cluster
+                                    </Paragraph>
+                                    <Image src='/simple_cluster.png' />
+
+                                    
 
                                 </Typography>
                             </Col>
@@ -368,15 +390,13 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Hadoop Name Node</Title>
-                            </Col>
-                        </Row>
-
-                        <Divider />
-
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>.</Text>
+                                <Typography>
+                                    <Title>Hadoop Name Node</Title>
+                                    <Paragraph>
+                                        The Name Node or Master Node contains all meta-data info about the files stored within the cluster: Name, permissions, directory, and which nodes contain which blocks.
+                                        When a file comes in to the cluster to be stored it is broken up into blocks. The Name Node makes sure to track the file directory structure and placement of blocks for each file.
+                                    </Paragraph>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 

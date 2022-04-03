@@ -568,9 +568,53 @@ function Contents(props) {
                                 <br/>
                                 <Typography>
                                     
-                                    <Title>Hadoop Spark</Title>
+                                    <Title>Hadoop and Spark</Title>
                                     <Paragraph>
+                                        Spark is a popular computational software framework to use with Hadoop as a way of replacing Hadoop's native MapReduce scheduler/executor. The main reason why Spark is used instead of MapReduce is because
+                                        of the huge performance boost in computations (100x faster on small workloads). This is because Spark uses RAM for it's computations - it processes and retains data in memory for subsequent steps, whereas MapReduce 
+                                        processes data on disk. 
+                                    </Paragraph>
 
+                                    <Paragraph>
+                                        In order for Spark to work with a Hadoop cluster, YARN is required. This is because Spark needs to communicate with the cluster manager (Resource Manager) in order to allocate resources on the data nodes. When executing 
+                                        a Spark program the following steps are taken. 
+
+                                        <br/>
+                                        <br/>
+
+                                        <ol>
+                                            <li>
+                                                A <Text strong>Driver</Text> program is started on the Spark Master node.    
+                                            </li>
+                                            <li>
+                                                The <Text strong>Driver</Text> node then <Text strong>communicates with the Resource Manager</Text> to allocate <Text strong>exector</Text> processes on the worker nodes (Data Nodes).    
+                                            </li>
+                                            <li>
+                                                The <Text strong>Executors</Text> (typically one per node) then runs the program that was sent by the client as a series of tasks.    
+                                            </li>
+                                            <li>
+                                                The <Text strong>Executors</Text> communicate with each other, the <Text strong>Driver</Text> program, and the <Text strong>Resource Manager</Text> in order to coordinate job tasks and statuses.    
+                                            </li>
+                                            <li>
+                                                On job completion on <Text strong>Executors</Text> are torn down.
+                                            </li>
+                                        </ol>
+
+                                        <br/>
+
+                                        See below a diagram of this process.
+                                    </Paragraph>
+
+                                    <Image src="/spark.png" />
+
+                                    <Title level={2}>More Resources</Title>
+                                    <Paragraph>
+                                        <ul>
+                                            <li><a href='https://spark.apache.org/docs/latest/'>Spark Documentation</a></li>
+                                            <li><a href='https://spark.apache.org/docs/latest/cluster-overview.html'>Spark Documentation - Running in a cluster</a></li>
+                                            <li><a href='https://spark.apache.org/docs/latest/running-on-yarn.html'>Spark Documentation - Using YARN and Spark</a></li>
+                                            <li><a href='https://www.ibm.com/cloud/blog/hadoop-vs-spark'>IBM Hadoop vs. Spark Blog Post</a></li>
+                                        </ul>
                                     </Paragraph>
                                 </Typography>
                             </Col>

@@ -5,8 +5,8 @@ A user-friendly way of provisioning a cluster for the big data framework Hadoop.
 Start up the container for each service
 
 ### Quick Start
-1. ``` docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker johnnoon74/hadoopapi:latest --name hadoopapi ```
-2. ``` docker run -dp 3000:3000 johnnoon74/hadoopcreator:latest --name hadoopcreator```
+1. ``` docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker --name hadoopapi johnnoon74/hadoopapi:latest  ```
+2. ``` docker run -dp 3000:3000 --name hadoopcreator johnnoon74/hadoopcreator:latest ```
 
 ### Build Containers
 **Flask API**

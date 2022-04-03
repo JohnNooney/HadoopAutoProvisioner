@@ -1,11 +1,12 @@
 # HadoopAutoProvisioner
-A user-friendly way of provisioning a cluster for the big data framework Hadoop
-
-## Current Implementation
-Right now there are two services being used to spin a cluster progmatically. The Flask API and a React Frontend. The user will interact with the React frontend and through the use of POST or GET requests, commands are sent to the Flask API to perform. Right now the Flask API accepts a GET for testing the connection and a POST which will provide the API with the correct configuration information needed to spin up a cluster. Currently a cluster is not being spun up. Instead a sample Docker conatiner is starting up in place of a cluster. Future implemenations will add this.
+A user-friendly way of provisioning a cluster for the big data framework Hadoop. This appliction contains a React Frontend and a Flask API. Both of these work together to spin up Docker-based Hadoop Cluster. The React frontend will walk you through what Hadoop is and help you quickly start up a Hadoop cluster. 
 
 ## How To
 Start up the container for each service
+
+### Pull the Docker containers
+1. ``` docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker johnnoon74/hadoopapi:latest --name hadoopapi ```
+2. ``` docker run -dp 3000:3000 johnnoon74/hadoopcreator:latest --name hadoopcreator```
 
 ### Build Containers
 **Flask API**
@@ -26,10 +27,11 @@ Start up the container for each service
 
 ``` docker run -dp 3000:3000 hadoop-creator ```
 
-### Operation
-1. navigate to browser http://localhost:3000/
-2. click GET button to test connection with API
-3. click POST button to start container
 
-Note: May need to wait for docker to pull container. This may take a bit. Once done you will see the container has started in docker
+Note: Make sure both the React UI and the API started up with no issues
 ``` docker ps ``` to see all running containers. or see them via Docker Desktop
+
+### Operation
+1. navigate to browser - http://localhost:3000/
+2. Read through welcome page to get started quickly
+

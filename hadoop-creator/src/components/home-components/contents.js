@@ -502,8 +502,8 @@ function Contents(props) {
                                     <Paragraph>
                                         <ul>
                                             <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Cloudera Documentation on Data Nodes</a></li>
-                                            <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Hadoop Documentation on Name Nodes and Data Nodes</a></li>
-                                            <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Hadoop Documentation on MapReduce</a></li>
+                                            <li><a href='https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html#NameNode+and+DataNodes'>Hadoop Documentation on Name Nodes and Data Nodes</a></li>
+                                            <li><a href='https://hadoop.apache.org/docs/r1.2.1/mapred_tutorial.html#Overview'>Hadoop Documentation on MapReduce</a></li>
                                         </ul>
                                     </Paragraph>
                                 </Typography>
@@ -524,6 +524,13 @@ function Contents(props) {
                                     <Title>Hadoop YARN</Title>
                                     <Paragraph>
 
+                                    </Paragraph>
+
+                                    <Title>More Resources</Title>
+                                    <Paragraph>
+                                        <ul>
+                                            <li><a href='https://docs.cloudera.com/runtime/7.2.10/yarn-overview/topics/yarn-introduction-yarn.html'>Cloudera Documentation on YARN</a></li>
+                                        </ul>
                                     </Paragraph>
                                 </Typography>
                             </Col>

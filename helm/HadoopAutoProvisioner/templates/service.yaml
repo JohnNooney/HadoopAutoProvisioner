@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "HadoopAutoProvisioner.flask.fullname" . }}
+  labels:
+    {{- include "HadoopAutoProvisioner.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.flask.service.type }}
+  ports:
+    - port: {{ .Values.flask.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "HadoopAutoProvisioner.flask.selectorLabels" . | nindent 4 }}

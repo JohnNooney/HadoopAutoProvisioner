@@ -1,0 +1,19 @@
+networks:
+  hadoop: {}
+services:
+  namenode:
+    env_file:
+    - ./hadoop.env
+    - ./user_hadoop.env
+    environment:
+    - CLUSTER_NAME=autohadoop
+    hostname: namenode.hadoop
+    image: uhopper/hadoop-namenode
+    networks:
+    - hadoop
+    ports:
+    - 50070:50070
+    volumes:
+    - namenode-vol:/hadoop/dfs/name
+version: '3.4'
+volumes: null

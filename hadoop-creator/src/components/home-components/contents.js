@@ -191,7 +191,7 @@ function Contents(props) {
                                                         <Text code copyable>docker rm container hadoopapi</Text>
                                                     </li>
                                                     <li>
-                                                        <Text code copyable>docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker johnnoon74/hadoopapi:latest --name hadoopapi </Text>
+                                                        <Text code copyable>docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker  --name hadoopapi johnnoon74/hadoopapi:latest </Text>
                                                     </li>
                                                 </ol>
                                             </li>

@@ -535,8 +535,14 @@ function Contents(props) {
                                     <Title level={3}>Application Master</Title>
                                     <Paragraph>
                                     There is only one App Master per job. The App Master is responsible for the life-cycle of a job by directing the Node Manager to create, or destory a container for a job. 
+                                    The App Master works directly with a given Node Manger and negotiates for resources with the Resource Manager.
                                     </Paragraph>
+
                                     <Title level={3}>Node Manager</Title>
+                                    <Paragraph>
+                                        The Node Manager is a per-machine agent who is responsible for containers, monitoring their resource usage and reporting these statistics to the Resource Manager. The containers that
+                                        the Node Manager creates are used for executing jobs in. Based on the App Master's request the Node Manager will allocate or destory containers.
+                                    </Paragraph>
 
                                     <Image src="/yarn.png" />
 

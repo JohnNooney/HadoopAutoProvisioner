@@ -463,15 +463,50 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Hadoop Data Node</Title>
-                            </Col>
-                        </Row>
+                                <Typography>
+                                    
+                                    <Title>Hadoop Data Node</Title>
+                                    <Paragraph>
+                                        These are the slave nodes of the HDFS architecture. As a collective all the Data Nodes handle block storage and any read/write operations related to the data.
+                                        For realiabilty, data is replicated across each Data Node (by default to a factor of 3). This also increases performance since any computations will be closer to the source data.
 
-                        <Divider />
+                                    </Paragraph>
 
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>.</Text>
+                                    
+                                    <Title level={2}>Map Reduce</Title>
+                                    <Paragraph>
+                                        There are various types of computations that a Hadoop cluster can use to process data but MapReduce runs natively on a Hadoop. MapReduce is a software framework designed to process multi-terabyte data-sets in parallel
+                                        on large clusters (thousands of nodes) in a reliable and fault tolerant manner. When you run a MapReduce job on a Hadoop cluster, the input data is split into chunks and processed by a <Text strong>Map</Text> task.
+                                        Then the framework sorts the outputs of the maps, which are then the input of the <Text strong>Reduce</Text> task. The output of the reduce task is then aggregated together to form the new output data set. The MapReduce framework 
+                                        takes care of scheduling the tasks, monitoring, and re-executing in the case of a failed task.
+                                    </Paragraph>
+
+                                    <Image src="/mapreduce.png" />
+
+                                    <Paragraph>
+                                        What makes the MapReduce jobs truley efficient however, is the data replication across the Data Nodes. The scheculer can find the Data Nodes that have the relevant data on them easily and run the MapReduce process with a very high aggregate bandwith.
+                                    </Paragraph>
+
+                                    <Title level={2}>Fault Tolerance</Title>
+                                    <Paragraph>
+                                        In order for the Name Node to determine if the Data Nodes are ready, every 3 seconds the Data Nodes sends a heartbeat request (basically a liveness/readiness check)
+                                        to the Name Node. In the case of a no reports coming from a Data Node in 10 heartbeats, the Data Node is taken out of rotation. After 10 minutes of no reports from the Data Node,
+                                        the Name Node locates other Data Nodes with copies of the data that existed on that Data Node and instructs other Data Nodes to copy that data to maintain the replication factor.
+                                    </Paragraph>
+
+                                    <Paragraph>
+                                        In order to recomission a dead Data Node, a manual inspection into the node needs to be done. Once the issue is resolved the Data Node can rejoin the cluster.
+                                    </Paragraph>
+
+                                    <Title>More Resources</Title>
+                                    <Paragraph>
+                                        <ul>
+                                            <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Cloudera Documentation on Data Nodes</a></li>
+                                            <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Hadoop Documentation on Name Nodes and Data Nodes</a></li>
+                                            <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Hadoop Documentation on MapReduce</a></li>
+                                        </ul>
+                                    </Paragraph>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 
@@ -484,15 +519,13 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Hadoop YARN</Title>
-                            </Col>
-                        </Row>
+                                <Typography>
+                                    
+                                    <Title>Hadoop YARN</Title>
+                                    <Paragraph>
 
-                        <Divider />
-
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>.</Text>
+                                    </Paragraph>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 
@@ -505,15 +538,13 @@ function Contents(props) {
                             <Col>
                                 <br/>
                                 <br/>
-                                <Title>Hadoop Spark</Title>
-                            </Col>
-                        </Row>
+                                <Typography>
+                                    
+                                    <Title>Hadoop Spark</Title>
+                                    <Paragraph>
 
-                        <Divider />
-
-                        <Row justify="start" align="middle">
-                            <Col>
-                                <Text>.</Text>
+                                    </Paragraph>
+                                </Typography>
                             </Col>
                         </Row>
                     </div> 

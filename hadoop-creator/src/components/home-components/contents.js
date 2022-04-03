@@ -477,14 +477,14 @@ function Contents(props) {
                                     <Paragraph>
                                         There are various types of computations that a Hadoop cluster can use to process data but MapReduce runs natively on a Hadoop. MapReduce is a software framework designed to process multi-terabyte data-sets in parallel
                                         on large clusters (thousands of nodes) in a reliable and fault tolerant manner. When you run a MapReduce job on a Hadoop cluster, the input data is split into chunks and processed by a <Text strong>Map</Text> task.
-                                        Then the framework sorts the outputs of the maps, which are then the input of the <Text strong>Reduce</Text> task. The output of the reduce task is then aggregated together to form the new output data set. The MapReduce framework 
+                                        Then the framework sorts the outputs of the maps, which become the input of the <Text strong>Reduce</Text> task. The output of the reduce task is then aggregated together to form the new output data set. The MapReduce framework 
                                         takes care of scheduling the tasks, monitoring, and re-executing in the case of a failed task.
                                     </Paragraph>
 
                                     <Image src="/mapreduce.png" />
 
                                     <Paragraph>
-                                        What makes the MapReduce jobs truley efficient however, is the data replication across the Data Nodes. The scheculer can find the Data Nodes that have the relevant data on them easily and run the MapReduce process with a very high aggregate bandwith.
+                                        What makes the MapReduce jobs truley efficient however, is the data replication across the Data Nodes. The scheculer can find the Data Nodes that have the relevant data on them and run the MapReduce process on those nodes with a very high aggregate bandwith.
                                     </Paragraph>
 
                                     <Title level={2}>Fault Tolerance</Title>

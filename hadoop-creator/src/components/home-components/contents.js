@@ -443,7 +443,7 @@ function Contents(props) {
                                     </Paragraph>
                                     <Image src="/simple_cluster_replication.png" />
 
-                                    <Title>More Resources</Title>
+                                    <Title level={2}>More Resources</Title>
                                     <Paragraph>
                                         <ul>
                                             <li><a href='https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html#NameNode+and+DataNodes'>Hadoop Documentation on Name Nodes</a></li>
@@ -498,7 +498,7 @@ function Contents(props) {
                                         In order to recomission a dead Data Node, a manual inspection into the node needs to be done. Once the issue is resolved the Data Node can rejoin the cluster.
                                     </Paragraph>
 
-                                    <Title>More Resources</Title>
+                                    <Title level={2}>More Resources</Title>
                                     <Paragraph>
                                         <ul>
                                             <li><a href='https://docs.cloudera.com/runtime/7.2.10/hdfs-overview/topics/hdfs-datanodes-intro.html'>Cloudera Documentation on Data Nodes</a></li>
@@ -523,13 +523,28 @@ function Contents(props) {
                                     
                                     <Title>Hadoop YARN</Title>
                                     <Paragraph>
-
+                                        YARN acts as a layer in the Hadoop cluster that specifically focuses on resource management and job scheduling. Three main components are introduced into the cluster, the <Text strong>Resource Manager</Text>, <Text strong>Application Master</Text>, and the <Text strong>Node Manager</Text>. 
                                     </Paragraph>
 
-                                    <Title>More Resources</Title>
+                                    <Title level={3}>Resource Manager</Title>
+                                    <Paragraph>
+                                    The Resource Manager exclusivley controls scheduling and keeps pace as clusters expand to thousands of nodes managing petabytes of data.
+                                    Essentially it allocates cluster resources using the scheduler and Application Manager.
+                                    </Paragraph>
+
+                                    <Title level={3}>Application Master</Title>
+                                    <Paragraph>
+                                    There is only one App Master per job. The App Master is responsible for the life-cycle of a job by directing the Node Manager to create, or destory a container for a job. 
+                                    </Paragraph>
+                                    <Title level={3}>Node Manager</Title>
+
+                                    <Image src="/yarn.png" />
+
+                                    <Title level={2}>More Resources</Title>
                                     <Paragraph>
                                         <ul>
                                             <li><a href='https://docs.cloudera.com/runtime/7.2.10/yarn-overview/topics/yarn-introduction-yarn.html'>Cloudera Documentation on YARN</a></li>
+                                            <li><a href='https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/YARN.html'>Hadoop Documentation on YARN</a></li>
                                         </ul>
                                     </Paragraph>
                                 </Typography>

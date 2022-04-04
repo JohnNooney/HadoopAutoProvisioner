@@ -176,6 +176,7 @@ function Contents(props) {
                                         <ul>
                                             <Text>Issue: Incosistent UI elements or bugs</Text> 
                                             <li>Try Refreshing the page or switching tabs.</li>
+                                            <li>Or try restarting the API followed by a refresh of the browser. Use this command: <Text code copyable>docker restart hadoopapi</Text></li>
 
                                             <br/>
 
@@ -185,10 +186,7 @@ function Contents(props) {
                                                 
                                                 <ol>
                                                     <li>
-                                                        <Text code copyable>docker stop container hadoopapi</Text>
-                                                    </li>
-                                                    <li>
-                                                        <Text code copyable>docker rm container hadoopapi</Text>
+                                                        <Text code copyable>docker rm container hadoopapi --force</Text>
                                                     </li>
                                                     <li>
                                                         <Text code copyable>docker run -dp 5000:5000 -v //var/run/docker.sock:/var/run/docker.sock -v //usr/bin/docker:/usr/bin/docker  --name hadoopapi johnnoon74/hadoopapi:latest </Text>

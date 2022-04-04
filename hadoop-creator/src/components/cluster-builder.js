@@ -1,6 +1,6 @@
 import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space, Spin  } from 'antd';
 import ButtonRequest from './button-request';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -10,7 +10,9 @@ const { Option } = Select;
 function ClusterBuilder(props) {
   const [yarnEnabled, setYarnEnabled] = useState(false);
   const [form] = Form.useForm();
+  const [isStartingUp, setIsStartingUp] = useState(false);
   const [isShutdownLoading, setIsShutdownLoading] = useState(false);
+  const [validationPass, setValidationPass] = useState(false);
   const [workerNodeCount, setWorkerNodeCount] = useState();
   //const [workerManagerNodeCount, setWorkerManagerNodeCount] = useState();
 
@@ -42,6 +44,7 @@ function ClusterBuilder(props) {
 
   function onSubmitClick(values){
     console.log(values);
+    
     //alert(JSON.stringify(form.getFieldsValue(), null, 2));
     //alert(values['data_node_input']);
   }
@@ -183,8 +186,10 @@ function ClusterBuilder(props) {
               ({getFieldValue}) => ({
                 validator(_, value){
                   if (value === getFieldValue("data_node_workers")){
+                    setValidationPass(true);
                     return Promise.resolve();
                   }
+                  setValidationPass(false);
                   return Promise.reject(new Error("Node Manager and Data Node count need to match"));
                 },
               }),
@@ -240,11 +245,10 @@ function ClusterBuilder(props) {
             <Row justify='center' align='middle'>
               <Col>
                 <Form.Item>
-                  {/* <Button type="primary" htmlType="submit">Submit</Button> */}
                   <Space>
                     <ButtonRequest
                       requestType = "POST"
-                      buttonText="Build Cluster"
+                      buttonText={isStartingUp ? "Building Cluster" : "Build Cluster"}
                       buttonColor="primary"
                       notificationTitle = "Cluster Building"
                       notificationCustomMsg = "Please wait for your cluster to start..."
@@ -254,9 +258,18 @@ function ClusterBuilder(props) {
                       postData = {{"type":"cluster"}}
                       clusterSetter = {props.clusterSetter}
                       formButton = {true}
+                      loadingCallback = {setIsStartingUp}
+                      disableButton = {isStartingUp}
+                      validated = {validationPass}
                     />
-                    <Button htmlType="button" onClick={onFill}>Fill</Button>
-                    <Button type="link" onClick={onReset}>Reset</Button>
+                    { isStartingUp ? 
+                      <Spin/>
+                      :
+                      <React.Fragment>
+                        <Button htmlType="button" onClick={onFill}>Fill</Button>
+                        <Button type="link" onClick={onReset}>Reset</Button>
+                      </React.Fragment>
+                    }
                   </Space>
                 </Form.Item>
               </Col>
@@ -280,6 +293,7 @@ function ClusterBuilder(props) {
                     clusterSetter = {props.clusterSetter}
                     loadingCallback = {setIsShutdownLoading}
                     disableButton = {isShutdownLoading}
+                    validated = {true}
                   /> : null}
                 </Col>
                 <Col>

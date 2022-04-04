@@ -68,12 +68,12 @@ class Scraper(Resource):
         sparkNode = []
 
         # get the name node's open port
-        nameNode = self.rootUrl + self.getContainerPort('hadoop-cluster_namenode_1')
+        nameNode = self.rootUrl + '50070'
         print("namenode port: ", nameNode, "\n")
 
         # get the yarn node's open port (resource manager)
         if 'yarn_resource_manager' in dict:
-            yarnNode = self.rootUrl+self.getContainerPort('hadoop-cluster_resourcemanager_1')
+            yarnNode = self.rootUrl+'8088'
             print("yarn port: ", yarnNode, "\n")
 
             # get the node manager's open ports (same as the data node)

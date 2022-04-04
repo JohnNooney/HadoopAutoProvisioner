@@ -48,11 +48,8 @@ class Scraper(Resource):
         portData = result.decode().replace("\n", ":").split(':')
 
         # if port data has more than one open port
-        if len(portData) > 3:
+        if len(portData) >= 3:
             print(portData)
-            return portData[1::2]
-        elif len(portData) == 3:
-            # only one port exists
             return portData[1]
         else:
             return "no port found"
@@ -68,12 +65,12 @@ class Scraper(Resource):
         sparkNode = []
 
         # get the name node's open port
-        nameNode = self.rootUrl + '50070'
+        nameNode = self.rootUrl + self.getContainerPort('hadoop-cluster_namenode_1')
         print("namenode port: ", nameNode, "\n")
 
         # get the yarn node's open port (resource manager)
         if 'yarn_resource_manager' in dict:
-            yarnNode = self.rootUrl+'8088'
+            yarnNode = self.rootUrl+self.getContainerPort('hadoop-cluster_resourcemanager_1')
             print("yarn port: ", yarnNode, "\n")
 
             # get the node manager's open ports (same as the data node)

@@ -22,7 +22,7 @@ After following one of the setup guides below, there are just 5 tasks that I wou
 4. While on the *Cluster Monitor* tab, view job status by clicking the **YARN UI** link. Then navigate back to app.
 5.  Navigate to *Cluster Builder* and shutdown the cluster.
 
-# Docker - Time Estimate: ~5min.
+# Docker (Recommended) - Time Estimate: ~5min.
 Make sure to have Docker installed - if not see the guide [here](https://docs.docker.com/get-docker/). 
 
 **Note** Time estimate could be extended if you need to install Docker.

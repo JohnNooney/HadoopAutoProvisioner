@@ -5,7 +5,7 @@ Thank you for choosing to participate in this research project. This guide will 
 
 There are two methods to getting setup - either using Docker or a Virtual Machine software (VMWare/VirtualBox). Ideally, I would suggest using Docker but if you don’t have Docker installed on your computer then go with the Virtual Machine guide.
 
-**DISCLAIMER** Make sure to have completed the consent form before continuing - find link to it [here](https://forms.office.com/Pages/ResponsePage.aspx?id=uhrLqo_zDkGRU8FqAOv0zEgOF8Yb73tPr_-g73nrVv5UNVE4N0RKMURLRVdVVjZTVjNMREMzWkNIMS4u)
+**IMPORTANT** Make sure to have completed the consent form before continuing - find link to it [here](https://forms.office.com/Pages/ResponsePage.aspx?id=uhrLqo_zDkGRU8FqAOv0zEgOF8Yb73tPr_-g73nrVv5UNVE4N0RKMURLRVdVVjZTVjNMREMzWkNIMS4u)
 
 # Tasks - Time Estimate: ~10min.
 After following one of the setup guides below, there are just 5 tasks that I would like you to complete. Each task will have you test a different component of the app. A **survery** will be used to track your experience of this - find the link to it [here](). 
@@ -38,6 +38,8 @@ Make sure to have Docker installed - if not see the guide [here](https://docs.do
 
 # Virtual Machine - Time Estimate: ~15min.
 Make sure to have VMWare or VirtualBox installed and updated
+
+**DISCLAIMER** Since the Virtual Machine will be running Docker in it, overall performance may drop.
 
 **Steps**
 1.  Download the VM Image here

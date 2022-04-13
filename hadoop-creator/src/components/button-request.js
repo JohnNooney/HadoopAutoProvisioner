@@ -36,12 +36,14 @@ function buttonClick(props){
             "title": props.notificationTitle + " Request Status", 
             "desc":"The " + props.requestType + " request has been sent. " + props.notificationCustomMsg};
         openNotification(notif);
-
+        
+        // set timeout to be 300 seconds maximum
         const fetchRequest = {
             method:props.requestType,
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            timeout: 300000
         }
 
         //append post data if exists

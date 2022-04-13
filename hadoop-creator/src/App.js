@@ -9,7 +9,7 @@ import ClusterDiagram from './components/cluster-diagram';
 import Home from './components/home';
 
 function App() {
-  const [currentNav, setCurrentNav] = useState(localStorage.getItem('nav') || "builder");
+  const [currentNav, setCurrentNav] = useState(localStorage.getItem('nav') || "home");
   const [cluster, setCluster] = useState(null);
   function handleClick(e) {
     console.log('click ', e);

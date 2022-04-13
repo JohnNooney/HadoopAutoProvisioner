@@ -31,11 +31,16 @@ function ClusterDashboard(props) {
     function sendJob(jobData){
         setIsJobLoading(true);
 
+        // set timeout to be 300 seconds maximum
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 300000)
+
         const fetchRequest = {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            signal: controller.signal
           }
       
           //append post data to body
@@ -44,6 +49,8 @@ function ClusterDashboard(props) {
       
           fetch('http://localhost:5000/command', fetchRequest)
           .then(response => {
+              clearTimeout(timeoutId);
+              
               if(response.status >= 400){
                   console.log(response)
                   throw new Error('The HTTP status of the response: ' + response.status + ' ' + response.statusText)

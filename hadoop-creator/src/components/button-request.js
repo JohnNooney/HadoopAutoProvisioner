@@ -37,12 +37,17 @@ function buttonClick(props){
             "desc":"The " + props.requestType + " request has been sent. " + props.notificationCustomMsg};
         openNotification(notif);
         
+        
+        // set timeout to be 300 seconds maximum
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 300000)
+        
         const fetchRequest = {
             method:props.requestType,
             headers: {
                 'Content-Type': 'application/json'
             },
-            signal: timeoutSignal(300000)
+            signal: controller.signal
         }
 
         //append post data if exists
@@ -56,6 +61,8 @@ function buttonClick(props){
 
         fetch('http://localhost:5000/build', fetchRequest)
         .then(response => {
+            clearTimeout(timeoutId);
+            
             if(response.status >= 400){
                 console.log(response)
                 throw new Error('The HTTP status of the response: ' + response.status + ' ' + response.statusText)

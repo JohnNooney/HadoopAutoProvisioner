@@ -8,7 +8,7 @@ There are two methods to getting setup - either using Docker or a Virtual Machin
 **IMPORTANT** Make sure to have completed the consent form before continuing - find link to it [here](https://forms.office.com/Pages/ResponsePage.aspx?id=uhrLqo_zDkGRU8FqAOv0zEgOF8Yb73tPr_-g73nrVv5UNVE4N0RKMURLRVdVVjZTVjNMREMzWkNIMS4u)
 
 # Tasks - Time Estimate: ~10min.
-After following one of the setup guides below, there are just 5 tasks that I would like you to complete. Each task will have you test a different component of the app. A **survery** will be used to track your experience of this - find the link to it [here](). 
+After following one of the setup guides below, there are just 5 tasks that I would like you to complete. Each task will have you test a different component of the app. A **survery** will be used to track your experience of this - find the link to it [here](https://forms.office.com/r/zexqAebxRS). 
 
 **TIP:** In order to complete some of these steps in may help to look through the documentation on the homepage of the application
 
@@ -55,7 +55,7 @@ Make sure to have VMWare or VirtualBox installed and updated
    * Explore the site and when ready follow tasks above
 
 # Partipant Survey - Time Estimate: ~10min.
-After you have finished experimenting with the Hadoop Auto Provisioner App please fill out this **survey**. There are two sections - one for measuring usability (10 questions) and another to get more detailed feedback on what you thought of the app (3 questions). 
+After you have finished experimenting with the Hadoop Auto Provisioner App please fill out this **survey**. There are two sections - one for measuring usability (10 questions) and another to get more detailed feedback on what you thought of the app (4 questions). 
 
-Find the link to the survery [here]()
+Find the link to the survery [here](https://forms.office.com/r/KM5rdmLKNC)
 

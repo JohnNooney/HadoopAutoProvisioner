@@ -42,7 +42,7 @@ Make sure to have VMWare or VirtualBox installed and updated
 **DISCLAIMER** Since the Virtual Machine will be running Docker in it, overall performance may drop.
 
 **Steps**
-1.  Download the VM Image here
+1.  Download the VMWare Image [here](https://liveabertayac-my.sharepoint.com/:u:/g/personal/1803534_uad_ac_uk/EVS7wdisbUdEhPN1qaYUSlABfvDnDA1Rej0ktSntS6-17A?e=LelxVi) and Virtual box Image [here](https://liveabertayac-my.sharepoint.com/:u:/g/personal/1803534_uad_ac_uk/Ea4CgLUQzXZItRWSXVwQx2wBtKt6XeN-bPuapO-jGyZBbA?e=oe2b46)
 2. Navigate to your VM software and *open* an existing Virtual Machine
 3. Startup Linux Virtual Machine
 4. Enter login password: **testing**

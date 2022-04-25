@@ -1,4 +1,4 @@
-import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space, Spin  } from 'antd';
+import {Row, Col, Select, Divider, Switch, Form, Button, Input, Space, Spin, Alert  } from 'antd';
 import ButtonRequest from './button-request';
 import React, { useEffect, useState } from 'react';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -187,9 +187,11 @@ function ClusterBuilder(props) {
                 validator(_, value){
                   if (value === getFieldValue("data_node_workers")){
                     setValidationPass(true);
+                    console.log("validation passed");
                     return Promise.resolve();
                   }
                   setValidationPass(false);
+                  console.log("validation failed");
                   return Promise.reject(new Error("Node Manager and Data Node count need to match"));
                 },
               }),
@@ -274,6 +276,14 @@ function ClusterBuilder(props) {
                 </Form.Item>
               </Col>
             </Row>
+            { isStartingUp &&
+              <Alert
+                message="Starting Up"
+                description="This may take a couple minutes... Please wait."
+                type="info"
+             />
+            }
+
           </div> : null}
 
           <div className='cluster_builder_destroy'>
@@ -301,6 +311,14 @@ function ClusterBuilder(props) {
                 </Col>
               </Space>
             </Row>
+            <br/>
+            {isShutdownLoading && 
+            <Alert
+                message="Shutting Down"
+                description="This may take a couple minutes... Please wait."
+                type="info"
+            />
+            }
           </div>
 
           

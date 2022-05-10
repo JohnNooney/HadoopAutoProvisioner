@@ -1,5 +1,5 @@
 # HadoopAutoProvisioner
-A user-friendly way of provisioning a cluster for the big data framework Hadoop. This appliction contains a React Frontend and a Flask API. Both of these work together to spin up Docker-based Hadoop Cluster. The React frontend will walk you through what Hadoop is and help you quickly start up a Hadoop cluster. 
+A user-friendly way of provisioning a cluster for the big data framework Hadoop. This application contains a React Frontend and a Flask API. Both of these work together to spin up Docker-based Hadoop Cluster. The React frontend will walk you through what Hadoop is and help you quickly start up a Hadoop cluster. 
 
 ## How To
 Start up the container for each service
@@ -35,3 +35,16 @@ Note: Make sure both the React UI and the API started up with no issues
 1. navigate to browser - http://localhost:3000/
 2. Read through welcome page to get started quickly
 
+
+### (Optional) Start Project Locally
+**Flask API**
+1. Prerequisite: Have [Python](https://www.python.org/downloads/) and [Docker](https://docs.docker.com/get-docker/) installed. This API will run Docker commands to start Hadoop containers
+2. Open a cmd terminal and navigate to ``` <project root>/flask-api ```
+3. run ``` python -m pip install -r requirements.txt  ```
+4. run ``` python -m flask run --host=0.0.0.0 ```
+
+**React Frontend** 
+1. Prerequisite: Have Node.js installed. Install [here](https://nodejs.org/en/download/).
+2. Open a cmd terminal and navigate to ``` <project root>/hadoop-creator ```
+3. run ``` npm install ```
+4. run ``` npm run start ```

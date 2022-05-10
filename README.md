@@ -44,7 +44,7 @@ Note: Make sure both the React UI and the API started up with no issues
 4. run ``` python -m flask run --host=0.0.0.0 ```
 
 **React Frontend** 
-1. Prerequisite: Have Node.js installed. Install [here](https://nodejs.org/en/download/).
+1. Prerequisite: Have [Node.js](https://nodejs.org/en/download/) installed.
 2. Open a cmd terminal and navigate to ``` <project root>/hadoop-creator ```
 3. run ``` npm install ```
 4. run ``` npm run start ```
